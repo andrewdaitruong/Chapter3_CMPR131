@@ -53,6 +53,7 @@ int main()
 		}
 		cout << "\n";
 		system("pause");
+
 	} while (true);
 
 	return EXIT_SUCCESS;
@@ -73,100 +74,106 @@ int menuOption()
 	cout << "\n\t" + string(100, char(205));
 	cout << "\n";
 
+
 	return inputInteger("\t\tOption: ", 0, 3); //input validation
+
 }
 
 void option1() //Tic-tac-toe
 {
-	system("cls");
 
-	//Description
-	cout << "\n\tTic - tac - toe(also known as Noughts and crosses or Xs and Os) is a game for two";
-	cout << "\n\tplayers, Xand O, who take turns marking the spaces in a 3" << char(215) << "3 grid. The player who";
-	cout << "\n\tsucceeds in placing three of their marks in a horizontal, vertical, or diagonal";
-	cout << "\n\trow wins the game.";
-	cout << "\n\tThis tic-tac-toe program plays against the computer. Human player, X, will always";
-	cout << "\n\tfirst.Time will be recorded for the fastest and the slowest game.Average time will";
-	cout << "\n\tthen be calculated and displayed.";
+    system("cls");
 
-	auto start = high_resolution_clock::now();
-	Option1 tictac;
-	tictac.displayBoard();
+    //Description
+    cout << "\n\tTic - tac - toe(also known as Noughts and crosses or Xs and Os) is a game for two";
+    cout << "\n\tplayers, Xand O, who take turns marking the spaces in a 3" << char(215) << "3 grid. The player who";
+    cout << "\n\tsucceeds in placing three of their marks in a horizontal, vertical, or diagonal";
+    cout << "\n\trow wins the game.";
+    cout << "\n\tThis tic-tac-toe program plays against the computer. Human player, X, will always";
+    cout << "\n\tfirst.Time will be recorded for the fastest and the slowest game.Average time will";
+    cout << "\n\tthen be calculated and displayed.";
 
-	while (tictac.playingStatus())
-	{
-		//Player
-		tictac.getPlayerMove();
-		if (tictac.playingStatus())
-		{
-			tictac.getAIMove();
-			if (!tictac.playingStatus()) // AI won
-			{
-				auto stop = high_resolution_clock::now();
-				auto duration = duration_cast<seconds>(stop - start);
-				tictac.addTime(duration, tictac.getNumberOfMoves());
+    auto start = high_resolution_clock::now();
+    Option1 tictac;
+    tictac.displayBoard();
 
-				if (tictac.playAgain()) // player selects play again
-				{
-					auto start = high_resolution_clock::now();
-					tictac.resetBoard();
-				}
-			}
-		}
-		else // player forfeits OR game has ended
-		{
-			auto stop = high_resolution_clock::now();
-			auto duration = duration_cast<seconds>(stop - start);
-			tictac.addTime(duration, tictac.getNumberOfMoves());
+    while (tictac.playingStatus())
+    {
+        //Player
+        tictac.getPlayerMove();
+        if (tictac.playingStatus())
+        {
+            tictac.getAIMove();
+            if (!tictac.playingStatus()) // AI won
+            {
+                auto stop = high_resolution_clock::now();
+                auto duration = duration_cast<seconds>(stop - start);
+                tictac.addTime(duration, tictac.getNumberOfMoves());
 
-			if (tictac.playAgain())
-			{
-				//Reset time & board
-				auto start = high_resolution_clock::now();
-				tictac.resetBoard();
-			}
-			else
-			{
-				break;
-			}
-		}
-	}
-	tictac.numberofWins();
-	tictac.gameStats();
-	system("pause");
-	return;
+                if (tictac.playAgain()) // player selects play again
+                {
+                    auto start = high_resolution_clock::now();
+                    tictac.resetBoard();
+                }
+            }
+        }
+        else // player forfeits OR game has ended
+        {
+
+            auto stop = high_resolution_clock::now();
+            auto duration = duration_cast<seconds>(stop - start);
+            tictac.addTime(duration, tictac.getNumberOfMoves());
+
+            if (tictac.playAgain())
+            {
+                //Reset time & board
+                auto start = high_resolution_clock::now();
+                tictac.resetBoard();
+            }
+            else
+            {
+                break;
+            }
+        }
+
+    }
+    tictac.numberofWins();
+    tictac.gameStats();
+    system("pause");
+    return;
+
 }
 
 void displayTowers(Tower& Tower1, Tower& Tower2, Tower& Tower3, int userInput)
 {
-	if (userInput > 0 && userInput < 10)
-	{
-		for (int i = userInput; i > 0; i--)
-		{
-			Tower1.displayTowerPart(i, false, userInput);
-			Tower2.displayTowerPart(i, false, userInput);
-			Tower3.displayTowerPart(i, true, userInput);
-		}
-		cout << "\t\t";
-		for (int i = 0; i < ((userInput * 2) + 1); i++)
-			cout << char(205);
-		cout << "\t\t";
-		for (int i = 0; i < ((userInput * 2) + 1); i++)
-			cout << char(205);
-		cout << "\t\t";
-		for (int i = 0; i < ((userInput * 2) + 1); i++)
-			cout << char(205);
-		cout << "\t\t";
-	}
-	else if (userInput >= 10)
-	{
-		for (int i = userInput; i > 0; i--)
-		{
-			Tower1.TowerDisplayPart2(i, false, userInput);
-			Tower2.TowerDisplayPart2(i, false, userInput);
-			Tower3.TowerDisplayPart2(i, true, userInput);
-		}
-	}
+    if (userInput > 0 && userInput < 10)
+    {
+        for (int i = userInput; i > 0; i--)
+        {
+            Tower1.displayTowerPart(i, false, userInput);
+            Tower2.displayTowerPart(i, false, userInput);
+            Tower3.displayTowerPart(i, true, userInput);
+        }
+        cout << "\t\t";
+        for (int i = 0; i < ((userInput * 2) + 1); i++)
+            cout << char(205);
+        cout << "\t\t";
+        for (int i = 0; i < ((userInput * 2) + 1); i++)
+            cout << char(205);
+        cout << "\t\t";
+        for (int i = 0; i < ((userInput * 2) + 1); i++)
+            cout << char(205);
+        cout << "\t\t";
+    }
+    else if (userInput >= 10)
+    {
+        for (int i = userInput; i > 0; i--)
+        {
+            Tower1.TowerDisplayPart2(i, false, userInput);
+            Tower2.TowerDisplayPart2(i, false, userInput);
+            Tower3.TowerDisplayPart2(i, true, userInput);
+        }
+    }
 }
 
 void option2() //Tower of Hanoi
@@ -177,11 +184,13 @@ void option2() //Tower of Hanoi
 	//Description
 	subMenu2();
 
+
 	auto start = chrono::steady_clock::now();
 	auto stop = chrono::steady_clock::now();
 	auto diff = stop - start;
 
-	start = chrono::steady_clock::now(); // start clock
+
+	start = chrono::steady_clock::now(); // start clock 
 	int userInput = inputInteger("\n\tEnter the number of rings (1..64) to begin:", 1, 64);
 	Tower Tower1(userInput);
 	Tower Tower2(0);
@@ -285,18 +294,18 @@ void option2() //Tower of Hanoi
 
 void subMenu2()
 {
-	cout << "\n\tThe Tower of Hanoi also called the Tower of Brahma or Lucas' Tower is a mathematical game.";
-	cout << "\n\tIt consists of three pegs and a number of rings of different sizes, which can slide onto";
-	cout << "\n\tany peg. The game starts with the rings in a neat stack in ascending order of size on one";
-	cout << "\n\tpeg, the smallest at the top, thus making a conical shape.";
+    cout << "\n\tThe Tower of Hanoi also called the Tower of Brahma or Lucas' Tower is a mathematical game.";
+    cout << "\n\tIt consists of three pegs and a number of rings of different sizes, which can slide onto";
+    cout << "\n\tany peg. The game starts with the rings in a neat stack in ascending order of size on one";
+    cout << "\n\tpeg, the smallest at the top, thus making a conical shape.";
 
-	cout << "\n\n\tThe objective of the game is to move the entire stack from the starting peg-A to ending peg-B,";
-	cout << "\n\tobeying the following simple rules:";
+    cout << "\n\n\tThe objective of the game is to move the entire stack from the starting peg-A to ending peg-B,";
+    cout << "\n\tobeying the following simple rules:";
 
-	cout << "\n\t\t1. Only one disk can be moved at a time.";
-	cout << "\n\t\t2. Each move consists of taking the upper disk from one of the stacks and";
-	cout << "\n\t\t   placing it on top of another stack or on an empty peg.";
-	cout << "\n\t\t3. No larger disk may be placed on top of a smaller disk.";
+    cout << "\n\t\t1. Only one disk can be moved at a time.";
+    cout << "\n\t\t2. Each move consists of taking the upper disk from one of the stacks and";
+    cout << "\n\t\t   placing it on top of another stack or on an empty peg.";
+    cout << "\n\t\t3. No larger disk may be placed on top of a smaller disk.";
 }
 
 //precondition: none
@@ -329,7 +338,9 @@ static void timeStop(const T* start, int move) {
 
 	double average = getAverage(timeStop) / static_cast<double>(timeStop.size());
 	cout << "\n\tAverage run time: " << average << "s" << endl;
+
 }
+
 
 int gameAmount = 0; //global variable to count numbers for option 3
 
@@ -344,7 +355,7 @@ void option3() //n-Queens
 	cout << "\n\tThe n-queens puzzle is the problem of placing n chess queens on a n" << char(215) << "n chessboard";
 	cout << "\n\tso that no two queens threaten each other; thus, a solution requires that no two";
 	cout << "\n\tqueens share the same row, column, or diagonal. Solutions exist for all natural";
-	cout << "\n\tnumbers n with the exception of n = 2 and n = 3.";
+	cout << "\n\tnumbers n with the exception of n = 2 and n = 3.";	
 
 	option.setDimension(inputInteger("\n\t\tEnter the board dimension nxn: ", true)); //validation for getting board size
 
@@ -432,6 +443,7 @@ void option3() //n-Queens
 				cout << "\n\tInvalid Choice. Please enter (Y = yes || N = no)";
 			}
 		}
+
 		}
 	} while (true);
 }

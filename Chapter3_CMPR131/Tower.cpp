@@ -136,7 +136,6 @@ bool Tower::takeInRing(Rings input)
 //postcondition: displays the tower for one where the disks are greater than 9
 void Tower::TowerDisplayPart2(int i, bool end, int userInput) const
 {
-	if (i < used)
 	{
 		cout << "\t";
 		cout << (ring[i].getDiameter());
@@ -149,6 +148,7 @@ void Tower::TowerDisplayPart2(int i, bool end, int userInput) const
 		cout << char(186);
 		if (end == true)
 			cout << "\n";
+
 	}
 }
 
@@ -161,11 +161,12 @@ Rings Tower::getTopofRing()
 }
 
 // pre condition:
-// post condition:
+// post condition: 
 
 /// If 10 >= i then we don't display the weird assci character
 // 10 > i   thhen we display the rings assci character
 /*
+
 
 for(int i = 0; i < used; i++)
 //need to find a a way to find the space
@@ -178,6 +179,7 @@ for int i = int space
   for(int j = 0; j < ring[i].getdiameter();j++)
 	  cout << ascii character
   cout << "\n\t";
+
 
 **/
 
