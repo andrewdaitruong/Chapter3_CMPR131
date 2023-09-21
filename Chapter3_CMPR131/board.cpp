@@ -31,8 +31,8 @@ bool Board::cord(pos x, pos y)
 		return true;
 }
 
-//precondition:
-//postcondition:
+//precondition: 
+//postcondition: 
 Board::Board(int size)
 {
 	row = new bool[size];
@@ -60,8 +60,8 @@ void Board::setSize(int size)
 	init();
 }
 
-//precondition:
-//postcondition:
+//precondition: 
+//postcondition: 
 int Board::getSize()
 {
 	return size;
@@ -105,7 +105,7 @@ void Board::pop(pos x, pos y)
 {
 	column[y] = false;
 	row[x] = false;
-
+	
 	if (coord.size() == 1)
 		coord.clear();
 	else

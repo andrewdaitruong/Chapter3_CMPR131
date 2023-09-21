@@ -30,18 +30,21 @@ Tower::Tower(int userInput) : Rings()
 {
 	if (userInput > 0)
 	{
-		for (int i = 0; i <= userInput; i++)
+		for (int i = 0; i < userInput; i++)
 		{
 			int j = i + 1;
-			ring[i].setDiameter((userInput - i));
+			ring[i].setDiameter(userInput - i);
 		}
+
 	}
 	else
-		for (int i = 0; i < MAX; i++)
+	{
+		for (int i = 0; i < MAX; i++)	
 		{
 			int j = i + 1;
 			ring[i].setDiameter(0);
 		}
+	}
 	used = userInput;
 }
 
@@ -59,7 +62,7 @@ bool Tower::checkEmpty() const
 //postcondition: display parts of our tower
 void Tower::displayTowerPart(int i, bool end, int userInput) const
 {
-	int notSpace = ring[(i - 1)].getDiameter();
+	int notSpace = ring[i].getDiameter();
 	cout << "\t\t";
 	char seperator = 223;
 	if (i <= used)
@@ -69,10 +72,10 @@ void Tower::displayTowerPart(int i, bool end, int userInput) const
 			cout << " ";
 		for (int j = 0; j < notSpace; j++)
 			cout << seperator;
-		if (ring[(i - 1)].getDiameter() == 0)
+		if (ring[i].getDiameter() == 0)
 			cout << char(186);
 		else
-			cout << ring[(i - 1)].getDiameter();
+			cout << ring[i].getDiameter();
 		for (int j = 0; j < notSpace; j++)
 			cout << seperator;
 		for (int j = 0; j < space; j++)
@@ -136,7 +139,7 @@ bool Tower::takeInRing(Rings input)
 //postcondition: displays the tower for one where the disks are greater than 9
 void Tower::TowerDisplayPart2(int i, bool end, int userInput) const
 {
-	if (i < used)
+	if(used > i)
 	{
 		cout << "\t";
 		cout << (ring[i].getDiameter());
@@ -149,23 +152,28 @@ void Tower::TowerDisplayPart2(int i, bool end, int userInput) const
 		cout << char(186);
 		if (end == true)
 			cout << "\n";
-	}
+
+			}
 }
 
 //precondition: none
 //precondition: returns are ring
 Rings Tower::getTopofRing()
 {
-	--used;
-	return ring[used];
+	if (takeInRing(ring[used]))
+	{
+		--used;
+		return ring[used];
+	}
 }
 
 // pre condition:
-// post condition:
+// post condition: 
 
 /// If 10 >= i then we don't display the weird assci character
 // 10 > i   thhen we display the rings assci character
 /*
+
 
 for(int i = 0; i < used; i++)
 //need to find a a way to find the space
@@ -178,6 +186,7 @@ for int i = int space
   for(int j = 0; j < ring[i].getdiameter();j++)
 	  cout << ascii character
   cout << "\n\t";
+
 
 **/
 

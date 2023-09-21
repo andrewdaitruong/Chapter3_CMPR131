@@ -1,6 +1,8 @@
 #ifndef RING_H
 #define RING_H
 
+
+
 class Rings
 {
 private:

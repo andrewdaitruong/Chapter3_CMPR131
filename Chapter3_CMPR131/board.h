@@ -28,14 +28,14 @@ public:
 	//setters
 	void setPos(pos, pos);
 	void setSize(const int);
-
+	
 	//getters
 	int getCoordSize();
 	int getSize();
-
+	
 	//functions
 	bool checkMate(pos, pos);
-	void printBoard();
+	void printBoard();	
 	void pop(pos, pos);
 	bool cord(pos, pos);
 };

@@ -5,12 +5,13 @@
 #include<chrono>
 #include<map>
 
+
 using namespace std;
 using namespace::chrono;
 
 class Option1
 {
-private:
+private: 
 	char boardPlacement[3][3]; //2d array for tic-tac-toe board placements
 	vector<string> boardCheck; //vector containing available board placements
 	multimap<seconds, int> playTimes; //time to play game, mapped to number of moves
@@ -49,3 +50,6 @@ public:
 	int getNumberOfMoves(); //returns number of moves in one game
 	void gameStats(); //displays number of games played. Displays fastest, slowest, & average game times w/ their corresponding player moves.
 };
+
+
+

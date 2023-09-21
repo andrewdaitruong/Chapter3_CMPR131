@@ -6,7 +6,7 @@ using namespace std;
 
 //precondition: need dimension size
 //postcondition: prints the board and size
-void Option3::printBoard()
+void Option3::printBoard() 
 {
 	board.printBoard();
 }
@@ -58,6 +58,7 @@ bool Option3::diagonalCheck(pos x, pos y)
 			return true;
 	}
 	return false;
+		
 }
 
 //precondition: none
