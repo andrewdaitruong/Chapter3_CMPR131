@@ -148,7 +148,7 @@ void displayTowers(Tower& Tower1, Tower& Tower2, Tower& Tower3, int userInput)
 {
     if (userInput > 0 && userInput < 10)
     {
-		for (int i = (userInput-1); i >= 0; i--)
+		for (int i = (userInput); i >= 0; i--)
         {
             Tower1.displayTowerPart(i, false, userInput);
             Tower2.displayTowerPart(i, false, userInput);
@@ -203,7 +203,7 @@ void option2() //Tower of Hanoi
 		int counter = 0;
 		if (userInput > 0 && userInput < 10)
 		{
-			for (int i = userInput; i > 0; i--)
+			for (int i = (userInput-1); i >= 0; i--)
 			{
 				Tower1.displayTowerPart(i, false, userInput);
 				Tower2.displayTowerPart(i, false, userInput);

@@ -1,4 +1,6 @@
 #include "Tower.h"
+
+
 Tower& Tower::operator=(const Tower& right) {
 	// Check for self-assignment
 	if (this == &right)
@@ -15,6 +17,7 @@ Tower& Tower::operator=(const Tower& right) {
 	// Return *this to allow for chained assignment
 	return *this;
 }
+
 // pre condition: none
 // post condition: intilize the data variables
 Tower::Tower() : Rings()
@@ -32,7 +35,7 @@ Tower::Tower(int userInput) : Rings()
 	{
 		for (int i = 0; i < userInput; i++)
 		{
-			int j = i + 1;
+			int j = i - 1;
 			ring[i].setDiameter(userInput - i);
 		}
 
@@ -62,21 +65,21 @@ bool Tower::checkEmpty() const
 //postcondition: display parts of our tower
 void Tower::displayTowerPart(int i, bool end, int userInput) const
 {
-	int notSpace = ring[i].getDiameter();
+	int ringLength = ring[i].getDiameter();
 	cout << "\t\t";
 	char seperator = 223;
 	if (i <= used)
 	{
-		int space = userInput - notSpace;
+		int space = userInput - ringLength;
 		for (int j = 0; j < space; j++)
 			cout << " ";
-		for (int j = 0; j < notSpace; j++)
+		for (int j = 0; j < ringLength; j++)
 			cout << seperator;
 		if (ring[i].getDiameter() == 0)
 			cout << char(186);
 		else
 			cout << ring[i].getDiameter();
-		for (int j = 0; j < notSpace; j++)
+		for (int j = 0; j < ringLength; j++)
 			cout << seperator;
 		for (int j = 0; j < space; j++)
 			cout << " ";
