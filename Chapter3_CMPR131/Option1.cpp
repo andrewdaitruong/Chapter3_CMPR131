@@ -255,7 +255,6 @@ void Option1::getAIMove()
     else
     {
         int setCheck = checkVectSets();
-        cout << "setCheck check : " << setCheck;
 
         if (setCheck != -1)
         {
@@ -264,7 +263,6 @@ void Option1::getAIMove()
                 if (vectCheck[setCheck][j] != "O")
                 {
                     string priorityMove = vectCheck[setCheck][j];
-                    cout << "priorityMove check = " << priorityMove;
                     int digit1, digit2;
                     
                     char digit = priorityMove[0];
@@ -313,6 +311,8 @@ int Option1::checkVectSets()
     int countX = 0;
     int countO = 0;
     int rowLeft = 3;
+    int setOwin = -1;
+    int setXwin = -1;
     for (int i = 0; i < 8; i++)
     {
         countX = 0;
@@ -341,7 +341,7 @@ int Option1::checkVectSets()
                 }
                 //cout << vectCheck[i][j] << " ";
             }
-            if (rowLeft == 0 && (!(countX == 3) || !(countO == 3))) //Neutral Priority = Find Other Path
+            if (rowLeft == 0 && (!(countX == 3) || !(countO == 3))) 
             {
                 //cout << "row" << i << "UPDATED Z";
                 auto itr = winSets.find((i));
@@ -350,65 +350,45 @@ int Option1::checkVectSets()
                     itr->second = 'Z'; // no longer a winnable playset
                 }
             }
-            if (countO == 2 && rowLeft == 1) //PRIORITY 1 = Win With O
+            else if (countO == 2 && rowLeft == 1) 
             {
-                //cout << "row" << i << "UPDATED O";
-                cout << "LOOP HITS";
                 auto itr = winSets.find((i));
                 if (itr != winSets.end())
                 {
                     itr->second = 'O'; //checkmate for O
-                    cout << "Set return = " << i;
-                    return i; // this is the set O needs to play first to win
-                    //return set
-                }
-            }
-            else
-            {
-                if (countX == 2 && rowLeft == 1) //PRIORITY 2 = Block Win For X
-                {
-                    //cout << "row" << i << "UPDATED X";
-                    auto itr = winSets.find((i)); //row (win Set)
-                    if (itr != winSets.end())
-                    {
-                        itr->second = 'X'; //checkmate for X
-                        return i; // this is the set O needs to block
-                        //return set
-                    }
-                }
-                //if no threatened states found //return negative flag num to indicate random
-            }
+                    setOwin = i;
 
+                }
+            }
+            else if (countX == 2 && rowLeft == 1) 
+            {
+                //cout << "row" << i << "UPDATED X";
+                auto itr = winSets.find((i)); //row (win Set)
+                if (itr != winSets.end())
+                {
+                    itr->second = 'X'; //checkmate for X
+                    setXwin = i;
+                }
+            }
         }
         
     }
 
-    /*auto it = winSets.begin();
-    cout << "\n";
-    while (it != winSets.end())
+    if (setOwin != -1) //PRIORITY 1 = Win With O
     {
-        cout << "Set #" << it->first << " | Status: ";
-        if (it->second == 'X')
-        {
-            cout << "X Checkmate";
-        }
-        else if (it->second == 'O')
-        {
-            cout << "O Checkmate";
-        }
-        else if (it->second == 'Z')
-        {
-            cout << "Non-Winnable Set";
-        }
-        else
-        {
-            cout << "None";
-        }
-        cout << "\n";
-        ++it;
-    }*/
+        return setOwin;
+    }
+    else if (setXwin != -1) //PRIORITY 2 = Block Win For X
+    {
+        return setXwin; 
+    }
+    else
+    {
+        return -1; // no checkmate sets yet, ai can play at random
+    }
 
-    return -1; // no checkmate sets yet, ai can play at random
+ 
+
 
 }
 
@@ -430,14 +410,14 @@ void Option1::setO(int r, int c)
         replace(vInner.begin(), vInner.end(), placeSearch, tempO);
     }
 
-     for (int i = 0; i < 8; i++)
-     {
-       for (int j = 0; j < vectCheck[i].size(); j++)
-       {
-           cout << vectCheck[i][j] << " ";
-       }
-       cout << endl;
-     }
+     //for (int i = 0; i < 8; i++)
+     //{
+     //  for (int j = 0; j < vectCheck[i].size(); j++)
+     //  {
+     //      cout << vectCheck[i][j] << " ";
+     //  }
+     //  cout << endl;
+     //}
     checkforWinner();
     //debug print
     //for (vector<string>::iterator it = boardCheck.begin(); it < boardCheck.end(); ++it)
