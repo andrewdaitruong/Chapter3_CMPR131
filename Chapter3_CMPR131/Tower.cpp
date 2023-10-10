@@ -158,12 +158,11 @@ void Tower::TowerDisplayPart2(int i, bool end, int userInput) const
 
 //precondition: none
 //precondition: returns are ring
-Rings Tower::getTopofRing()
+void Tower::getTopofRing()
 {
-	if (takeInRing(ring[used]))
+	if (takeInRing(ring[(used - 1)]))
 	{
 		--used;
-		return ring[used];
 	}
 }
 

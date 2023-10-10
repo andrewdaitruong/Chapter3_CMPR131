@@ -17,7 +17,7 @@ public:
     int getSize() const;
     bool checkEmpty() const;
     bool takeInRing(Rings input);
-    Rings getTopofRing();
+    void getTopofRing();
     void deleteTower();
     void displayTowerPart(int i, bool end, int userInput) const;
     bool checkIfDone(int userInput) const;

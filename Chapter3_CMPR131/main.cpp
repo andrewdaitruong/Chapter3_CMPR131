@@ -224,9 +224,9 @@ void option2() //Tower of Hanoi
 		choice = inputChar("\n\tSelect the top disk from the start peg (A, B, C, or Q-quit):", static_cast<string>("ABCQ"));
 		switch (toupper(choice))
 		{
-		case 'A':something = Tower1.getTopofRing();  break;
-		case 'B':something = Tower2.getTopofRing(); break;
-		case 'C':something = Tower3.getTopofRing(); break;
+		case 'A':Tower1.getTopofRing();  break;
+		case 'B':Tower2.getTopofRing(); break;
+		case 'C':Tower3.getTopofRing(); break;
 		case 'Q': return;
 		default:
 			cout << "\n\tERROR: Invalid Option. Must be A, B, C, or Q-quit\n\n";
