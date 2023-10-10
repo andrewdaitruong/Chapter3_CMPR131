@@ -3,6 +3,7 @@
 #include"input.h"
 #include<vector>
 #include<chrono>
+#include<algorithm>
 #include<map>
 
 
@@ -14,6 +15,11 @@ class Option1
 private: 
 	char boardPlacement[3][3]; //2d array for tic-tac-toe board placements
 	vector<string> boardCheck; //vector containing available board placements
+
+	vector<vector<string>>vectCheck;
+
+	map<int, char> winSets;
+
 	multimap<seconds, int> playTimes; //time to play game, mapped to number of moves
 
 	int playerMoves; //number of moves a player has made in a single game
@@ -30,6 +36,8 @@ public:
 
 	void displayBoard(); //Display current tic-tac-toe board
 	void resetBoard(); //Resets board for new game
+
+	int checkVectSets();
 
 	void getPlayerMove(); //Get player move and validates it
 	void setX(int r, int c); //Sets X on board (player move)

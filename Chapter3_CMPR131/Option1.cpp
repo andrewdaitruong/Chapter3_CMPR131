@@ -25,6 +25,33 @@ Option1::Option1()
                    "20", "21", "22" };
 
 
+    //VECT CHECK (SETS)
+    vectCheck.push_back({ "00", "01", "02" }); //0
+    vectCheck.push_back({ "10", "11", "12" }); //1
+    vectCheck.push_back({ "20", "21", "22" }); //2
+
+    vectCheck.push_back({ "00", "10", "20" }); //3
+    vectCheck.push_back({ "01", "11", "21" }); //4
+    vectCheck.push_back({ "02", "12", "22" }); //5
+
+    vectCheck.push_back({ "00", "11", "22" });//6
+    vectCheck.push_back({ "20", "11", "02" }); //7   
+
+  
+    //SetCheck
+    for (int i = 0; i < 8; i++)
+    {
+        winSets.insert({ i, ' '});
+    }
+
+ /*   for (int i = 0; i < 8; i++)
+    {
+        for (int j = 0; j < vectCheck[i].size(); j++)
+        {
+            cout << vectCheck[i][j] << " ";
+        }
+        cout << endl;
+    }*/
     playing = true;
 
     cout << "\n\tGame begins...";
@@ -167,6 +194,20 @@ void Option1::setX(int r, int c)
 
     boardCheck.erase(remove(boardCheck.begin(), boardCheck.end(), placeSearch), boardCheck.end());
 
+    string tempX = "X";
+    for (vector<string>& vInner : vectCheck) //ref to inner vector
+    {
+        replace(vInner.begin(), vInner.end(), placeSearch, tempX);
+    }
+    
+   /* for (int i = 0; i < 8; i++)
+    {
+        for (int j = 0; j < vectCheck[i].size(); j++)
+        {
+            cout << vectCheck[i][j] << " ";
+        }
+        cout << endl;
+    }*/
 
     checkforWinner();
 
@@ -202,7 +243,7 @@ bool Option1::checkBoard(int r, int c)
 void Option1::getAIMove()
 {
     cout << "\n\tDumb AI moves...\n";
-    srand(time(0));
+    
 
     //Check for middle location (always)
     string middleSearch = to_string(1) + to_string(1);
@@ -213,30 +254,162 @@ void Option1::getAIMove()
 
     else
     {
-        int placesLeft = boardCheck.size();
+        int setCheck = checkVectSets();
+        cout << "setCheck check : " << setCheck;
 
-        //cout << "Check boardSize: " << placesLeft;
-        //cout << "\n\tCheck 00: " << boardCheck[0];
+        if (setCheck != -1)
+        {
+            for (int j = 0; j < vectCheck[setCheck].size(); j++)
+            {
+                if (vectCheck[setCheck][j] != "O")
+                {
+                    string priorityMove = vectCheck[setCheck][j];
+                    cout << "priorityMove check = " << priorityMove;
+                    int digit1, digit2;
+                    
+                    char digit = priorityMove[0];
+                    digit1 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
+                    cout << "Digit 1" << digit1;
+                    digit = priorityMove[1];
+                    digit2 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
+                    cout << "Digit 2" << digit2;
+                    setO(digit1, digit2);
+                }
+            }
+        }
+        else //if there are no checkmate moves in play
+        {
+            srand(time(0));
+            int placesLeft = boardCheck.size();
+
+            //cout << "Check boardSize: " << placesLeft;
+            //cout << "\n\tCheck 00: " << boardCheck[0];
 
 
-        int random = (rand() % placesLeft);
+            int random = (rand() % placesLeft);
 
-        string temp = boardCheck[random];
+            string temp = boardCheck[random];
 
-        /*cout << "\n\tTEMP: " << temp;*/
+            /*cout << "\n\tTEMP: " << temp;*/
 
-        int random1, random2;
-        char digit = temp[0];
-        random1 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
-
-
-        digit = temp[1];
-        random2 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
+            int random1, random2;
+            char digit = temp[0];
+            random1 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
 
 
-        setO(random1, random2);
+            digit = temp[1];
+            random2 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
+
+
+            setO(random1, random2);
+        }
+
     }
     
+}
+
+int Option1::checkVectSets()
+{
+    int countX = 0;
+    int countO = 0;
+    int rowLeft = 3;
+    for (int i = 0; i < 8; i++)
+    {
+        countX = 0;
+        countO = 0;
+        rowLeft = 3;
+        //cout << "row" << i << "UPDATED Z";
+        auto itr = winSets.find((i));
+        if (itr->second == 'Z') //already marked as an unwinnable set, should skip iteration to check
+        {
+            i++;
+            //cout << i << "skipped";
+        }
+        else
+        {
+            for (int j = 0; j < vectCheck[i].size(); j++)
+            {
+                if (vectCheck[i][j] == "X")
+                {
+                    countX++;
+                    rowLeft--;
+                }
+                if (vectCheck[i][j] == "O")
+                {
+                    countO++;
+                    rowLeft--;
+                }
+                //cout << vectCheck[i][j] << " ";
+            }
+            if (rowLeft == 0 && (!(countX == 3) || !(countO == 3))) //Neutral Priority = Find Other Path
+            {
+                //cout << "row" << i << "UPDATED Z";
+                auto itr = winSets.find((i));
+                if (itr != winSets.end())
+                {
+                    itr->second = 'Z'; // no longer a winnable playset
+                }
+            }
+            if (countO == 2 && rowLeft == 1) //PRIORITY 1 = Win With O
+            {
+                //cout << "row" << i << "UPDATED O";
+                cout << "LOOP HITS";
+                auto itr = winSets.find((i));
+                if (itr != winSets.end())
+                {
+                    itr->second = 'O'; //checkmate for O
+                    cout << "Set return = " << i;
+                    return i; // this is the set O needs to play first to win
+                    //return set
+                }
+            }
+            else
+            {
+                if (countX == 2 && rowLeft == 1) //PRIORITY 2 = Block Win For X
+                {
+                    //cout << "row" << i << "UPDATED X";
+                    auto itr = winSets.find((i)); //row (win Set)
+                    if (itr != winSets.end())
+                    {
+                        itr->second = 'X'; //checkmate for X
+                        return i; // this is the set O needs to block
+                        //return set
+                    }
+                }
+                //if no threatened states found //return negative flag num to indicate random
+            }
+
+        }
+        
+    }
+
+    /*auto it = winSets.begin();
+    cout << "\n";
+    while (it != winSets.end())
+    {
+        cout << "Set #" << it->first << " | Status: ";
+        if (it->second == 'X')
+        {
+            cout << "X Checkmate";
+        }
+        else if (it->second == 'O')
+        {
+            cout << "O Checkmate";
+        }
+        else if (it->second == 'Z')
+        {
+            cout << "Non-Winnable Set";
+        }
+        else
+        {
+            cout << "None";
+        }
+        cout << "\n";
+        ++it;
+    }*/
+
+    return -1; // no checkmate sets yet, ai can play at random
+
 }
 
 //precondition: recieves a row and column after the user input a valid row and column
@@ -251,6 +424,20 @@ void Option1::setO(int r, int c)
 
     boardCheck.erase(remove(boardCheck.begin(), boardCheck.end(), placeSearch), boardCheck.end());
 
+    string tempO = "O";
+    for (vector<string>& vInner : vectCheck) //ref to inner vector
+    {
+        replace(vInner.begin(), vInner.end(), placeSearch, tempO);
+    }
+
+     for (int i = 0; i < 8; i++)
+     {
+       for (int j = 0; j < vectCheck[i].size(); j++)
+       {
+           cout << vectCheck[i][j] << " ";
+       }
+       cout << endl;
+     }
     checkforWinner();
     //debug print
     //for (vector<string>::iterator it = boardCheck.begin(); it < boardCheck.end(); ++it)
