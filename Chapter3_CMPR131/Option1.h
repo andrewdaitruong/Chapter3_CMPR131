@@ -16,9 +16,9 @@ private:
 	char boardPlacement[3][3]; //2d array for tic-tac-toe board placements
 	vector<string> boardCheck; //vector containing available board placements
 
-	vector<vector<string>>vectCheck;
-
-	map<int, char> winSets;
+	vector<vector<string>>vectCheck; //2d vector containing sets of possible wins and their board placement
+	map<int, char> winSets; //map of current status of win sets 
+							//(value marked O for possible AI win, marked X for possible player win, marked Z for impossible win)
 
 	multimap<seconds, int> playTimes; //time to play game, mapped to number of moves
 

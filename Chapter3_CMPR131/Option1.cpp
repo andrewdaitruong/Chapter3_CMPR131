@@ -200,22 +200,8 @@ void Option1::setX(int r, int c)
         replace(vInner.begin(), vInner.end(), placeSearch, tempX);
     }
     
-   /* for (int i = 0; i < 8; i++)
-    {
-        for (int j = 0; j < vectCheck[i].size(); j++)
-        {
-            cout << vectCheck[i][j] << " ";
-        }
-        cout << endl;
-    }*/
-
     checkforWinner();
 
-    //Debug test to see if vector search/remove is working as intended
-  /*  for (vector<string>::iterator it = boardCheck.begin(); it < boardCheck.end(); ++it)
-    {
-        cout << "\n" << *it;
-    }*/
 
 }
 
@@ -249,9 +235,9 @@ void Option1::getAIMove()
     string middleSearch = to_string(1) + to_string(1);
     if (find(boardCheck.begin(), boardCheck.end(), middleSearch) != boardCheck.end())
     {
+        
         setO(1, 1);
     }
-
     else
     {
         int setCheck = checkVectSets();
@@ -260,18 +246,18 @@ void Option1::getAIMove()
         {
             for (int j = 0; j < vectCheck[setCheck].size(); j++)
             {
-                if (vectCheck[setCheck][j] != "O")
+                if (vectCheck[setCheck][j] != "O" && vectCheck[setCheck][j] != "X")
                 {
                     string priorityMove = vectCheck[setCheck][j];
                     int digit1, digit2;
                     
                     char digit = priorityMove[0];
                     digit1 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
-                    cout << "Digit 1" << digit1;
+
                     digit = priorityMove[1];
                     digit2 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
-                    cout << "Digit 2" << digit2;
                     setO(digit1, digit2);
+                    return;
                 }
             }
         }
@@ -298,7 +284,7 @@ void Option1::getAIMove()
             digit = temp[1];
             random2 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
 
-
+            
             setO(random1, random2);
         }
 
@@ -318,12 +304,10 @@ int Option1::checkVectSets()
         countX = 0;
         countO = 0;
         rowLeft = 3;
-        //cout << "row" << i << "UPDATED Z";
         auto itr = winSets.find((i));
         if (itr->second == 'Z') //already marked as an unwinnable set, should skip iteration to check
         {
             i++;
-            //cout << i << "skipped";
         }
         else
         {
@@ -410,20 +394,8 @@ void Option1::setO(int r, int c)
         replace(vInner.begin(), vInner.end(), placeSearch, tempO);
     }
 
-     //for (int i = 0; i < 8; i++)
-     //{
-     //  for (int j = 0; j < vectCheck[i].size(); j++)
-     //  {
-     //      cout << vectCheck[i][j] << " ";
-     //  }
-     //  cout << endl;
-     //}
     checkforWinner();
-    //debug print
-    //for (vector<string>::iterator it = boardCheck.begin(); it < boardCheck.end(); ++it)
-    //{
-    //    cout << "\n" << *it;
-    //}
+
 }
 
 //precondition: user is playing option1
@@ -605,13 +577,6 @@ int Option1::getNumberOfMoves()
 void Option1::gameStats()
 {
     multimap<seconds, int>::const_iterator itr;
-
-    //Debug check print
-   //for (itr = playTimes.begin(); itr != playTimes.end(); ++itr)
-   // {
-   //     cout << "\n\t\tTime: " << itr->first.count() << " seconds";
-   //     cout << "\n\t\tMoves: " << itr->second;
-   // }
 
     cout << "\n\tGame Statistics: \n";
     auto durationTotal = playTimes.begin()->first.count();
