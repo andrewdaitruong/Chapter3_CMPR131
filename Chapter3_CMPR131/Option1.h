@@ -25,6 +25,7 @@ private:
 	int playerMoves; //number of moves a player has made in a single game
 	int numOfGames; //number of games a player has played
 	bool playing; //bool value indicating whether player is still playing game or not
+	char winState;
 
 	int row; //number of rows on board
 	int col; //number of columns on board
