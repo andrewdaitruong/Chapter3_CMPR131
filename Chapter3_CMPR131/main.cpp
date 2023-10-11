@@ -5,7 +5,6 @@
 //      Guadalupe Roman-Sanchez
 //      Jessica Nguyen
 //      Therese Pham
-//      Danny Hernandez
 //      Andrewdai Truong
 //      Nguyen Tran
 
