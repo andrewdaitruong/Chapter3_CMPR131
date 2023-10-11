@@ -266,9 +266,13 @@ void Option1::getAIMove()
     {
         int setCheck = checkVectSets();
 
-        //cout << "\n\tSet Check Return: " << setCheck;
+        cout << "\n\tSet Check Return: " << setCheck;
 
         auto it = winSets.find(setCheck);
+        /* else if (setCheck != -1 && it->second == 'P')
+        {
+
+        }*/
         if (setCheck != -1) //it->second != 'P')
         {
             for (int j = 0; j < vectCheck[setCheck].size(); j++)
