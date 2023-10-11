@@ -24,7 +24,7 @@ Tower::Tower() : Rings()
 {
 	for (int i = 0; i < MAX; i++)
 		ring[i].setDiameter(0);
-	used = 0;
+	used = 0; // tells us how many spaces[] are being used in the array
 }
 
 // pre condition: user input for the number of rings
@@ -119,8 +119,8 @@ bool Tower::takeInRing(Rings input)
 		ring[used] = input;
 		used++;
 		return true;
-	}
-
+	} //                                                     gives us that ring's diameter size
+	 //                        ring(3)_[used(3)-1] <- 2 so   ring(3)[2] . get diameter 
 	if (input.getDiameter() == ring[used - 1].getDiameter())
 	{
 		cout << "\n\tCannot make the move. The selected end peg cannot be the same as the selected start peg.\n\t\tPlease choose again.\n";
@@ -165,7 +165,7 @@ void Tower::getTopofRing()
 {
 	if (takeInRing(ring[(used - 1)]))
 	{
-		--used;
+		--used; // we are getting rid of a ring off one of the stacks so array decrements by 1
 	}
 }
 
