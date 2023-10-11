@@ -1,5 +1,20 @@
+
+
 # Chapter3_CMPR131
 # Option 1 (Tic-tac-toe):
+
+-	No animation for presentation
+-	We can do graphics
+-	Don’t try to mislead (try to be clear for questions)
+-	Uml – explain the class implementation & containers
+-	ONLY 10 SLIDES
+-	Don’t include code in presentation (only display explanations, flowcharts, algorithms)
+-	Don’t explain menu, focus on how program works
+-	What type of software development did we use to complete project?
+Organize documentation (maybe a beginning? I didn’t hear this part)
+-	Everyone is responsible for their own submission (should not be different from team members)
+
+
 - Group: Therese & Danny
 <details>
 <summary>
