@@ -126,36 +126,25 @@ void Tower::displayTowerPart(int i, bool end, int userInput) const
 
 //precondition: takes in a ring object
 //postcondition: return true or false
-bool Tower::takeInRing(Rings input)
+void Tower::takeInRing(Rings input)
 {
-	if (input.getDiameter() == 0)
-	{
-		cout << "\n\tERROR: Cannot make the move. There is no disk in the selected peg. Please choose again.\n";
-		return false;
-	}
-
 	if (used == 0)
 	{
 		ring[used] = input;
 		used++;
-		return true;
-	} //                                                     gives us that ring's diameter size
-	 //                        ring(3)_[used(3)-1] <- 2 so   ring(3)[2] . get diameter 
+	}
 	if (input.getDiameter() == ring[used - 1].getDiameter())
 	{
 		cout << "\n\tCannot make the move. The selected end peg cannot be the same as the selected start peg.\n\t\tPlease choose again.\n";
-		return false;
 	}
 
 	if (input.getDiameter() < ring[used - 1].getDiameter())
 	{
 		ring[used] = input;
 		used++;
-		return true;
 	}
 
 	cout << "\n\tERROR: Cannot make the move. \n";
-	return false;
 }
 
 //precondition: takes in two integers and a bool
@@ -185,10 +174,7 @@ void Tower::TowerDisplayPart2(int i, bool end, int userInput) const
 //precondition: returns are ring
 void Tower::getTopofRing()
 {
-	if (takeInRing(ring[(used - 1)]))
-	{
-		--used; // we are getting rid of a ring off one of the stacks so array decrements by 1
-	}
+	--used; // we are getting rid of a ring off one of the stacks so array decrements by 1
 }
 
 // pre condition:
@@ -214,15 +200,14 @@ for int i = int space
 
 **/
 
-//Is this a deconstructor? Is this for the play again?
 //precondition: none
 //postcondition: deletes our tower
-//void Tower::deleteTower()
-//{
-//	for (int i = 0; i < MAX; i++)
-//		ring[i].setDiameter(0);
-//	used = 0;
-//}
+void Tower::deleteTower()
+{
+	for (int i = 0; i < MAX; i++)
+		ring[i].setDiameter(0);
+	used = 0;
+}
 
 //precondition: takes in an interger
 //postcondition: returns true or false depending on whether the user is done
@@ -232,4 +217,19 @@ bool Tower::checkIfDone(int userInput) const
 		return true;
 	else
 		return false;
+}
+
+// Pre  condition: Takes in a tower Object
+// Post condition: returns true if input object is less than the other tower object , else false 
+bool Tower::operator >(const Rings& right)
+{
+	if (this[used].getDiameter() > right.getDiameter())
+		return true;
+	else
+		return false;
+}
+
+Rings Tower::trythisRing()
+{
+	return ring[used - 1];
 }

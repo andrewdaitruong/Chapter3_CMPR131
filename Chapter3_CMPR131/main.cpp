@@ -142,38 +142,6 @@ void option1() //Tic-tac-toe
 
 }
 
-//void displayTowers(Tower& Tower1, Tower& Tower2, Tower& Tower3, int userInput)
-//{
-//    if (userInput > 0 && userInput < 10)
-//    {
-//		for (int i = (userInput); i >= 0; i--)
-//        {
-//            Tower1.displayTowerPart(i, false, userInput);
-//            Tower2.displayTowerPart(i, false, userInput);
-//            Tower3.displayTowerPart(i, true, userInput);
-//        }
-//        cout << "\t\t";
-//        for (int i = 0; i < ((userInput * 2) + 1); i++)
-//            cout << char(205);
-//        cout << "\t\t";
-//        for (int i = 0; i < ((userInput * 2) + 1); i++)
-//            cout << char(205);
-//        cout << "\t\t";
-//        for (int i = 0; i < ((userInput * 2) + 1); i++)
-//            cout << char(205);
-//        cout << "\t\t";
-//    }
-//    else if (userInput >= 10)
-//    {
-//		for (int i = userInput; i > 0; i--)
-//        {
-//            Tower1.TowerDisplayPart2(i, false, userInput);
-//            Tower2.TowerDisplayPart2(i, false, userInput);
-//            Tower3.TowerDisplayPart2(i, true, userInput);
-//        }
-//    }
-//}
-
 void option2() //Tower of Hanoi
 {
 	int steps = 0;
@@ -229,14 +197,21 @@ void option2() //Tower of Hanoi
 			}
 		}
 
-		Rings something;
+		int previousResponse;
 
 		choice = inputChar("\n\tSelect the top disk from the start peg (A, B, C, or Q-quit):", static_cast<string>("ABCQ"));
+		Rings test;
 		switch (toupper(choice))
 		{
-		case 'A':Tower1.getTopofRing(); break;
-		case 'B':Tower2.getTopofRing(); break;
-		case 'C':Tower3.getTopofRing(); break;
+		case 'A':test = Tower1.trythisRing();
+			previousResponse = 1;
+			break;
+		case 'B':test = Tower2.trythisRing(); 
+			previousResponse = 2;
+			break;
+		case 'C':test = Tower3.trythisRing(); 
+			previousResponse = 3;
+			break;
 		case 'Q': return;
 		default:
 			cout << "\n\tERROR: Invalid Option. Must be A, B, C, or Q-quit\n\n";
@@ -250,9 +225,51 @@ void option2() //Tower of Hanoi
 		{
 			switch (toupper(subchoice))
 			{
-			case 'A':madeMove = Tower1.takeInRing(something); break;
-			case 'B':madeMove = Tower2.takeInRing(something); break;
-			case 'C':madeMove = Tower3.takeInRing(something); break;
+			case 'A':
+				if (Tower1 > test)
+				{
+					switch (previousResponse)
+					{
+					case '1': Tower1.getTopofRing(); break;
+					case '2': Tower2.getTopofRing(); break;
+					case '3': Tower3.getTopofRing(); break;
+					}
+					Tower1.takeInRing(test);
+					madeMove = true;
+				}
+				else
+					cout << "\n\tThis ring isn't the right size";
+				break;
+			case 'B':
+				if (Tower2 > test)
+				{
+					switch (previousResponse)
+					{
+					case '1': Tower1.getTopofRing(); break;
+					case '2': Tower2.getTopofRing(); break;
+					case '3': Tower3.getTopofRing(); break;
+					}
+					Tower2.takeInRing(test);
+					madeMove = true;
+				}
+				else
+					cout << "\n\tThis ring isn't the right size";
+				break;
+			case 'C':
+				if (Tower3 > test)
+				{
+					switch (previousResponse)
+					{
+					case '1': Tower1.getTopofRing(); break;
+					case '2': Tower2.getTopofRing(); break;
+					case '3': Tower3.getTopofRing(); break;
+					}
+					Tower1.takeInRing(test);
+					madeMove = true;
+				}
+				else
+					cout << "\n\tThis ring isn't the right size";
+				break;
 			case 'Q': return;
 			default:
 				cout << "\n\tERRR:Invalid Option. Must be A, B. C. or Q-quit\n\n";
