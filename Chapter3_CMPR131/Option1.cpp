@@ -9,6 +9,7 @@ Option1::Option1()
 
     playerMoves = 0;
     numOfGames = 0;
+    winState = ' ';
 
     for (int i = 0; i < row; i++) {
         for (int j = 0; j < col; j++) {
@@ -34,7 +35,7 @@ Option1::Option1()
     vectCheck.push_back({ "01", "11", "21" }); //4
     vectCheck.push_back({ "02", "12", "22" }); //5
 
-    vectCheck.push_back({ "00", "11", "22" });//6
+    vectCheck.push_back({ "00", "11", "22" }); //6
     vectCheck.push_back({ "20", "11", "02" }); //7   
 
   
@@ -255,69 +256,69 @@ void Option1::getAIMove()
     cout << "\n\tDumb AI moves...\n";
     
 
-    //Check for middle location (always)
-    string middleSearch = to_string(1) + to_string(1);
-    if (find(boardCheck.begin(), boardCheck.end(), middleSearch) != boardCheck.end())
-    {
-        
-        setO(1, 1);
-    }
-    else
-    {
-        int setCheck = checkVectSets();
+//Check for middle location (always)
+string middleSearch = to_string(1) + to_string(1);
+if (find(boardCheck.begin(), boardCheck.end(), middleSearch) != boardCheck.end())
+{
 
-        //cout << "\n\tSet Check Return: " << setCheck;
+    setO(1, 1);
+}
+else
+{
+    int setCheck = checkVectSets();
 
-        auto it = winSets.find(setCheck);
-        if (setCheck != -1) //it->second != 'P')
+    //cout << "\n\tSet Check Return: " << setCheck;
+
+    auto it = winSets.find(setCheck);
+    if (setCheck != -1) //it->second != 'P')
+    {
+        for (int j = 0; j < vectCheck[setCheck].size(); j++)
         {
-            for (int j = 0; j < vectCheck[setCheck].size(); j++)
+            if (vectCheck[setCheck][j] != "O" && vectCheck[setCheck][j] != "X")
             {
-                if (vectCheck[setCheck][j] != "O" && vectCheck[setCheck][j] != "X")
-                {
-                    string priorityMove = vectCheck[setCheck][j];
-                    int digit1, digit2;
+                string priorityMove = vectCheck[setCheck][j];
+                int digit1, digit2;
 
-                    char digit = priorityMove[0];
-                    digit1 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
+                char digit = priorityMove[0];
+                digit1 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
 
-                    digit = priorityMove[1];
-                    digit2 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
-                    setO(digit1, digit2);
-                    return;
-                }
+                digit = priorityMove[1];
+                digit2 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
+                setO(digit1, digit2);
+                return;
             }
         }
-       
-        else //if there are no checkmate moves in play
-        {
-            srand(time(0));
-            int placesLeft = boardCheck.size();
-
-            //cout << "Check boardSize: " << placesLeft;
-            //cout << "\n\tCheck 00: " << boardCheck[0];
-
-
-            int random = (rand() % placesLeft);
-
-            string temp = boardCheck[random];
-
-            /*cout << "\n\tTEMP: " << temp;*/
-
-            int random1, random2;
-            char digit = temp[0];
-            random1 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
-
-
-            digit = temp[1];
-            random2 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
-
-            
-            setO(random1, random2);
-        }
-
     }
-    
+
+    else //if there are no checkmate moves in play
+    {
+        srand(time(0));
+        int placesLeft = boardCheck.size();
+
+        //cout << "Check boardSize: " << placesLeft;
+        //cout << "\n\tCheck 00: " << boardCheck[0];
+
+
+        int random = (rand() % placesLeft);
+
+        string temp = boardCheck[random];
+
+        /*cout << "\n\tTEMP: " << temp;*/
+
+        int random1, random2;
+        char digit = temp[0];
+        random1 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
+
+
+        digit = temp[1];
+        random2 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
+
+
+        setO(random1, random2);
+    }
+
+}
+
 }
 
 int Option1::checkVectSets()
@@ -354,6 +355,26 @@ int Option1::checkVectSets()
                 }
                 //cout << vectCheck[i][j] << " ";
             }
+            if (rowLeft == 0 && countX == 3)
+            {
+                auto itr = winSets.find(i);
+                if (itr != winSets.end())
+                {
+                    itr->second = 'Y'; // Y is a X win ("yes")
+                    altPlay = 9;
+                    winState = 'X';
+                }
+            }
+            if (rowLeft == 0 && countO == 3)
+            {
+                auto itr = winSets.find(i);
+                if (itr != winSets.end())
+                {
+                    itr->second = 'M'; // M is an AI win (O, "machine")
+                    altPlay = 9;
+                    winState = 'O';
+                }
+            }
             if (rowLeft == 0 && (!(countX == 3) || !(countO == 3)))
             {
                 //cout << "row" << i << "UPDATED Z";
@@ -389,15 +410,27 @@ int Option1::checkVectSets()
                 if (itr != winSets.end())
                 {
                     itr->second = 'P'; //possible play for O
-                    altPlay = i;
+                    if (winState != ' ')
+                    {
+                        altPlay = i;
+                    }
+                    
 
                 }
             }
+            
+            
         }
         
     }
-
-    if (setOwin != -1) //PRIORITY 1 = Win With O
+    //----Game has been won by AI or player
+    if (altPlay == 9) 
+    {
+        //cout << "Win State" << winState;
+        return altPlay;
+    }
+    //---Returns for AI moves
+    else if (setOwin != -1) //PRIORITY 1 = Win With O
     {
         return setOwin;
     }
@@ -477,101 +510,126 @@ void Option1::checkforWinner()
 {
 
     displayBoard();
-
-    //Check Rows
-    for (int i = 0; i < row; i++)
+    //cout << "Win State" << winState;
+    if (checkVectSets() == 9)
     {
-        if ((boardPlacement[i][0] == boardPlacement[i][1]) && (boardPlacement[i][0] == boardPlacement[i][2]) && (boardPlacement[i][0] != ' '))
-
-        {
-
-            if (boardPlacement[i][0] == 'X')// Player win
-            {
-                cout << "\n\tHuman player wins.";
-                Playerwins++;
-                playing = false;
-                return;
-            }
-            else if (boardPlacement[i][0] == 'O')// AI win
-            {
-                cout << "\n\tDumb AI has actually won.";
-                CPUwins++;
-                playing = false;
-                return;
-            }
-
-
-        }
-
-    }
-
-    //Check Columns
-    for (int i = 0; i < col; i++)
-
-    {
-
-        if ((boardPlacement[0][i] == boardPlacement[1][i]) && (boardPlacement[0][i] == boardPlacement[2][i]) && (boardPlacement[0][i] != ' '))
-
-        {
-            if (boardPlacement[0][i] == 'X')// Player win
-            {
-                cout << "\n\tHuman player wins.";
-                Playerwins++;
-                playing = false;
-                return;
-            }
-            else if (boardPlacement[0][i] == 'O')// AI win
-            {
-                cout << "\n\tDumb AI has actually won.";
-                CPUwins++;
-                playing = false;
-                return;
-            }
-
-        }
-
-    }
-
-    //Check Diagonals
-    if ((boardPlacement[0][0] == boardPlacement[1][1]) && (boardPlacement[0][0] == boardPlacement[2][2]) && (boardPlacement[0][0] != ' '))
-
-    {
-        if (boardPlacement[0][0] == 'X')// Player win
-        {
-            cout << "\n\tHuman player wins.";
-            Playerwins++;
-            playing = false;
-            return;
-        }
-        else if (boardPlacement[0][0] == 'O')// AI win
+        if (winState == 'O')
         {
             cout << "\n\tDumb AI has actually won.";
             CPUwins++;
             playing = false;
             return;
         }
-
-    }
-
-    if ((boardPlacement[0][2] == boardPlacement[1][1]) && (boardPlacement[0][2] == boardPlacement[2][0]) && (boardPlacement[0][2] != ' '))
-
-    {
-        if (boardPlacement[0][2] == 'X')// Player win
+        if (winState == 'X')
         {
             cout << "\n\tHuman player wins.";
             Playerwins++;
             playing = false;
             return;
         }
-        else if (boardPlacement[0][2] == 'O')// AI win
-        {
-            cout << "\n\tDumb AI has actually won.";
-            CPUwins++;
-            playing = false;
-            return;
-        }
 
     }
+    
+    
+    
+
+    
+
+
+    ////Check Rows
+    //for (int i = 0; i < row; i++)
+    //{
+    //    if ((boardPlacement[i][0] == boardPlacement[i][1]) && (boardPlacement[i][0] == boardPlacement[i][2]) && (boardPlacement[i][0] != ' '))
+
+    //    {
+
+    //        if (boardPlacement[i][0] == 'X')// Player win
+    //        {
+    //            cout << "\n\tHuman player wins.";
+    //            Playerwins++;
+    //            playing = false;
+    //            return;
+    //        }
+    //        else if (boardPlacement[i][0] == 'O')// AI win
+    //        {
+    //            cout << "\n\tDumb AI has actually won.";
+    //            CPUwins++;
+    //            playing = false;
+    //            return;
+    //        }
+
+
+    //    }
+
+    //}
+
+    ////Check Columns
+    //for (int i = 0; i < col; i++)
+
+    //{
+
+    //    if ((boardPlacement[0][i] == boardPlacement[1][i]) && (boardPlacement[0][i] == boardPlacement[2][i]) && (boardPlacement[0][i] != ' '))
+
+    //    {
+    //        if (boardPlacement[0][i] == 'X')// Player win
+    //        {
+    //            cout << "\n\tHuman player wins.";
+    //            Playerwins++;
+    //            playing = false;
+    //            return;
+    //        }
+    //        else if (boardPlacement[0][i] == 'O')// AI win
+    //        {
+    //            cout << "\n\tDumb AI has actually won.";
+    //            CPUwins++;
+    //            playing = false;
+    //            return;
+    //        }
+
+    //    }
+
+    //}
+
+    ////Check Diagonals
+    //if ((boardPlacement[0][0] == boardPlacement[1][1]) && (boardPlacement[0][0] == boardPlacement[2][2]) && (boardPlacement[0][0] != ' '))
+
+    //{
+    //    if (boardPlacement[0][0] == 'X')// Player win
+    //    {
+    //        cout << "\n\tHuman player wins.";
+    //        Playerwins++;
+    //        playing = false;
+    //        return;
+    //    }
+    //    else if (boardPlacement[0][0] == 'O')// AI win
+    //    {
+    //        cout << "\n\tDumb AI has actually won.";
+    //        CPUwins++;
+    //        playing = false;
+    //        return;
+    //    }
+
+    //}
+
+    //if ((boardPlacement[0][2] == boardPlacement[1][1]) && (boardPlacement[0][2] == boardPlacement[2][0]) && (boardPlacement[0][2] != ' '))
+
+    //{
+    //    if (boardPlacement[0][2] == 'X')// Player win
+    //    {
+    //        cout << "\n\tHuman player wins.";
+    //        Playerwins++;
+    //        playing = false;
+    //        return;
+    //    }
+    //    else if (boardPlacement[0][2] == 'O')// AI win
+    //    {
+    //        cout << "\n\tDumb AI has actually won.";
+    //        CPUwins++;
+    //        playing = false;
+    //        return;
+    //    }
+
+    //}
 
     //If none of the above checks pass & the board is empty, then it's a draw.
     if (boardCheck.empty())

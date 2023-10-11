@@ -22,9 +22,10 @@ Tower& Tower::operator=(const Tower& right) {
 // post condition: intilize the data variables
 Tower::Tower() : Rings()
 {
-	for (int i = 0; i < MAX; i++)
-		ring[i].setDiameter(0);
-	used = 0;
+	//NOT REALLY NEEDED. NOT CALLING DEFAULT CONSTRUCTOR EVER
+	//for (int i = 0; i < MAX; i++)
+	//	ring[i].setDiameter(0);
+	//used = 0;
 }
 
 // pre condition: user input for the number of rings
@@ -33,21 +34,21 @@ Tower::Tower(int userInput) : Rings()
 {
 	if (userInput > 0)
 	{
+		//for loop for getting diameter from bottom as largest to top as smallest
 		for (int i = 0; i < userInput; i++)
 		{
-			int j = i - 1;
 			ring[i].setDiameter(userInput - i);
 		}
 
 	}
-	else
-	{
-		for (int i = 0; i < MAX; i++)	
-		{
-			int j = i + 1;
-			ring[i].setDiameter(0);
-		}
-	}
+	//This is not really needed. Why set the diameter of all 64 rings to zero? Also in constructor that isnt used
+	//else
+	//{
+	//	for (int i = 0; i < MAX; i++)
+	//	{
+	//		ring[i].setDiameter(0);
+	//	}
+	//}
 	used = userInput;
 }
 
@@ -62,47 +63,66 @@ bool Tower::checkEmpty() const
 }
 
 //precondition: two integers, and a bool
-//postcondition: display parts of our tower
+//postcondition: display parts of our tower for <= 9
 void Tower::displayTowerPart(int i, bool end, int userInput) const
 {
 	int ringLength = ring[i].getDiameter();
 	cout << "\t\t";
+
+	//special character for the boxes for rings < 10
 	char seperator = 223;
 	if (i <= used)
 	{
 		int space = userInput - ringLength;
+
+		//display to evenly space out towers of left side
 		for (int j = 0; j < space; j++)
 			cout << " ";
+
+		//special character for left side of ring < 10
 		for (int j = 0; j < ringLength; j++)
-			cout << seperator;
+			cout << seperator; 
+
+		//display for the numbers
 		if (ring[i].getDiameter() == 0)
-			cout << char(186);
+			cout << char(186); //double vertical line
 		else
-			cout << ring[i].getDiameter();
+			cout << ring[i].getDiameter(); //ring number
+
+		//special character for right side of ring < 10
 		for (int j = 0; j < ringLength; j++)
-			cout << seperator;
+			cout << seperator; 
+
+		//evens out the spacing on the right side
 		for (int j = 0; j < space; j++)
 			cout << " ";
 	}
+
 	else if (i > used)
 	{
+		//evens out the spaces
 		int space = userInput;
 		for (int i = 0; i < space; i++)
 			cout << " ";
+
 		cout << char(186);
+		
 		for (int i = 0; i < space; i++)
 			cout << " ";
+
+		//hardcoded? line breaks 
 		if (end == true)
 			cout << "\n";
 	}
 }
 
-//precondition: none
-//postcondition: return the number that's used
-int Tower::getSize() const
-{
-	return used;
-}
+//NOT NEEDED. NOT USED
+////precondition: none
+////postcondition: return the number that's used
+//int Tower::getSize() const
+//{
+//	return used;
+//}
 
 //precondition: takes in a ring object
 //postcondition: return true or false
@@ -153,10 +173,12 @@ void Tower::TowerDisplayPart2(int i, bool end, int userInput) const
 	{
 		cout << "\t";
 		cout << char(186);
+		
+		//hardcoded. linebreak
 		if (end == true)
 			cout << "\n";
 
-			}
+	}
 }
 
 //precondition: none
@@ -192,14 +214,15 @@ for int i = int space
 
 **/
 
+//Is this a deconstructor? Is this for the play again?
 //precondition: none
 //postcondition: deletes our tower
-void Tower::deleteTower()
-{
-	for (int i = 0; i < MAX; i++)
-		ring[i].setDiameter(0);
-	used = 0;
-}
+//void Tower::deleteTower()
+//{
+//	for (int i = 0; i < MAX; i++)
+//		ring[i].setDiameter(0);
+//	used = 0;
+//}
 
 //precondition: takes in an interger
 //postcondition: returns true or false depending on whether the user is done

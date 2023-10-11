@@ -24,7 +24,6 @@
 #include "Tower.h"
 #include "Option3.h"
 
-void subMenu2();
 int menuOption();
 void option1();
 void option2();
@@ -144,53 +143,60 @@ void option1() //Tic-tac-toe
 
 }
 
-void displayTowers(Tower& Tower1, Tower& Tower2, Tower& Tower3, int userInput)
-{
-    if (userInput > 0 && userInput < 10)
-    {
-		for (int i = (userInput); i >= 0; i--)
-        {
-            Tower1.displayTowerPart(i, false, userInput);
-            Tower2.displayTowerPart(i, false, userInput);
-            Tower3.displayTowerPart(i, true, userInput);
-        }
-        cout << "\t\t";
-        for (int i = 0; i < ((userInput * 2) + 1); i++)
-            cout << char(205);
-        cout << "\t\t";
-        for (int i = 0; i < ((userInput * 2) + 1); i++)
-            cout << char(205);
-        cout << "\t\t";
-        for (int i = 0; i < ((userInput * 2) + 1); i++)
-            cout << char(205);
-        cout << "\t\t";
-    }
-    else if (userInput >= 10)
-    {
-		for (int i = userInput; i > 0; i--)
-        {
-            Tower1.TowerDisplayPart2(i, false, userInput);
-            Tower2.TowerDisplayPart2(i, false, userInput);
-            Tower3.TowerDisplayPart2(i, true, userInput);
-        }
-    }
-}
+//void displayTowers(Tower& Tower1, Tower& Tower2, Tower& Tower3, int userInput)
+//{
+//    if (userInput > 0 && userInput < 10)
+//    {
+//		for (int i = (userInput); i >= 0; i--)
+//        {
+//            Tower1.displayTowerPart(i, false, userInput);
+//            Tower2.displayTowerPart(i, false, userInput);
+//            Tower3.displayTowerPart(i, true, userInput);
+//        }
+//        cout << "\t\t";
+//        for (int i = 0; i < ((userInput * 2) + 1); i++)
+//            cout << char(205);
+//        cout << "\t\t";
+//        for (int i = 0; i < ((userInput * 2) + 1); i++)
+//            cout << char(205);
+//        cout << "\t\t";
+//        for (int i = 0; i < ((userInput * 2) + 1); i++)
+//            cout << char(205);
+//        cout << "\t\t";
+//    }
+//    else if (userInput >= 10)
+//    {
+//		for (int i = userInput; i > 0; i--)
+//        {
+//            Tower1.TowerDisplayPart2(i, false, userInput);
+//            Tower2.TowerDisplayPart2(i, false, userInput);
+//            Tower3.TowerDisplayPart2(i, true, userInput);
+//        }
+//    }
+//}
 
 void option2() //Tower of Hanoi
 {
 	int steps = 0;
 	system("cls");
 
-	//Description
-	subMenu2();
+	cout << "\n\tThe Tower of Hanoi also called the Tower of Brahma or Lucas' Tower is a mathematical game.";
+	cout << "\n\tIt consists of three pegs and a number of rings of different sizes, which can slide onto";
+	cout << "\n\tany peg. The game starts with the rings in a neat stack in ascending order of size on one";
+	cout << "\n\tpeg, the smallest at the top, thus making a conical shape.";
+	cout << "\n\n\tThe objective of the game is to move the entire stack from the starting peg-A to ending peg-B,";
+	cout << "\n\tobeying the following simple rules:";
+	cout << "\n\t\t1. Only one disk can be moved at a time.";
+	cout << "\n\t\t2. Each move consists of taking the upper disk from one of the stacks and";
+	cout << "\n\t\t   placing it on top of another stack or on an empty peg.";
+	cout << "\n\t\t3. No larger disk may be placed on top of a smaller disk.";
 
-
+	//Time stuff
 	auto start = chrono::steady_clock::now();
 	auto stop = chrono::steady_clock::now();
 	auto diff = stop - start;
-
-
 	start = chrono::steady_clock::now(); // start clock 
+
 	int userInput = inputInteger("\n\tEnter the number of rings (1..64) to begin:", 1, 64);
 	Tower Tower1(userInput);
 	Tower Tower2(0);
@@ -201,6 +207,8 @@ void option2() //Tower of Hanoi
 	while (toupper(choice) != 'Q' || toupper(subchoice) != 'Q' || doAgain == false)
 	{
 		int counter = 0;
+
+		//shows the special character for 1 to 9
 		if (userInput > 0 && userInput < 10)
 		{
 			for (int i = (userInput-1); i >= 0; i--)
@@ -210,6 +218,8 @@ void option2() //Tower of Hanoi
 				Tower3.displayTowerPart(i, true, userInput);
 			}
 		}
+
+		//shows NO special character for 1 to 9
 		else if (userInput >= 10)
 		{
 			for (int i = userInput; i >= 0; i--)
@@ -219,12 +229,13 @@ void option2() //Tower of Hanoi
 				Tower3.TowerDisplayPart2(i, true, userInput);
 			}
 		}
+
 		Rings something;
-		//subMenu2(userInput, Tower1, Tower2, Tower3);
+
 		choice = inputChar("\n\tSelect the top disk from the start peg (A, B, C, or Q-quit):", static_cast<string>("ABCQ"));
 		switch (toupper(choice))
 		{
-		case 'A':Tower1.getTopofRing();  break;
+		case 'A':Tower1.getTopofRing(); break;
 		case 'B':Tower2.getTopofRing(); break;
 		case 'C':Tower3.getTopofRing(); break;
 		case 'Q': return;
@@ -232,80 +243,69 @@ void option2() //Tower of Hanoi
 			cout << "\n\tERROR: Invalid Option. Must be A, B, C, or Q-quit\n\n";
 		}
 
-		subchoice = inputChar("\n\tSelectSelect the end peg (A, B, C or Q-quit) to move the selected disk:", static_cast<string>("ABCQ"));
+		subchoice = inputChar("\n\tSelect the end peg (A, B, C or Q-quit) to move the selected disk:", static_cast<string>("ABCQ"));
 		bool madeMove = false;
-		switch (toupper(subchoice))
+
+		//is this suppose to be false or true?
+		while (!madeMove)
 		{
-		case 'A':madeMove = Tower1.takeInRing(something); break;
-		case 'B':madeMove = Tower2.takeInRing(something); break;
-		case 'C':madeMove = Tower3.takeInRing(something); break;
-		case 'Q': return;
-		default:
-			cout << "\n\tERRR:Invalid Option. Must be A, B. C. or Q-quit\n\n";
+			switch (toupper(subchoice))
+			{
+			case 'A':madeMove = Tower1.takeInRing(something); break;
+			case 'B':madeMove = Tower2.takeInRing(something); break;
+			case 'C':madeMove = Tower3.takeInRing(something); break;
+			case 'Q': return;
+			default:
+				cout << "\n\tERRR:Invalid Option. Must be A, B. C. or Q-quit\n\n";
+			}
+			if (madeMove == true)
+				steps++;
 		}
-		if (madeMove == true)
-			steps++;
-		else if (madeMove == false)
+		/*else if (madeMove == false)
 		{
 			switch (toupper(choice))
 			{
 			case 'A':Tower1.takeInRing(something); break;
 			case 'B':Tower2.takeInRing(something); break;
 			case 'C':Tower3.takeInRing(something); break;
+			case 'Q': return;
+			default:
+				cout << "\n\tERRR:Invalid Option. Must be A, B. C. or Q-quit\n\n";
 			}
-		}
+		}*/
 
 		if (Tower3.checkIfDone(userInput))
 		{
 			bool doAgain1 = true;
 			cout << "\n\t Good job you finished!\n";
-			cout << steps;
-			char again;
-			cout << "\n\tDo you want to do it again Y or N";
-			cin >> again;
-			while (doAgain1 == true)
+			cout << "\tYou completed this in " << steps << " steps";
+			
+			//needs fixing
+			char again = (toupper(inputChar("\n\tDo you want to play again? (Y-yes or N-no)", 'YN')));
+			do
 			{
-				if (toupper(again) == 'Y')
+				switch (again)
 				{
+				case 'Y':
 					doAgain = true;
 					doAgain1 = false;
-				}
-				else if (toupper(again) == 'N')
-				{
+					break;
+				case 'N':
 					doAgain = false;
 					doAgain1 = false;
+					break;
+				default: "\n\tYou have to put either Y or N";
 				}
-				else
-				{
-					cout << "\n\tYou have to put either Y or N";
-					doAgain1 = true;
-				}
-			}
+			} while (doAgain == false);
 		}
 	}
 
+	//stops time and gets average
 	stop = chrono::steady_clock::now(); // end clock
-
 	diff = stop - start; // displace timer
 	cout << " : " << chrono::duration<double, nano>(diff)
 		.count() << " ns" << endl;
 	system("pause");
-}
-
-void subMenu2()
-{
-    cout << "\n\tThe Tower of Hanoi also called the Tower of Brahma or Lucas' Tower is a mathematical game.";
-    cout << "\n\tIt consists of three pegs and a number of rings of different sizes, which can slide onto";
-    cout << "\n\tany peg. The game starts with the rings in a neat stack in ascending order of size on one";
-    cout << "\n\tpeg, the smallest at the top, thus making a conical shape.";
-
-    cout << "\n\n\tThe objective of the game is to move the entire stack from the starting peg-A to ending peg-B,";
-    cout << "\n\tobeying the following simple rules:";
-
-    cout << "\n\t\t1. Only one disk can be moved at a time.";
-    cout << "\n\t\t2. Each move consists of taking the upper disk from one of the stacks and";
-    cout << "\n\t\t   placing it on top of another stack or on an empty peg.";
-    cout << "\n\t\t3. No larger disk may be placed on top of a smaller disk.";
 }
 
 //precondition: none
