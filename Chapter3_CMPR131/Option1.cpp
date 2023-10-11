@@ -38,21 +38,21 @@ Option1::Option1()
     vectCheck.push_back({ "00", "11", "22" }); //6
     vectCheck.push_back({ "20", "11", "02" }); //7   
 
-  
+
     //SetCheck
     for (int i = 0; i < 8; i++)
     {
-        winSets.insert({ i, ' '});
+        winSets.insert({ i, ' ' });
     }
 
- /*   for (int i = 0; i < 8; i++)
-    {
-        for (int j = 0; j < vectCheck[i].size(); j++)
-        {
-            cout << vectCheck[i][j] << " ";
-        }
-        cout << endl;
-    }*/
+    /*   for (int i = 0; i < 8; i++)
+       {
+           for (int j = 0; j < vectCheck[i].size(); j++)
+           {
+               cout << vectCheck[i][j] << " ";
+           }
+           cout << endl;
+       }*/
     playing = true;
 
     cout << "\n\tGame begins...";
@@ -137,7 +137,7 @@ void Option1::resetBoard()
 
     playing = true;
 
-   
+
 
     //VECT CHECK (SETS)
     vectCheck.clear();
@@ -152,7 +152,7 @@ void Option1::resetBoard()
     vectCheck.push_back({ "00", "11", "22" });//6
     vectCheck.push_back({ "20", "11", "02" }); //7   
 
-    
+
 
     //SetCheck
     winSets.clear();
@@ -204,6 +204,7 @@ void Option1::getPlayerMove()
 
     playerMoves++;
     setX(rowSelect, colSelect);
+    //checkVectSets();
 }
 
 
@@ -224,7 +225,7 @@ void Option1::setX(int r, int c)
     {
         replace(vInner.begin(), vInner.end(), placeSearch, tempX);
     }
-    
+
     checkforWinner();
 
 
@@ -254,70 +255,116 @@ bool Option1::checkBoard(int r, int c)
 void Option1::getAIMove()
 {
     cout << "\n\tDumb AI moves...\n";
-    
 
-//Check for middle location (always)
-string middleSearch = to_string(1) + to_string(1);
-if (find(boardCheck.begin(), boardCheck.end(), middleSearch) != boardCheck.end())
-{
 
-    setO(1, 1);
-}
-else
-{
-    int setCheck = checkVectSets();
-
-    //cout << "\n\tSet Check Return: " << setCheck;
-
-    auto it = winSets.find(setCheck);
-    if (setCheck != -1) //it->second != 'P')
+    //Check for middle location (always)
+    string middleSearch = to_string(1) + to_string(1);
+    if (find(boardCheck.begin(), boardCheck.end(), middleSearch) != boardCheck.end())
     {
-        for (int j = 0; j < vectCheck[setCheck].size(); j++)
+
+        setO(1, 1);
+    }
+    else
+    {
+        int setCheck = checkVectSets();
+        if (winState != ' ') // this is in the case player won
         {
-            if (vectCheck[setCheck][j] != "O" && vectCheck[setCheck][j] != "X")
+            checkforWinner();
+            if (!playingStatus())
             {
-                string priorityMove = vectCheck[setCheck][j];
-                int digit1, digit2;
-
-                char digit = priorityMove[0];
-                digit1 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
-
-                digit = priorityMove[1];
-                digit2 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
-                setO(digit1, digit2);
-                return;
+                return; //exit to allow restart game
             }
         }
+        //cout << "\n\tSet Check Return: " << setCheck;
+        if (setCheck != -1)
+        {
+            for (int j = 0; j < vectCheck[setCheck].size(); j++)
+            {
+                if (vectCheck[setCheck][j] != "O" && vectCheck[setCheck][j] != "X")
+                {
+                    string priorityMove = vectCheck[setCheck][j];
+                    int digit1, digit2;
+
+                    char digit = priorityMove[0];
+                    digit1 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
+
+                    digit = priorityMove[1];
+                    digit2 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
+                    setO(digit1, digit2);
+                    return;
+                }
+            }
+        }
+
+        else //if there are no checkmate moves in play
+        {
+            bool pCheck = false;
+            if (setCheck == -1)
+            {
+                auto itr = winSets.begin();
+                while (itr != winSets.end())
+                {
+                    if (itr->second == 'P')
+                    {
+                        pCheck = true;
+                        break;
+                    }
+                    itr++;
+                }
+
+                if (pCheck)
+                {
+                    for (int i = 0; i < vectCheck[itr->first].size(); i++)
+                    {
+                        if (vectCheck[itr->first][i] != "O" && vectCheck[itr->first][i] != "X")
+                        {
+                            string priorityMove = vectCheck[itr->first][i];
+                            int digit1, digit2;
+
+                            char digit = priorityMove[0];
+                            digit1 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
+
+                            digit = priorityMove[1];
+                            digit2 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
+                            setO(digit1, digit2);
+                            //cout << "-1 priority move called for P";
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    srand(time(0));
+                    int placesLeft = boardCheck.size();
+
+                    //cout << "Check boardSize: " << placesLeft;
+                    //cout << "\n\tCheck 00: " << boardCheck[0];
+
+
+                    int random = (rand() % placesLeft);
+
+                    string temp = boardCheck[random];
+
+                    /*cout << "\n\tTEMP: " << temp;*/
+
+                    int random1, random2;
+                    char digit = temp[0];
+                    random1 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
+
+
+                    digit = temp[1];
+                    random2 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
+
+
+                    setO(random1, random2);
+                }
+            }
+
+
+
+        }
+
     }
-
-    else //if there are no checkmate moves in play
-    {
-        srand(time(0));
-        int placesLeft = boardCheck.size();
-
-        //cout << "Check boardSize: " << placesLeft;
-        //cout << "\n\tCheck 00: " << boardCheck[0];
-
-
-        int random = (rand() % placesLeft);
-
-        string temp = boardCheck[random];
-
-        /*cout << "\n\tTEMP: " << temp;*/
-
-        int random1, random2;
-        char digit = temp[0];
-        random1 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
-
-
-        digit = temp[1];
-        random2 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
-
-
-        setO(random1, random2);
-    }
-
-}
 
 }
 
@@ -329,18 +376,29 @@ int Option1::checkVectSets()
     int setOwin = -1;
     int setXwin = -1;
     int altPlay = -1;
+
+    //DEBUG PRINT FOR VECTOR CHECKS
+    //auto testit = winSets.begin();
+    //cout << "\n";
+    //for (int i = 0; i < 8; i++, testit++)
+    //{
+    //    //cout << "[" << count << "]";
+    //    cout << "\t[" << testit->first << "] = '" << testit->second << "' -->";
+    //    for (int j = 0; j < vectCheck[i].size(); j++)
+    //    {
+    //        cout  << vectCheck[i][j] << " ";
+    //    }
+    //    cout << "\n";
+    //}
     for (int i = 0; i < 8; i++)
     {
         countX = 0;
         countO = 0;
         rowLeft = 3;
         auto itr = winSets.find((i));
-        if (itr->second == 'Z') //already marked as an unwinnable set, should skip iteration to check
+        if (itr->second != 'Z') //skip Z sets (those are already marked as unwinnable)
         {
-            i++;
-        }
-        else
-        {
+            //Checks Sets
             for (int j = 0; j < vectCheck[i].size(); j++)
             {
                 if (vectCheck[i][j] == "X")
@@ -355,9 +413,13 @@ int Option1::checkVectSets()
                 }
                 //cout << vectCheck[i][j] << " ";
             }
+
+            //DEBUG PRINT: 
+            // cout << "\n" << i << " --> X: " << countX << " O : " << countO << " rowLeft : " << rowLeft;
+            //----winSet UPDATES
             if (rowLeft == 0 && countX == 3)
             {
-                auto itr = winSets.find(i);
+                itr = winSets.find(i);
                 if (itr != winSets.end())
                 {
                     itr->second = 'Y'; // Y is a X win ("yes")
@@ -384,7 +446,7 @@ int Option1::checkVectSets()
                     itr->second = 'Z'; // no longer a winnable playset
                 }
             }
-            else if (countO == 2 && rowLeft == 1)
+            if (countO == 2 && rowLeft == 1)
             {
                 auto itr = winSets.find((i));
                 if (itr != winSets.end())
@@ -394,7 +456,7 @@ int Option1::checkVectSets()
 
                 }
             }
-            else if (countX == 2 && rowLeft == 1) 
+            if (countX == 2 && rowLeft == 1)
             {
                 //cout << "row" << i << "UPDATED X";
                 auto itr = winSets.find((i)); //row (win Set)
@@ -404,27 +466,29 @@ int Option1::checkVectSets()
                     setXwin = i;
                 }
             }
-            else if (countO == 1 && rowLeft == 2) //more viable play than random
+            if (countO == 1 && rowLeft == 2) //more viable play than random
             {
                 auto itr = winSets.find((i));
                 if (itr != winSets.end())
                 {
                     itr->second = 'P'; //possible play for O
-                    if (winState != ' ')
-                    {
-                        altPlay = i;
-                    }
-                    
+                }
 
+            }
+            if (countO == 1 && countX == 1 && rowLeft == 1)
+            {
+                auto itr = winSets.find((i));
+                if (itr != winSets.end())
+                {
+                    itr->second = 'F'; //worstplay
                 }
             }
-            
-            
         }
-        
+
+
     }
     //----Game has been won by AI or player
-    if (altPlay == 9) 
+    if (altPlay == 9)
     {
         //cout << "Win State" << winState;
         return altPlay;
@@ -436,14 +500,14 @@ int Option1::checkVectSets()
     }
     else if (setXwin != -1) //PRIORITY 2 = Block Win For X
     {
-        return setXwin; 
+        return setXwin;
     }
     else
     {
         return altPlay; // no checkmate sets yet, ai can play set that has 1 'O' and is open OR play at random
     }
 
- 
+
 
 
 }
@@ -510,30 +574,30 @@ void Option1::checkforWinner()
 {
 
     displayBoard();
-    //cout << "Win State" << winState;
-    if (checkVectSets() == 9)
+    if (winState == 'O')
     {
-        if (winState == 'O')
-        {
-            cout << "\n\tDumb AI has actually won.";
-            CPUwins++;
-            playing = false;
-            return;
-        }
-        if (winState == 'X')
-        {
-            cout << "\n\tHuman player wins.";
-            Playerwins++;
-            playing = false;
-            return;
-        }
-
+        cout << "\n\tDumb AI has actually won.";
+        CPUwins++;
+        playing = false;
+        return;
     }
-    
-    
-    
+    if (winState == 'X')
+    {
+        cout << "\n\tHuman player wins.";
+        Playerwins++;
+        playing = false;
+        return;
+    }
 
-    
+    if (boardCheck.empty())
+    {
+        cout << "\n\tIt's a draw.";
+        playing = false;
+        return;
+    }
+
+
+
 
 
     ////Check Rows
@@ -632,12 +696,7 @@ void Option1::checkforWinner()
     //}
 
     //If none of the above checks pass & the board is empty, then it's a draw.
-    if (boardCheck.empty())
-    {
-        cout << "\n\tIt's a draw.";
-        playing = false;
-        return;
-    }
+
 
 
 }
