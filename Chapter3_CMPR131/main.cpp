@@ -153,7 +153,7 @@ void option2() //Tower of Hanoi
 	cout << "\n\tpeg, the smallest at the top, thus making a conical shape.";
 	cout << "\n\n\tThe objective of the game is to move the entire stack from the starting peg-A to ending peg-B,";
 	cout << "\n\tobeying the following simple rules:";
-	cout << "\n\t\t1. Only one disk can be moved at a time.";
+	cout << "\n\n\t\t1. Only one disk can be moved at a time.";
 	cout << "\n\t\t2. Each move consists of taking the upper disk from one of the stacks and";
 	cout << "\n\t\t   placing it on top of another stack or on an empty peg.";
 	cout << "\n\t\t3. No larger disk may be placed on top of a smaller disk.";
@@ -164,7 +164,7 @@ void option2() //Tower of Hanoi
 	auto diff = stop - start;
 	start = chrono::steady_clock::now(); // start clock 
 
-	int userInput = inputInteger("\n\tEnter the number of rings (1..64) to begin:", 1, 64);
+	int userInput = inputInteger("\n\n\tEnter the number of rings (1..64) to begin:", 1, 64);
 	Tower Tower1(userInput);
 	Tower Tower2(0);
 	Tower Tower3(0);
@@ -220,13 +220,14 @@ void option2() //Tower of Hanoi
 		subchoice = inputChar("\n\tSelect the end peg (A, B, C or Q-quit) to move the selected disk:", static_cast<string>("ABCQ"));
 		bool madeMove = false;
 
+		//////////THIS NEEDS TO BE DEBUGGED the while loop keeps looping still even after 
 		//is this suppose to be false or true?
 		while (!madeMove)
 		{
 			switch (toupper(subchoice))
 			{
 			case 'A':
-				if (Tower1 > test)
+				if (Tower1 > test) // need to check first if the 'top' is empty if so make a condition for that, Ill see if i can fix it-Lupe
 				{
 					switch (previousResponse)
 					{
@@ -237,7 +238,18 @@ void option2() //Tower of Hanoi
 					Tower1.takeInRing(test);
 					madeMove = true;
 				}
-				else
+				else if (Tower1 > test && Tower1.checkEmpty() == true)
+				{
+					switch (previousResponse)
+					{
+					case '1': Tower1.getTopofRing(); break;
+					case '2': Tower2.getTopofRing(); break;
+					case '3': Tower3.getTopofRing(); break;
+					}
+					Tower1.takeInRing(test);
+					madeMove = true;
+				}
+				else 
 					cout << "\n\tThis ring isn't the right size";
 				break;
 			case 'B':
@@ -252,7 +264,18 @@ void option2() //Tower of Hanoi
 					Tower2.takeInRing(test);
 					madeMove = true;
 				}
-				else
+				else if (Tower2.checkEmpty() == true)
+				{
+					switch (previousResponse)
+					{
+					case '1': Tower1.getTopofRing(); break;
+					case '2': Tower2.getTopofRing(); break;
+					case '3': Tower3.getTopofRing(); break;
+					}
+					Tower2.takeInRing(test);
+					madeMove = true;
+				}
+				else 
 					cout << "\n\tThis ring isn't the right size";
 				break;
 			case 'C':
