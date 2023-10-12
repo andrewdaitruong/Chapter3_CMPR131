@@ -162,7 +162,7 @@ void Option1::resetBoard()
     }
 
     cout << "\n\tGame begins...";
-
+    winState = ' ';
     displayBoard();
 }
 
@@ -172,6 +172,15 @@ void Option1::resetBoard()
 //postcondition: gets the players move of either 0, 1, 2, or 3
 void Option1::getPlayerMove()
 {
+    checkVectSets();
+    if (winState != ' ') // this is in the case player won
+    {
+        checkforWinner();
+        if (!playingStatus())
+        {
+            return; //exit to allow restart game
+        }
+    }
     bool valid = false;
     int rowSelect;
     int colSelect;
@@ -291,6 +300,11 @@ void Option1::getAIMove()
                     digit = priorityMove[1];
                     digit2 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
                     setO(digit1, digit2);
+                    /*auto itr = winSets.find(setCheck);
+                    if (itr->second == 'O')
+                    {
+                        set()
+                    }*/
                     return;
                 }
             }
