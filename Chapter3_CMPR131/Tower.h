@@ -26,6 +26,7 @@ public:
     Tower& operator=(const Tower& right);
     bool operator >(const Rings& right);
     Rings trythisRing();
+    int returnTopDiameter();
 };
        
 
