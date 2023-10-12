@@ -80,65 +80,65 @@ int menuOption()
 void option1() //Tic-tac-toe
 {
 
-    system("cls");
+	system("cls");
 
-    //Description
-    cout << "\n\tTic - tac - toe(also known as Noughts and crosses or Xs and Os) is a game for two";
-    cout << "\n\tplayers, Xand O, who take turns marking the spaces in a 3" << char(215) << "3 grid. The player who";
-    cout << "\n\tsucceeds in placing three of their marks in a horizontal, vertical, or diagonal";
-    cout << "\n\trow wins the game.";
-    cout << "\n\tThis tic-tac-toe program plays against the computer. Human player, X, will always";
-    cout << "\n\tfirst.Time will be recorded for the fastest and the slowest game.Average time will";
-    cout << "\n\tthen be calculated and displayed.";
+	//Description
+	cout << "\n\tTic - tac - toe(also known as Noughts and crosses or Xs and Os) is a game for two";
+	cout << "\n\tplayers, Xand O, who take turns marking the spaces in a 3" << char(215) << "3 grid. The player who";
+	cout << "\n\tsucceeds in placing three of their marks in a horizontal, vertical, or diagonal";
+	cout << "\n\trow wins the game.";
+	cout << "\n\tThis tic-tac-toe program plays against the computer. Human player, X, will always";
+	cout << "\n\tfirst.Time will be recorded for the fastest and the slowest game.Average time will";
+	cout << "\n\tthen be calculated and displayed.";
 
-    auto start = high_resolution_clock::now();
-    Option1 tictac;
-    tictac.displayBoard();
+	auto start = high_resolution_clock::now();
+	Option1 tictac;
+	tictac.displayBoard();
 
-    while (tictac.playingStatus())
-    {
-        //Player
-        tictac.getPlayerMove();
-        if (tictac.playingStatus())
-        {
-            tictac.getAIMove();
-            if (!tictac.playingStatus()) // AI won
-            {
-                auto stop = high_resolution_clock::now();
-                auto duration = duration_cast<seconds>(stop - start);
-                tictac.addTime(duration, tictac.getNumberOfMoves());
+	while (tictac.playingStatus())
+	{
+		//Player
+		tictac.getPlayerMove();
+		if (tictac.playingStatus())
+		{
+			tictac.getAIMove();
+			if (!tictac.playingStatus()) // AI won
+			{
+				auto stop = high_resolution_clock::now();
+				auto duration = duration_cast<seconds>(stop - start);
+				tictac.addTime(duration, tictac.getNumberOfMoves());
 
-                if (tictac.playAgain()) // player selects play again
-                {
-                    auto start = high_resolution_clock::now();
-                    tictac.resetBoard();
-                }
-            }
-        }
-        else // player forfeits OR game has ended
-        {
+				if (tictac.playAgain()) // player selects play again
+				{
+					auto start = high_resolution_clock::now();
+					tictac.resetBoard();
+				}
+			}
+		}
+		else // player forfeits OR game has ended
+		{
 
-            auto stop = high_resolution_clock::now();
-            auto duration = duration_cast<seconds>(stop - start);
-            tictac.addTime(duration, tictac.getNumberOfMoves());
+			auto stop = high_resolution_clock::now();
+			auto duration = duration_cast<seconds>(stop - start);
+			tictac.addTime(duration, tictac.getNumberOfMoves());
 
-            if (tictac.playAgain())
-            {
-                //Reset time & board
-                auto start = high_resolution_clock::now();
-                tictac.resetBoard();
-            }
-            else
-            {
-                break;
-            }
-        }
+			if (tictac.playAgain())
+			{
+				//Reset time & board
+				auto start = high_resolution_clock::now();
+				tictac.resetBoard();
+			}
+			else
+			{
+				break;
+			}
+		}
 
-    }
-    tictac.numberofWins();
-    tictac.gameStats();
-    system("pause");
-    return;
+	}
+	tictac.numberofWins();
+	tictac.gameStats();
+	system("pause");
+	return;
 
 }
 
@@ -153,7 +153,7 @@ void option2() //Tower of Hanoi
 	cout << "\n\tpeg, the smallest at the top, thus making a conical shape.";
 	cout << "\n\n\tThe objective of the game is to move the entire stack from the starting peg-A to ending peg-B,";
 	cout << "\n\tobeying the following simple rules:";
-	cout << "\n\t\t1. Only one disk can be moved at a time.";
+	cout << "\n\n\t\t1. Only one disk can be moved at a time.";
 	cout << "\n\t\t2. Each move consists of taking the upper disk from one of the stacks and";
 	cout << "\n\t\t   placing it on top of another stack or on an empty peg.";
 	cout << "\n\t\t3. No larger disk may be placed on top of a smaller disk.";
@@ -164,7 +164,7 @@ void option2() //Tower of Hanoi
 	auto diff = stop - start;
 	start = chrono::steady_clock::now(); // start clock 
 
-	int userInput = inputInteger("\n\tEnter the number of rings (1..64) to begin:", 1, 64);
+	int userInput = inputInteger("\n\n\tEnter the number of rings (1..64) to begin:", 1, 64);
 	Tower Tower1(userInput);
 	Tower Tower2(0);
 	Tower Tower3(0);
@@ -178,7 +178,7 @@ void option2() //Tower of Hanoi
 		//shows the special character for 1 to 9
 		if (userInput > 0 && userInput < 10)
 		{
-			for (int i = (userInput-1); i >= 0; i--)
+			for (int i = (userInput - 1); i >= 0; i--)
 			{
 				Tower1.displayTowerPart(i, false, userInput);
 				Tower2.displayTowerPart(i, false, userInput);
@@ -206,10 +206,10 @@ void option2() //Tower of Hanoi
 		case 'A':test = Tower1.trythisRing();
 			previousResponse = 1;
 			break;
-		case 'B':test = Tower2.trythisRing(); 
+		case 'B':test = Tower2.trythisRing();
 			previousResponse = 2;
 			break;
-		case 'C':test = Tower3.trythisRing(); 
+		case 'C':test = Tower3.trythisRing();
 			previousResponse = 3;
 			break;
 		case 'Q': return;
@@ -220,63 +220,61 @@ void option2() //Tower of Hanoi
 		subchoice = inputChar("\n\tSelect the end peg (A, B, C or Q-quit) to move the selected disk:", static_cast<string>("ABCQ"));
 		bool madeMove = false;
 
+		//////////THIS NEEDS TO BE DEBUGGED the while loop keeps looping still even after 
 		//is this suppose to be false or true?
-		while (!madeMove)
+		switch (toupper(subchoice))
 		{
-			switch (toupper(subchoice))
+		case 'A':
+			if (Tower1 < test) // need to check first if the 'top' is empty if so make a condition for that, Ill see if i can fix it-Lupe
 			{
-			case 'A':
-				if (Tower1 > test)
-				{
-					switch (previousResponse)
-					{
-					case '1': Tower1.getTopofRing(); break;
-					case '2': Tower2.getTopofRing(); break;
-					case '3': Tower3.getTopofRing(); break;
-					}
-					Tower1.takeInRing(test);
-					madeMove = true;
-				}
-				else
-					cout << "\n\tThis ring isn't the right size";
-				break;
-			case 'B':
-				if (Tower2 > test)
-				{
-					switch (previousResponse)
-					{
-					case '1': Tower1.getTopofRing(); break;
-					case '2': Tower2.getTopofRing(); break;
-					case '3': Tower3.getTopofRing(); break;
-					}
-					Tower2.takeInRing(test);
-					madeMove = true;
-				}
-				else
-					cout << "\n\tThis ring isn't the right size";
-				break;
-			case 'C':
-				if (Tower3 > test)
-				{
-					switch (previousResponse)
-					{
-					case '1': Tower1.getTopofRing(); break;
-					case '2': Tower2.getTopofRing(); break;
-					case '3': Tower3.getTopofRing(); break;
-					}
-					Tower1.takeInRing(test);
-					madeMove = true;
-				}
-				else
-					cout << "\n\tThis ring isn't the right size";
-				break;
-			case 'Q': return;
-			default:
-				cout << "\n\tERRR:Invalid Option. Must be A, B. C. or Q-quit\n\n";
+				Tower1.takeInRing(test);
+				if (previousResponse == 1)
+					Tower1.getTopofRing();
+				else if (previousResponse == 2)
+					Tower2.getTopofRing();
+				else if (previousResponse == 3)
+					Tower3.getTopofRing();
+				madeMove = true;
 			}
-			if (madeMove == true)
-				steps++;
+			else
+				cout << "\n\tThis ring isn't the right size";
+			break;
+		case 'B':
+			if (Tower2 < test)
+			{
+				Tower2.takeInRing(test);
+				if (previousResponse == 1)
+					Tower1.getTopofRing();
+				else if (previousResponse == 2)
+					Tower2.getTopofRing();
+				else if (previousResponse == 3)
+					Tower3.getTopofRing();
+				madeMove = true;
+			}
+			else
+				cout << "\n\tThis ring isn't the right size";
+			break;
+		case 'C':
+			if (Tower3 < test)
+			{
+				Tower3.takeInRing(test);
+				if (previousResponse == 1)
+					Tower1.getTopofRing();
+				else if (previousResponse == 2)
+					Tower2.getTopofRing();
+				else if (previousResponse == 3)
+					Tower3.getTopofRing();
+				madeMove = true;
+			}
+			else
+				cout << "\n\tThis ring isn't the right size";
+			break;
+		case 'Q': return;
+		default:
+			cout << "\n\tERRR:Invalid Option. Must be A, B. C. or Q-quit\n\n";
 		}
+		if (madeMove == true)
+			steps++;
 		/*else if (madeMove == false)
 		{
 			switch (toupper(choice))
@@ -295,7 +293,7 @@ void option2() //Tower of Hanoi
 			bool doAgain1 = true;
 			cout << "\n\t Good job you finished!\n";
 			cout << "\tYou completed this in " << steps << " steps";
-			
+
 			//needs fixing
 			char again = (toupper(inputChar("\n\tDo you want to play again? (Y-yes or N-no)", 'YN')));
 			do
@@ -371,7 +369,7 @@ void option3() //n-Queens
 	cout << "\n\tThe n-queens puzzle is the problem of placing n chess queens on a n" << char(215) << "n chessboard";
 	cout << "\n\tso that no two queens threaten each other; thus, a solution requires that no two";
 	cout << "\n\tqueens share the same row, column, or diagonal. Solutions exist for all natural";
-	cout << "\n\tnumbers n with the exception of n = 2 and n = 3.";	
+	cout << "\n\tnumbers n with the exception of n = 2 and n = 3.";
 
 	option.setDimension(inputInteger("\n\t\tEnter the board dimension nxn: ", true)); //validation for getting board size
 

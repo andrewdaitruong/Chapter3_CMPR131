@@ -41,14 +41,13 @@ Tower::Tower(int userInput) : Rings()
 		}
 
 	}
-	//This is not really needed. Why set the diameter of all 64 rings to zero? Also in constructor that isnt used
-	//else
-	//{
-	//	for (int i = 0; i < MAX; i++)
-	//	{
-	//		ring[i].setDiameter(0);
-	//	}
-	//}
+	else
+	{
+		for (int i = 0; i < MAX; i++)
+		{
+			ring[i].setDiameter(0);
+		}
+	}
 	used = userInput;
 }
 
@@ -71,7 +70,7 @@ void Tower::displayTowerPart(int i, bool end, int userInput) const
 
 	//special character for the boxes for rings < 10
 	char seperator = 223;
-	if (i <= used)
+	if (i < used)
 	{
 		int space = userInput - ringLength;
 
@@ -97,8 +96,7 @@ void Tower::displayTowerPart(int i, bool end, int userInput) const
 		for (int j = 0; j < space; j++)
 			cout << " ";
 	}
-
-	else if (i > used)
+	else if (i >= used)
 	{
 		//evens out the spaces
 		int space = userInput;
@@ -133,18 +131,13 @@ void Tower::takeInRing(Rings input)
 		ring[used] = input;
 		used++;
 	}
-	if (input.getDiameter() == ring[used - 1].getDiameter())
-	{
-		cout << "\n\tCannot make the move. The selected end peg cannot be the same as the selected start peg.\n\t\tPlease choose again.\n";
-	}
-
-	if (input.getDiameter() < ring[used - 1].getDiameter())
+	else if(input.getDiameter() < ring[used - 1].getDiameter())
 	{
 		ring[used] = input;
 		used++;
 	}
-
-	cout << "\n\tERROR: Cannot make the move. \n";
+	else
+		cout << "\n\tERROR: Cannot make the move. \n";
 }
 
 //precondition: takes in two integers and a bool
@@ -174,7 +167,9 @@ void Tower::TowerDisplayPart2(int i, bool end, int userInput) const
 //precondition: returns are ring
 void Tower::getTopofRing()
 {
-	--used; // we are getting rid of a ring off one of the stacks so array decrements by 1
+	int newused = used - 1;
+	ring[used-1].setDiameter(0);
+	used = newused; // we are getting rid of a ring off one of the stacks so array decrements by 1
 }
 
 // pre condition:
@@ -221,9 +216,9 @@ bool Tower::checkIfDone(int userInput) const
 
 // Pre  condition: Takes in a tower Object
 // Post condition: returns true if input object is less than the other tower object , else false 
-bool Tower::operator >(const Rings& right)
+bool Tower::operator <(const Rings& right)
 {
-	if (this[used].getDiameter() > right.getDiameter())
+	if (this[used-1].getDiameter() < right.getDiameter())
 		return true;
 	else
 		return false;
