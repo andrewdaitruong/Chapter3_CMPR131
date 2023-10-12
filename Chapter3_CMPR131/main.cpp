@@ -15,7 +15,7 @@
 //Description: This program will allow you to
 #include <vector>
 #include <iostream>
-#include<chrono>
+#include <chrono>
 #include "input.h"
 #include "Option1.h"
 #include <ctime>
