@@ -185,7 +185,6 @@ void option2() //Tower of Hanoi
 				Tower3.displayTowerPart(i, true, userInput);
 			}
 		}
-
 		//shows NO special character for 1 to 9
 		else if (userInput >= 10)
 		{
@@ -197,7 +196,7 @@ void option2() //Tower of Hanoi
 			}
 		}
 
-		int previousResponse;
+		int previousResponse = 0;
 
 		choice = inputChar("\n\tSelect the top disk from the start peg (A, B, C, or Q-quit):", static_cast<string>("ABCQ"));
 		Rings test;
@@ -234,6 +233,8 @@ void option2() //Tower of Hanoi
 					Tower2.getTopofRing();
 				else if (previousResponse == 3)
 					Tower3.getTopofRing();
+				else
+					cout << "\n\tThe move wasn't made.";
 				madeMove = true;
 			}
 			else
@@ -249,6 +250,8 @@ void option2() //Tower of Hanoi
 					Tower2.getTopofRing();
 				else if (previousResponse == 3)
 					Tower3.getTopofRing();
+				else
+					cout << "\n\tThe move wasn't made.";
 				madeMove = true;
 			}
 			else
@@ -264,6 +267,8 @@ void option2() //Tower of Hanoi
 					Tower2.getTopofRing();
 				else if (previousResponse == 3)
 					Tower3.getTopofRing();
+				else
+					cout << "\n\tThe move wasn't made.";
 				madeMove = true;
 			}
 			else
@@ -291,6 +296,26 @@ void option2() //Tower of Hanoi
 		if (Tower3.checkIfDone(userInput))
 		{
 			bool doAgain1 = true;
+			//shows the special character for 1 to 9
+			if (userInput > 0 && userInput < 10)
+			{
+				for (int i = (userInput - 1); i >= 0; i--)
+				{
+					Tower1.displayTowerPart(i, false, userInput);
+					Tower2.displayTowerPart(i, false, userInput);
+					Tower3.displayTowerPart(i, true, userInput);
+				}
+			}
+			//shows NO special character for 1 to 9
+			else if (userInput >= 10)
+			{
+				for (int i = userInput; i >= 0; i--)
+				{
+					Tower1.TowerDisplayPart2(i, false, userInput);
+					Tower2.TowerDisplayPart2(i, false, userInput);
+					Tower3.TowerDisplayPart2(i, true, userInput);
+				}
+			}
 			cout << "\n\t Good job you finished!\n";
 			cout << "\tYou completed this in " << steps << " steps";
 

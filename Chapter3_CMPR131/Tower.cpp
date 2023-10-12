@@ -95,6 +95,8 @@ void Tower::displayTowerPart(int i, bool end, int userInput) const
 		//evens out the spacing on the right side
 		for (int j = 0; j < space; j++)
 			cout << " ";
+		if (end == true)
+			cout << "\n";
 	}
 	else if (i >= used)
 	{
@@ -137,7 +139,7 @@ void Tower::takeInRing(Rings input)
 		used++;
 	}
 	else
-		cout << "\n\tERROR: Cannot make the move. \n";
+		cout << "\n\tERROR: Cannot make the move. \n\n";
 }
 
 //precondition: takes in two integers and a bool
