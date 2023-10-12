@@ -146,22 +146,20 @@ void Tower::takeInRing(Rings input)
 //postcondition: displays the tower for one where the disks are greater than 9
 void Tower::TowerDisplayPart2(int i, bool end, int userInput) const
 {
+
+	cout << "\t";
 	if(used > i)
 	{
-		cout << "\t";
 		cout << (ring[i].getDiameter());
 		if (end == true)
 			cout << "\n";
 	}
-	else if (i > used)
+	else if (i >= used)
 	{
-		cout << "\t";
 		cout << char(186);
-		
 		//hardcoded. linebreak
 		if (end == true)
 			cout << "\n";
-
 	}
 }
 

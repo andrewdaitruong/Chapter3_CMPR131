@@ -188,7 +188,7 @@ void option2() //Tower of Hanoi
 		//shows NO special character for 1 to 9
 		else if (userInput >= 10)
 		{
-			for (int i = userInput; i >= 0; i--)
+			for (int i = (userInput - 1); i >= 0; i--)
 			{
 				Tower1.TowerDisplayPart2(i, false, userInput);
 				Tower2.TowerDisplayPart2(i, false, userInput);
@@ -347,7 +347,8 @@ void option2() //Tower of Hanoi
 			//shows NO special character for 1 to 9
 			else if (userInput >= 10)
 			{
-				for (int i = userInput; i >= 0; i--)
+				userInput -= 1;
+				for (int i = (userInput-1); i >= 0; i--)
 				{
 					Tower1.TowerDisplayPart2(i, false, userInput);
 					Tower2.TowerDisplayPart2(i, false, userInput);
