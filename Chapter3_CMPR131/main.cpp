@@ -335,24 +335,13 @@ void option2() //Tower of Hanoi
 		{
 			bool doAgain1 = true;
 			//shows the special character for 1 to 9
-			if (userInput > 0 && userInput < 10)
+			if (userInput > 0)
 			{
 				for (int i = (userInput - 1); i >= 0; i--)
 				{
 					Tower1.displayTowerPart(i, false, userInput);
 					Tower2.displayTowerPart(i, false, userInput);
 					Tower3.displayTowerPart(i, true, userInput);
-				}
-			}
-			//shows NO special character for 1 to 9
-			else if (userInput >= 10)
-			{
-				userInput -= 1;
-				for (int i = (userInput-1); i >= 0; i--)
-				{
-					Tower1.TowerDisplayPart2(i, false, userInput);
-					Tower2.TowerDisplayPart2(i, false, userInput);
-					Tower3.TowerDisplayPart2(i, true, userInput);
 				}
 			}
 			cout << "\n\t Good job you finished!\n";
