@@ -18,12 +18,13 @@ public:
     bool checkEmpty() const;
     void takeInRing(Rings input);
     void getTopofRing();
+    bool compareItTo0();
     void deleteTower();
     void displayTowerPart(int i, bool end, int userInput) const;
     bool checkIfDone(int userInput) const;
     void TowerDisplayPart2(int i, bool end, int userInput) const;
     Tower& operator=(const Tower& right);
-    bool operator <(const Rings& right);
+    bool operator >(const Rings& right);
     Rings trythisRing();
 };
        

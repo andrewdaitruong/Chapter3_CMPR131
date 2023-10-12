@@ -215,7 +215,6 @@ void option2() //Tower of Hanoi
 		default:
 			cout << "\n\tERROR: Invalid Option. Must be A, B, C, or Q-quit\n\n";
 		}
-
 		subchoice = inputChar("\n\tSelect the end peg (A, B, C or Q-quit) to move the selected disk:", static_cast<string>("ABCQ"));
 		bool madeMove = false;
 
@@ -224,7 +223,20 @@ void option2() //Tower of Hanoi
 		switch (toupper(subchoice))
 		{
 		case 'A':
-			if (Tower1 < test) // need to check first if the 'top' is empty if so make a condition for that, Ill see if i can fix it-Lupe
+			if (Tower1.compareItTo0())
+			{
+				Tower1.takeInRing(test);
+				if (previousResponse == 1)
+					Tower1.getTopofRing();
+				else if (previousResponse == 2)
+					Tower2.getTopofRing();
+				else if (previousResponse == 3)
+					Tower3.getTopofRing();
+				else
+					cout << "\n\tThe move wasn't made.";
+				madeMove = true;
+			}
+			else if (Tower1 > test) // need to check first if the 'top' is empty if so make a condition for that, Ill see if i can fix it-Lupe
 			{
 				Tower1.takeInRing(test);
 				if (previousResponse == 1)
@@ -238,10 +250,23 @@ void option2() //Tower of Hanoi
 				madeMove = true;
 			}
 			else
-				cout << "\n\tThis ring isn't the right size";
+				cout << "\n\tThis ring isn't the right size\n";
 			break;
 		case 'B':
-			if (Tower2 < test)
+			if (Tower2.compareItTo0())
+			{
+				Tower2.takeInRing(test);
+				if (previousResponse == 1)
+					Tower1.getTopofRing();
+				else if (previousResponse == 2)
+					Tower2.getTopofRing();
+				else if (previousResponse == 3)
+					Tower3.getTopofRing();
+				else
+					cout << "\n\tThe move wasn't made.";
+				madeMove = true;
+			}
+			else if (Tower2 > test)
 			{
 				Tower2.takeInRing(test);
 				if (previousResponse == 1)
@@ -255,10 +280,23 @@ void option2() //Tower of Hanoi
 				madeMove = true;
 			}
 			else
-				cout << "\n\tThis ring isn't the right size";
+				cout << "\n\tThis ring isn't the right size\n";
 			break;
 		case 'C':
-			if (Tower3 < test)
+			if (Tower3.compareItTo0())
+			{
+				Tower3.takeInRing(test);
+				if (previousResponse == 1)
+					Tower1.getTopofRing();
+				else if (previousResponse == 2)
+					Tower2.getTopofRing();
+				else if (previousResponse == 3)
+					Tower3.getTopofRing();
+				else
+					cout << "\n\tThe move wasn't made.";
+				madeMove = true;
+			}
+			else if (Tower3 > test)
 			{
 				Tower3.takeInRing(test);
 				if (previousResponse == 1)
@@ -272,7 +310,7 @@ void option2() //Tower of Hanoi
 				madeMove = true;
 			}
 			else
-				cout << "\n\tThis ring isn't the right size";
+				cout << "\n\tThis ring isn't the right size\n";
 			break;
 		case 'Q': return;
 		default:

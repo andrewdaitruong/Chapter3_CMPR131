@@ -216,11 +216,27 @@ bool Tower::checkIfDone(int userInput) const
 		return false;
 }
 
+//Precondition:
+//postcondition:
+bool Tower::compareItTo0()
+{
+	int realUsed = 0;
+	if (used > 0)
+	{
+		realUsed = used - 1;
+	}
+	if (ring[realUsed].getDiameter() == 0)
+		return true;
+	else
+		return false;
+}
+
 // Pre  condition: Takes in a tower Object
 // Post condition: returns true if input object is less than the other tower object , else false 
-bool Tower::operator <(const Rings& right)
+bool Tower::operator>(const Rings& right)
 {
-	if (this[used-1].getDiameter() < right.getDiameter())
+	int lookAtthisDiameter = this[used - 1].getDiameter();
+	if (lookAtthisDiameter > right.getDiameter())
 		return true;
 	else
 		return false;
