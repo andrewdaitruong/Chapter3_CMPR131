@@ -367,6 +367,10 @@ void option2() //Tower of Hanoi
 				case 'Y':
 					doAgain = true;
 					doAgain1 = false;
+					Tower1.deleteTower();
+					Tower2.deleteTower();
+					Tower3.deleteTower();
+					userInput = inputInteger("\n\n\tEnter the number of rings (1..64) to begin:", 1, 64);
 					break;
 				case 'N':
 					doAgain = false;
