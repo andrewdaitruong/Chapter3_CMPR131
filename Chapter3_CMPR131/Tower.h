@@ -8,11 +8,11 @@ class Tower : public Rings
 {
 private:
     static const int MAX = 64;
-    Rings ring[64]; // max number of rings
+    Rings* ring; // max number of rings
     int used;
 public:
     Tower(); // defualt constructor
-    Tower(int userInput);  // constructor
+    Tower(int size, bool firstTower);  // constructor
 
    // int getSize() const;
     bool checkEmpty() const;
@@ -22,7 +22,6 @@ public:
     void deleteTower();
     void displayTowerPart(int i, bool end, int userInput) const;
     bool checkIfDone(int userInput) const;
-    void TowerDisplayPart2(int i, bool end, int userInput) const;
     Tower& operator=(const Tower& right);
     bool operator >(const Rings& right);
     Rings trythisRing();

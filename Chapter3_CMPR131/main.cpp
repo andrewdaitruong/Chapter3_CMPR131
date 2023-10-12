@@ -165,9 +165,9 @@ void option2() //Tower of Hanoi
 	start = chrono::steady_clock::now(); // start clock 
 
 	int userInput = inputInteger("\n\n\tEnter the number of rings (1..64) to begin:", 1, 64);
-	Tower Tower1(userInput);
-	Tower Tower2(0);
-	Tower Tower3(0);
+	Tower Tower1(userInput, true);
+	Tower Tower2(userInput, false);
+	Tower Tower3(userInput, false);
 	char choice = ' ';
 	char subchoice = ' ';
 	bool doAgain = true;
@@ -176,7 +176,7 @@ void option2() //Tower of Hanoi
 		int counter = 0;
 
 		//shows the special character for 1 to 9
-		if (userInput > 0 && userInput < 10)
+		if (userInput > 0)
 		{
 			for (int i = (userInput - 1); i >= 0; i--)
 			{
@@ -186,7 +186,7 @@ void option2() //Tower of Hanoi
 			}
 		}
 		//shows NO special character for 1 to 9
-		else if (userInput >= 10)
+		/*else if (userInput >= 10)
 		{
 			for (int i = (userInput - 1); i >= 0; i--)
 			{
@@ -194,7 +194,7 @@ void option2() //Tower of Hanoi
 				Tower2.TowerDisplayPart2(i, false, userInput);
 				Tower3.TowerDisplayPart2(i, true, userInput);
 			}
-		}
+		}*/
 
 		int previousResponse = 0;
 
