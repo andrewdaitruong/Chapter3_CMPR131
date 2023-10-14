@@ -37,7 +37,6 @@ public:
 
 	bool isDanger(pos, pos);
 	bool isWin();
-	friend ostream& operator<<(ostream& out, nQueens& option3);
 };
 
 #endif
