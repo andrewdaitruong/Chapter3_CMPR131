@@ -261,6 +261,7 @@ void option2() //Tower of Hanoi
 		if (validStart)
 		{
 			Rings ring;
+			cout << "this should not be printing.";
 			switch (toupper(choice))
 			{
 			case 'A':
