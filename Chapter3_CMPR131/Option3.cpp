@@ -6,7 +6,7 @@ using namespace std;
 
 //precondition: need dimension size
 //postcondition: prints the board and size
-void Option3::printBoard()
+void Option3::printBoard() 
 {
 	board.printBoard(mode);
 }
@@ -53,9 +53,9 @@ void Option3::setMode(bool mode)
 }
 bool Option3::isDanger(pos x, pos y)
 {
-	if (board.isInDangerZone(x, y))
+		if (board.isInDangerZone(x, y))
 		return true;
-	else
+		else 
 		return false;
 
 }
@@ -68,10 +68,10 @@ void Option3::setPos(pos x, pos y)
 		cout << "Invalid position" << endl;
 		return;
 	}
-	else if (isDanger(x, y))
+	else if (isDanger(x,y))
 	{
 		cout << "\n\t Couldnt place queen at position (" << x + 1 << "," << y + 1 << ")\n\t Queen is in danger" << endl;
-
+	
 	}
 	else
 	{

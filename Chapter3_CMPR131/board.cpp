@@ -14,7 +14,7 @@ Board::Board()
 Board::Board(int size)
 {
 	this->size = size;
-
+	
 }
 
 //precondition: none
@@ -71,7 +71,7 @@ int* reduceDownWard(int x, int y,int size)
 
 	while (true)
 	{
-		if (x == 0 || y == size - 1)
+		if (x==0 || y == size - 1)
 			break;
 		x--;
 		y++;
@@ -80,7 +80,7 @@ int* reduceDownWard(int x, int y,int size)
 	temp[1] = y;
 	return temp;
 }
-void Board::setDangerZone(int x, int y)
+void Board::setDangerZone(int x,int y)
 {
 	int tempX = x;
 	int tempY = y;
@@ -92,7 +92,7 @@ void Board::setDangerZone(int x, int y)
 	for (int i = 0; i < size; i++)
 	{
 		temp.insert(pair<int, int>(i, y));
-
+		
 		temp.insert(pair<int, int>(x, i));
 		if (reduceUp[0] < size || reduceUp[1] < size)
 		{
@@ -110,25 +110,25 @@ void Board::setDangerZone(int x, int y)
 		}
 
 	}
-
-	if (danger_zone.empty())
+	
+	if(danger_zone.empty())
 		danger_zone = temp;
 	else
-		for (const auto& pair : temp) {
-			auto range = danger_zone.equal_range(pair.first);
-			bool found = false;
-			for (auto it = range.first; it != range.second; ++it) {
-				if (it->second == pair.second) {
-					found = true;
-					break;
-				}
-			}
-			if (!found) {
-				danger_zone.insert(pair);
+	for (const auto& pair : temp) {
+		auto range = danger_zone.equal_range(pair.first);
+		bool found = false;
+		for (auto it = range.first; it != range.second; ++it) {
+			if (it->second == pair.second) {
+				found = true;
+				break;
 			}
 		}
-	delete[] reduceUp;
-	delete[] reduceDown;
+		if (!found) {
+			danger_zone.insert(pair);
+		}
+	}
+	delete [] reduceUp;
+	delete [] reduceDown;
 
 }
 //precondition: none
@@ -187,15 +187,15 @@ void Board::printBoard(bool mode)
 
 		cout << "\t" << char(186);
 		for (int j = 0; j < size; j++) {
-			if (searchForCoordinate(j, i))
+			if ( searchForCoordinate(j,i))
 			{
 				cout << "Q";
 			}
-			else if (searchForDangerZone(j, i) && mode)
+			else if (searchForDangerZone(j, i)&&mode)
 			{
-				cout << "X";
+				cout << "D";
 			}
-			else
+			else 
 			{
 				cout << " ";
 			}
