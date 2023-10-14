@@ -1,8 +1,9 @@
-#include "Option1.h"
+#include "TicTacToe.h"
 
-//precondition: user starts the game
-//postcondition: sets up the board placement for row and columns, and status that player is now playing
-Option1::Option1()
+//precondition: user starts tictactoe game
+//postcondition: initializes TicTacToe object with containers (2d array, 2d vector, vector, map) with starting values 
+//               for tictactoe game. Sets initial winState, playerMoves, and number of games to 0 and ' '.
+TicTacToe::TicTacToe()
 {
     row = 3;
     col = 3;
@@ -60,9 +61,9 @@ Option1::Option1()
 }
 
 
-//precondition: player pressed option1 in main menu
+//precondition: none
 //postcondition: displays the board of tic tac toe
-void Option1::displayBoard()
+void TicTacToe::displayBoard()
 {
 
     cout << "\n\t\tTic-Tac-Toe";
@@ -111,9 +112,9 @@ void Option1::displayBoard()
 
 }
 
-//precondition: user is playing and chooses option1
-//postcondition: resets the board so player can play again.
-void Option1::resetBoard()
+//precondition: previous game has ended
+//postcondition: resets the class containers (including board) so player can play again.
+void TicTacToe::resetBoard()
 {
 
     playerMoves = 0;
@@ -168,19 +169,11 @@ void Option1::resetBoard()
 
 
 
-//precondition: user is playing option1 tic tac toe
+//precondition: boardCheck is not empty (there must be tictac moves left to play on the board)
 //postcondition: gets the players move of either 0, 1, 2, or 3
-void Option1::getPlayerMove()
+void TicTacToe::getPlayerMove()
 {
-    checkVectSets();
-    if (winState != ' ') // this is in the case player won
-    {
-        checkforWinner();
-        if (!playingStatus())
-        {
-            return; //exit to allow restart game
-        }
-    }
+
     bool valid = false;
     int rowSelect;
     int colSelect;
@@ -220,7 +213,7 @@ void Option1::getPlayerMove()
 
 //precondition: user must be playing option1 and passes chooses 1, 2, or 3 for the column and row
 //postcondition: sets an X up on the board for the user's input
-void Option1::setX(int r, int c)
+void TicTacToe::setX(int r, int c)
 {
 
     boardPlacement[r - 1][c - 1] = 'X';
@@ -235,6 +228,7 @@ void Option1::setX(int r, int c)
         replace(vInner.begin(), vInner.end(), placeSearch, tempX);
     }
 
+    updateVectSets();
     checkforWinner();
 
 
@@ -242,7 +236,7 @@ void Option1::setX(int r, int c)
 
 //precondition: user is playing Option1 and selects option 1, 2, or 3, function recieves both column and row
 //postcondition: checks if the option was valid or not
-bool Option1::checkBoard(int r, int c)
+bool TicTacToe::checkBoard(int r, int c)
 {
 
     string placeSearch = to_string(r - 1) + to_string(c - 1);
@@ -260,11 +254,13 @@ bool Option1::checkBoard(int r, int c)
 }
 
 //precondition: user pressed a valid number for row and column and is playing option1
-//postcondition: call's setO function and sets up random numbers for row and column
-void Option1::getAIMove()
+//postcondition: call's setO function based on AI move priority based on winSet's map values for each possible winning set
+void TicTacToe::getAIMove()
 {
     cout << "\n\tDumb AI moves...\n";
 
+    int priorityMoveValue = -1;
+    int priorityMoveSet = -1;
 
     //Check for middle location (always)
     string middleSearch = to_string(1) + to_string(1);
@@ -275,23 +271,44 @@ void Option1::getAIMove()
     }
     else
     {
-        int setCheck = checkVectSets();
-        if (winState != ' ') // this is in the case player won
+        for (int i = 0; i < 8; i++)
         {
-            checkforWinner();
-            if (!playingStatus())
+            auto itr = winSets.find((i));
+            if (itr->second != 'F') //skip Z sets (those are already marked as unwinnable)
             {
-                return; //exit to allow restart game
+                if (itr->second == 'O') //First priority, get O win
+                {
+                    priorityMoveSet = i;
+                    priorityMoveValue = 3;
+                    
+                }
+                else if (itr->second == 'X') //Second priority, prevent x win
+                {
+                    if (priorityMoveValue < 2)
+                    {
+                        priorityMoveSet = i;
+                        priorityMoveValue = 2;
+                    }
+                }
+                else if (itr->second == 'P') //Third priority, set up for O win (choose a set that has two spots open alongside already set up 'O')
+                {
+                    if (priorityMoveValue < 1)
+                    {
+                        priorityMoveSet = i;
+                        priorityMoveValue = 1;
+                    }
+                   
+                }
             }
         }
-        //cout << "\n\tSet Check Return: " << setCheck;
-        if (setCheck != -1)
+
+        if (priorityMoveValue > 1) //set x or o
         {
-            for (int j = 0; j < vectCheck[setCheck].size(); j++)
+            for (int j = 0; j < vectCheck[priorityMoveSet].size(); j++)
             {
-                if (vectCheck[setCheck][j] != "O" && vectCheck[setCheck][j] != "X")
+                if (vectCheck[priorityMoveSet][j] != "O" && vectCheck[priorityMoveSet][j] != "X")
                 {
-                    string priorityMove = vectCheck[setCheck][j];
+                    string priorityMove = vectCheck[priorityMoveSet][j];
                     int digit1, digit2;
 
                     char digit = priorityMove[0];
@@ -300,98 +317,64 @@ void Option1::getAIMove()
                     digit = priorityMove[1];
                     digit2 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
                     setO(digit1, digit2);
-                    /*auto itr = winSets.find(setCheck);
-                    if (itr->second == 'O')
-                    {
-                        set()
-                    }*/
+                }
+            }
+        }
+        else if (priorityMoveValue == 1) //set P
+        {
+            for (int j = 0; j < vectCheck[priorityMoveSet].size(); j++)
+            {
+                if (vectCheck[priorityMoveSet][j] != "O" && vectCheck[priorityMoveSet][j] != "X")
+                {
+                    string priorityMove = vectCheck[priorityMoveSet][j];
+                    int digit1, digit2;
+
+                    char digit = priorityMove[0];
+                    digit1 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
+
+                    digit = priorityMove[1];
+                    digit2 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
+                    setO(digit1, digit2);
                     return;
                 }
             }
         }
-
-        else //if there are no checkmate moves in play
+        else //final places left on the board, random if not needed to prevent X win or get O win
         {
-            bool pCheck = false;
-            if (setCheck == -1)
-            {
-                auto itr = winSets.begin();
-                while (itr != winSets.end())
-                {
-                    if (itr->second == 'P')
-                    {
-                        pCheck = true;
-                        break;
-                    }
-                    itr++;
-                }
+            srand(time(0));
 
-                if (pCheck)
-                {
-                    for (int i = 0; i < vectCheck[itr->first].size(); i++)
-                    {
-                        if (vectCheck[itr->first][i] != "O" && vectCheck[itr->first][i] != "X")
-                        {
-                            string priorityMove = vectCheck[itr->first][i];
-                            int digit1, digit2;
+            int placesLeft = boardCheck.size();
+            int random = (rand() % placesLeft);
 
-                            char digit = priorityMove[0];
-                            digit1 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
+            string temp = boardCheck[random];
 
-                            digit = priorityMove[1];
-                            digit2 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
-                            setO(digit1, digit2);
-                            //cout << "-1 priority move called for P";
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    srand(time(0));
-                    int placesLeft = boardCheck.size();
-
-                    //cout << "Check boardSize: " << placesLeft;
-                    //cout << "\n\tCheck 00: " << boardCheck[0];
+            int random1, random2;
+            char digit = temp[0];
+            random1 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
 
 
-                    int random = (rand() % placesLeft);
-
-                    string temp = boardCheck[random];
-
-                    /*cout << "\n\tTEMP: " << temp;*/
-
-                    int random1, random2;
-                    char digit = temp[0];
-                    random1 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
+            digit = temp[1];
+            random2 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
 
 
-                    digit = temp[1];
-                    random2 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
-
-
-                    setO(random1, random2);
-                }
-            }
-
-
-
+            setO(random1, random2);
         }
-
     }
+        
+
+    
 
 }
 
-int Option1::checkVectSets()
+//precondition: board is not empty & playingStatus of tictactoe game is still ongoing
+//postcondition: updates vectCheck vector & winSets map to current status of board. winSet saves map values that indicates status of next move for AI.
+void TicTacToe::updateVectSets()
 {
     int countX = 0;
     int countO = 0;
     int rowLeft = 3;
-    int setOwin = -1;
-    int setXwin = -1;
-    int altPlay = -1;
 
-    //DEBUG PRINT FOR VECTOR CHECKS
+    ////DEBUG PRINT FOR VECTOR CHECKS
     //auto testit = winSets.begin();
     //cout << "\n";
     //for (int i = 0; i < 8; i++, testit++)
@@ -404,13 +387,15 @@ int Option1::checkVectSets()
     //    }
     //    cout << "\n";
     //}
+
+
     for (int i = 0; i < 8; i++)
     {
         countX = 0;
         countO = 0;
         rowLeft = 3;
         auto itr = winSets.find((i));
-        if (itr->second != 'Z') //skip Z sets (those are already marked as unwinnable)
+        if (itr->second != 'F') //skip F sets (those are already marked as unwinnable)
         {
             //Checks Sets
             for (int j = 0; j < vectCheck[i].size(); j++)
@@ -425,7 +410,6 @@ int Option1::checkVectSets()
                     countO++;
                     rowLeft--;
                 }
-                //cout << vectCheck[i][j] << " ";
             }
 
             //DEBUG PRINT: 
@@ -437,7 +421,6 @@ int Option1::checkVectSets()
                 if (itr != winSets.end())
                 {
                     itr->second = 'Y'; // Y is a X win ("yes")
-                    altPlay = 9;
                     winState = 'X';
                 }
             }
@@ -447,7 +430,6 @@ int Option1::checkVectSets()
                 if (itr != winSets.end())
                 {
                     itr->second = 'M'; // M is an AI win (O, "machine")
-                    altPlay = 9;
                     winState = 'O';
                 }
             }
@@ -457,7 +439,7 @@ int Option1::checkVectSets()
                 auto itr = winSets.find((i));
                 if (itr != winSets.end())
                 {
-                    itr->second = 'Z'; // no longer a winnable playset
+                    itr->second = 'F'; // no longer a winnable playset
                 }
             }
             if (countO == 2 && rowLeft == 1)
@@ -466,7 +448,6 @@ int Option1::checkVectSets()
                 if (itr != winSets.end())
                 {
                     itr->second = 'O'; //checkmate for O
-                    setOwin = i;
 
                 }
             }
@@ -477,7 +458,6 @@ int Option1::checkVectSets()
                 if (itr != winSets.end())
                 {
                     itr->second = 'X'; //checkmate for X
-                    setXwin = i;
                 }
             }
             if (countO == 1 && rowLeft == 2) //more viable play than random
@@ -489,46 +469,25 @@ int Option1::checkVectSets()
                 }
 
             }
-            if (countO == 1 && countX == 1 && rowLeft == 1)
-            {
-                auto itr = winSets.find((i));
-                if (itr != winSets.end())
-                {
-                    itr->second = 'F'; //worstplay
-                }
-            }
+            //if (countO == 1 && countX == 1 && rowLeft == 1)
+            //{
+            //    auto itr = winSets.find((i));
+            //    if (itr != winSets.end())
+            //    {
+            //        itr->second = 'F'; //worstplay
+            //    }
+            //}
         }
 
 
     }
-    //----Game has been won by AI or player
-    if (altPlay == 9)
-    {
-        //cout << "Win State" << winState;
-        return altPlay;
-    }
-    //---Returns for AI moves
-    else if (setOwin != -1) //PRIORITY 1 = Win With O
-    {
-        return setOwin;
-    }
-    else if (setXwin != -1) //PRIORITY 2 = Block Win For X
-    {
-        return setXwin;
-    }
-    else
-    {
-        return altPlay; // no checkmate sets yet, ai can play set that has 1 'O' and is open OR play at random
-    }
-
-
-
-
 }
+
+
 
 //precondition: recieves a row and column after the user input a valid row and column
 //postcondition: sets up an O on the board for the random AI
-void Option1::setO(int r, int c)
+void TicTacToe::setO(int r, int c)
 {
 
 
@@ -543,21 +502,21 @@ void Option1::setO(int r, int c)
     {
         replace(vInner.begin(), vInner.end(), placeSearch, tempO);
     }
-
+    updateVectSets();
     checkforWinner();
 
 }
 
 //precondition: user is playing option1
 //postcondition: returns the playing status of the user
-bool Option1::playingStatus()
+bool TicTacToe::playingStatus()
 {
     return playing;
 }
 
 //precondition: user pressed 0 on the row or column option
 //postconditon: sets playing boolean to false and displays that the user forfeited
-void Option1::playerForfeit()
+void TicTacToe::playerForfeit()
 {
     playing = false;
     cout << "\n\t You forfeited the game. Therefore, Dumb AI has won.";
@@ -567,7 +526,7 @@ void Option1::playerForfeit()
 
 //precondition: user finished a tic tac toe game
 //postcondition: returns if the user chooses to still play or not
-bool Option1::playAgain()
+bool TicTacToe::playAgain()
 {
     char answer = inputChar("\n\tPlay again? (Y-yes or N-no): ", "YN");
 
@@ -584,7 +543,7 @@ bool Option1::playAgain()
 
 //precondition: user input a valid choice for row and column
 //postcondition: displays the winner if there is a winner for tic tac toe
-void Option1::checkforWinner()
+void TicTacToe::checkforWinner()
 {
 
     displayBoard();
@@ -612,113 +571,12 @@ void Option1::checkforWinner()
 
 
 
-
-
-    ////Check Rows
-    //for (int i = 0; i < row; i++)
-    //{
-    //    if ((boardPlacement[i][0] == boardPlacement[i][1]) && (boardPlacement[i][0] == boardPlacement[i][2]) && (boardPlacement[i][0] != ' '))
-
-    //    {
-
-    //        if (boardPlacement[i][0] == 'X')// Player win
-    //        {
-    //            cout << "\n\tHuman player wins.";
-    //            Playerwins++;
-    //            playing = false;
-    //            return;
-    //        }
-    //        else if (boardPlacement[i][0] == 'O')// AI win
-    //        {
-    //            cout << "\n\tDumb AI has actually won.";
-    //            CPUwins++;
-    //            playing = false;
-    //            return;
-    //        }
-
-
-    //    }
-
-    //}
-
-    ////Check Columns
-    //for (int i = 0; i < col; i++)
-
-    //{
-
-    //    if ((boardPlacement[0][i] == boardPlacement[1][i]) && (boardPlacement[0][i] == boardPlacement[2][i]) && (boardPlacement[0][i] != ' '))
-
-    //    {
-    //        if (boardPlacement[0][i] == 'X')// Player win
-    //        {
-    //            cout << "\n\tHuman player wins.";
-    //            Playerwins++;
-    //            playing = false;
-    //            return;
-    //        }
-    //        else if (boardPlacement[0][i] == 'O')// AI win
-    //        {
-    //            cout << "\n\tDumb AI has actually won.";
-    //            CPUwins++;
-    //            playing = false;
-    //            return;
-    //        }
-
-    //    }
-
-    //}
-
-    ////Check Diagonals
-    //if ((boardPlacement[0][0] == boardPlacement[1][1]) && (boardPlacement[0][0] == boardPlacement[2][2]) && (boardPlacement[0][0] != ' '))
-
-    //{
-    //    if (boardPlacement[0][0] == 'X')// Player win
-    //    {
-    //        cout << "\n\tHuman player wins.";
-    //        Playerwins++;
-    //        playing = false;
-    //        return;
-    //    }
-    //    else if (boardPlacement[0][0] == 'O')// AI win
-    //    {
-    //        cout << "\n\tDumb AI has actually won.";
-    //        CPUwins++;
-    //        playing = false;
-    //        return;
-    //    }
-
-    //}
-
-    //if ((boardPlacement[0][2] == boardPlacement[1][1]) && (boardPlacement[0][2] == boardPlacement[2][0]) && (boardPlacement[0][2] != ' '))
-
-    //{
-    //    if (boardPlacement[0][2] == 'X')// Player win
-    //    {
-    //        cout << "\n\tHuman player wins.";
-    //        Playerwins++;
-    //        playing = false;
-    //        return;
-    //    }
-    //    else if (boardPlacement[0][2] == 'O')// AI win
-    //    {
-    //        cout << "\n\tDumb AI has actually won.";
-    //        CPUwins++;
-    //        playing = false;
-    //        return;
-    //    }
-
-    //}
-
-    //If none of the above checks pass & the board is empty, then it's a draw.
-
-
-
 }
 
 
 //precondition; user must finish at least one game of tic tac toe
 //postcondition: returns the number of times player won, and computer won
-void Option1::numberofWins()
+void TicTacToe::numberofWins()
 {
     cout << "\n\tNumber of times the Player has won " << Playerwins;
     cout << "\n\tNumber of times Dumb AI has won " << CPUwins;
@@ -728,7 +586,7 @@ void Option1::numberofWins()
 //Add each individual playtime.
 //precondition: recieves seconds and moves throughout playing
 //postcondition; increments the amount of games and inserts the time and number of moves
-void Option1::addTime(seconds time, int moves)
+void TicTacToe::addTime(seconds time, int moves)
 {
     playTimes.insert({ time, moves });
     numOfGames++;
@@ -737,14 +595,14 @@ void Option1::addTime(seconds time, int moves)
 
 //precondition: user finished a game of tic tac toe
 //postcondition: returns the number of moves played in tic tac toe by the user
-int Option1::getNumberOfMoves()
+int TicTacToe::getNumberOfMoves()
 {
     return playerMoves;
 }
 
 //precondition: user must have completed a game
 //postcondition: displays the stats of the game
-void Option1::gameStats()
+void TicTacToe::gameStats()
 {
     multimap<seconds, int>::const_iterator itr;
 

@@ -130,7 +130,7 @@
     <ClCompile Include="board.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Option1.cpp" />
+    <ClCompile Include="TicTacToe.cpp" />
     <ClCompile Include="Option3.cpp" />
     <ClCompile Include="Rings.cpp" />
     <ClCompile Include="Tower.cpp" />
@@ -138,7 +138,7 @@
   <ItemGroup>
     <ClInclude Include="board.h" />
     <ClInclude Include="input.h" />
-    <ClInclude Include="Option1.h" />
+    <ClInclude Include="TicTacToe.h" />
     <ClInclude Include="Option3.h" />
     <ClInclude Include="Rings.h" />
     <ClInclude Include="Tower.h" />
