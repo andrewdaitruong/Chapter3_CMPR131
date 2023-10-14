@@ -171,12 +171,15 @@ void option2() //Tower of Hanoi
 	char choice = ' ';
 	char subchoice = ' ';
 	bool doAgain = true;
+	bool validStart = true;
+	char validError = ' ';
+
 	while (toupper(choice) != 'Q' || toupper(subchoice) != 'Q' || doAgain == false)
 	{
 		int counter = 0;
 
 		//shows the special character for 1 to 9
-		if (userInput > 0)
+		if (userInput > 0 && validStart)
 		{
 			for (int i = (userInput - 1); i >= 0; i--)
 			{
@@ -185,6 +188,8 @@ void option2() //Tower of Hanoi
 				Tower3.displayTowerPart(i, true, userInput);
 			}
 		}
+
+		validStart = false;
 		//shows NO special character for 1 to 9
 		/*else if (userInput >= 10)
 		{
@@ -197,127 +202,206 @@ void option2() //Tower of Hanoi
 		}*/
 
 		int previousResponse = 0;
-
+		
 		choice = inputChar("\n\tSelect the top disk from the start peg (A, B, C, or Q-quit):", static_cast<string>("ABCQ"));
-		Rings test;
-		switch (toupper(choice))
-		{
-		case 'A':test = Tower1.trythisRing();
-			previousResponse = 1;
-			break;
-		case 'B':test = Tower2.trythisRing();
-			previousResponse = 2;
-			break;
-		case 'C':test = Tower3.trythisRing();
-			previousResponse = 3;
-			break;
-		case 'Q': return;
-		default:
-			cout << "\n\tERROR: Invalid Option. Must be A, B, C, or Q-quit\n\n";
-		}
 		subchoice = inputChar("\n\tSelect the end peg (A, B, C or Q-quit) to move the selected disk:", static_cast<string>("ABCQ"));
 		bool madeMove = false;
 
-		//////////THIS NEEDS TO BE DEBUGGED the while loop keeps looping still even after 
-		//is this suppose to be false or true?
-		switch (toupper(subchoice))
+		//
+		switch (toupper(choice))
 		{
 		case 'A':
-			if (Tower1.compareItTo0())
+		{
+			if (Tower1.checkEmpty())
 			{
-				Tower1.takeInRing(test);
-				if (previousResponse == 1)
-					Tower1.getTopofRing();
-				else if (previousResponse == 2)
-					Tower2.getTopofRing();
-				else if (previousResponse == 3)
-					Tower3.getTopofRing();
-				else
-					cout << "\n\tThe move wasn't made.";
-				madeMove = true;
-			}
-			else if (Tower1 > test) // need to check first if the 'top' is empty if so make a condition for that, Ill see if i can fix it-Lupe
-			{
-				Tower1.takeInRing(test);
-				if (previousResponse == 1)
-					Tower1.getTopofRing();
-				else if (previousResponse == 2)
-					Tower2.getTopofRing();
-				else if (previousResponse == 3)
-					Tower3.getTopofRing();
-				else
-					cout << "\n\tThe move wasn't made.";
-				madeMove = true;
+				validError = 'A';
+				cout << "\n\tERROR: Cannot make the move. There is no disk in the selected peg-" << validError << ".";
+				cout << "\n\t\tPlease choose again.";
 			}
 			else
-				cout << "\n\tThis ring isn't the right size\n";
-			break;
-		case 'B':
-			if (Tower2.compareItTo0())
 			{
-				Tower2.takeInRing(test);
-				if (previousResponse == 1)
-					Tower1.getTopofRing();
-				else if (previousResponse == 2)
-					Tower2.getTopofRing();
-				else if (previousResponse == 3)
-					Tower3.getTopofRing();
-				else
-					cout << "\n\tThe move wasn't made.";
-				madeMove = true;
+				validStart = true;
 			}
-			else if (Tower2 > test)
-			{
-				Tower2.takeInRing(test);
-				if (previousResponse == 1)
-					Tower1.getTopofRing();
-				else if (previousResponse == 2)
-					Tower2.getTopofRing();
-				else if (previousResponse == 3)
-					Tower3.getTopofRing();
-				else
-					cout << "\n\tThe move wasn't made.";
-				madeMove = true;
-			}
-			else
-				cout << "\n\tThis ring isn't the right size\n";
-			break;
-		case 'C':
-			if (Tower3.compareItTo0())
-			{
-				Tower3.takeInRing(test);
-				if (previousResponse == 1)
-					Tower1.getTopofRing();
-				else if (previousResponse == 2)
-					Tower2.getTopofRing();
-				else if (previousResponse == 3)
-					Tower3.getTopofRing();
-				else
-					cout << "\n\tThe move wasn't made.";
-				madeMove = true;
-			}
-			else if (Tower3 > test)
-			{
-				Tower3.takeInRing(test);
-				if (previousResponse == 1)
-					Tower1.getTopofRing();
-				else if (previousResponse == 2)
-					Tower2.getTopofRing();
-				else if (previousResponse == 3)
-					Tower3.getTopofRing();
-				else
-					cout << "\n\tThe move wasn't made.";
-				madeMove = true;
-			}
-			else
-				cout << "\n\tThis ring isn't the right size\n";
-			break;
-		case 'Q': return;
-		default:
-			cout << "\n\tERRR:Invalid Option. Must be A, B. C. or Q-quit\n\n";
 		}
-		if (madeMove == true)
-			steps++;
+		break;
+		case 'B':
+		{
+			if (Tower2.checkEmpty())
+			{
+				validError = 'B';
+				cout << "\n\tERROR: Cannot make the move. There is no disk in the selected peg-" << validError << ".";
+				cout << "\n\t\tPlease choose again.";
+			}
+			else
+			{
+				validStart = true;
+			}
+		}
+		break;
+		case 'C':
+		{
+			if (Tower3.checkEmpty())
+			{
+				validError = 'C';
+				cout << "\n\tERROR: Cannot make the move. There is no disk in the selected peg-" << validError << ".";
+				cout << "\n\t\tPlease choose again.";
+			}
+			else
+			{
+				validStart = true;
+			}
+		}
+		break;
+		default: 
+			//none, program can move on.
+			validStart = true;
+			break;
+		}
+		
+		if (validStart)
+		{
+			Rings ring;
+			cout << "this should not be printing.";
+			switch (toupper(choice))
+			{
+			case 'A':
+				if (!Tower1.checkEmpty())
+				{
+					ring = Tower1.trythisRing();
+					previousResponse = 1;
+				}
+				break;
+			case 'B':
+				if (!Tower2.checkEmpty())
+				{
+					ring = Tower2.trythisRing();
+					previousResponse = 2;
+				}
+				break;
+			case 'C':
+				if (!Tower3.checkEmpty())
+				{
+					ring = Tower3.trythisRing();
+					previousResponse = 3;
+				}
+				break;
+			case 'Q':
+				return;
+				break;
+			default:
+				cout << "\n\tERROR: Invalid Option. Must be A, B, C, or Q-quit\n\n";
+				break;
+			}
+
+
+			//////////THIS NEEDS TO BE DEBUGGED the while loop keeps looping still even after 
+			//is this suppose to be false or true?
+			switch (toupper(subchoice))
+			{
+			case 'A':
+				if (Tower1.compareItTo0())
+				{
+					Tower1.takeInRing(ring);
+					if (previousResponse == 1)
+						Tower1.getTopofRing();
+					else if (previousResponse == 2)
+						Tower2.getTopofRing();
+					else if (previousResponse == 3)
+						Tower3.getTopofRing();
+					else
+						cout << "\n\tThe move wasn't made.";
+					madeMove = true;
+				}
+				else if (Tower1 > ring) // need to check first if the 'top' is empty if so make a condition for that, Ill see if i can fix it-Lupe
+				{
+					Tower1.takeInRing(ring);
+					if (previousResponse == 1)
+						Tower1.getTopofRing();
+					else if (previousResponse == 2)
+						Tower2.getTopofRing();
+					else if (previousResponse == 3)
+						Tower3.getTopofRing();
+					else
+						cout << "\n\tThe move wasn't made.";
+					madeMove = true;
+				}
+				else
+					cout << "\n\tThis ring isn't the right size\n";
+				break;
+			case 'B':
+				if (Tower2.compareItTo0())
+				{
+					Tower2.takeInRing(ring);
+					if (previousResponse == 1)
+						Tower1.getTopofRing();
+					else if (previousResponse == 2)
+						Tower2.getTopofRing();
+					else if (previousResponse == 3)
+						Tower3.getTopofRing();
+					else
+						cout << "\n\tThe move wasn't made.";
+					madeMove = true;
+				}
+				else if (Tower2 > ring)
+				{
+					Tower2.takeInRing(ring);
+					if (previousResponse == 1)
+						Tower1.getTopofRing();
+					else if (previousResponse == 2)
+						Tower2.getTopofRing();
+					else if (previousResponse == 3)
+						Tower3.getTopofRing();
+					else
+						cout << "\n\tThe move wasn't made.";
+					madeMove = true;
+				}
+				else
+					cout << "\n\tThis ring isn't the right size\n";
+				break;
+			case 'C':
+				if (Tower3.compareItTo0())
+				{
+					Tower3.takeInRing(ring);
+					if (previousResponse == 1)
+						Tower1.getTopofRing();
+					else if (previousResponse == 2)
+						Tower2.getTopofRing();
+					else if (previousResponse == 3)
+						Tower3.getTopofRing();
+					else
+						cout << "\n\tThe move wasn't made.";
+					madeMove = true;
+				}
+				else if (Tower3 > ring)
+				{
+					Tower3.takeInRing(ring);
+					if (previousResponse == 1)
+						Tower1.getTopofRing();
+					else if (previousResponse == 2)
+						Tower2.getTopofRing();
+					else if (previousResponse == 3)
+						Tower3.getTopofRing();
+					else
+						cout << "\n\tThe move wasn't made.";
+					madeMove = true;
+				}
+				else
+					cout << "\n\tThis ring isn't the right size\n";
+				break;
+			case 'Q':
+				return;
+				break;
+			default:
+				cout << "\n\tERRR:Invalid Option. Must be A, B. C. or Q-quit\n\n";
+				break;
+			}
+			if (madeMove == true)
+				steps++;
+		}
+		
+		
+		
+		
 		/*else if (madeMove == false)
 		{
 			switch (toupper(choice))
@@ -330,7 +414,6 @@ void option2() //Tower of Hanoi
 				cout << "\n\tERRR:Invalid Option. Must be A, B. C. or Q-quit\n\n";
 			}
 		}*/
-
 		if (Tower3.checkIfDone(userInput))
 		{
 			bool doAgain1 = true;
@@ -369,6 +452,7 @@ void option2() //Tower of Hanoi
 				}
 			} while (doAgain == false);
 		}
+		
 	}
 
 	//stops time and gets average
