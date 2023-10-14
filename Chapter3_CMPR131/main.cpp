@@ -92,7 +92,7 @@ void option1() //Tic-tac-toe
 	cout << "\n\tthen be calculated and displayed.";
 
 	auto start = high_resolution_clock::now();
-	Option1 tictac;
+	TicTacToe tictac;
 	tictac.displayBoard();
 
 	while (tictac.playingStatus())
