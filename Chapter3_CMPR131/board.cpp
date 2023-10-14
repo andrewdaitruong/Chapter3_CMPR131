@@ -1,67 +1,31 @@
 ﻿#include "board.h"
 
-//precondition: none
-//postcondition: none
-void Board::init()
-{
-	for (int i = 0; i < size; i++)
-	{
-		row[i] = false;
-		column[i] = false;
-	}
-}
 
 //precondition: none
 //postcondition: none
 Board::Board()
 {
-	row = nullptr;
-	column = nullptr;
 	size = 0;
-	coord.clear();
 }
 
-//precondition: none
-//postcondition: returns the coordinates
-bool Board::coordinates(pos x, pos y)
-{
-	if (coord[x] != y)
-		return false;
-	else
-		return true;
-}
 
 //precondition: 
 //postcondition: 
 Board::Board(int size)
 {
-	row = new bool[size];
-	column = new bool[size];
 	this->size = size;
-	for (int i = 0; i < size; i++)
-	{
-		row[i] = false;
-		column[i] = false;
-	}
+
 }
 
 //precondition: none
 //postcondition: set the size of the board
 void Board::setSize(int size)
 {
-	if (size != 0)
-	{
-		delete[] row;
-		delete[] column;
-	}
 	this->size = size;
-	row = new bool[size];
-	column = new bool[size];
-	init();
 }
 
-//precondition: none
-//postcondition: returns size of Board
+//precondition: 
+//postcondition: 
 int Board::getSize()
 {
 	return size;
@@ -71,57 +35,145 @@ int Board::getSize()
 //postcondition: clears the board
 Board::~Board()
 {
-	coord.clear();
-	row = nullptr;
-	column = nullptr;
-	delete[] row;
-	delete[] column;
+	danger_zone.clear();
+	coordinate.clear();
 }
 
 //precondition: pieces on the board
 //postcondition: checks the position of pieces to see if it is blocked by another piece
-bool Board::checkBlock(pos x, pos y)
+bool Board::isInDangerZone(int x, int y)
 {
-	if (x < 0 || y < 0 || x >= size || y >= size)
-		return false;
-	if (row[x] && column[y] && coordinates(x, y))
-		return true;
-	else
-		return false;
+	for (const auto& pair : danger_zone)
+	{
+		if (pair.first == x && pair.second == y)
+			return true;
+	}
+	return false;
+}
+int* Board::reduceUpWard(int x, int y)
+{
+	int* temp = new int[2];
+	for (int i = 0; i < size; i++)
+	{
+		if (x == 0 || y == 0)
+			break;
+		x--;
+		y--;
+	}
+	temp[0] = x;
+	temp[1] = y;
+	return temp;
 }
 
+int* Board::reduceDownWard(int x, int y)
+{
+	int* temp = new int[2];
+
+	while (true)
+	{
+		if (x == 0 || y == size - 1)
+			break;
+		x--;
+		y++;
+	}
+	temp[0] = x;
+	temp[1] = y;
+	return temp;
+}
+void Board::setDangerZone(int x, int y)
+{
+	int tempX = x;
+	int tempY = y;
+	multimap<int, int> temp;
+	int* reduceUp = reduceUpWard(x, y);
+	temp.insert(pair<int, int>(reduceUp[0], reduceUp[1]));
+	int* reduceDown = reduceDownWard(x, y);
+	temp.insert(pair<int, int>(reduceDown[0], reduceDown[1]));
+	for (int i = 0; i < size; i++)
+	{
+		temp.insert(pair<int, int>(i, y));
+
+		temp.insert(pair<int, int>(x, i));
+		if (reduceUp[0] < size || reduceUp[1] < size)
+		{
+
+			reduceUp[0]++;
+			reduceUp[1]++;
+			temp.insert(pair<int, int>(reduceUp[0], reduceUp[1]));
+
+		}
+		if (reduceDown[0] < size || reduceDown[1] >0)
+		{
+			reduceDown[0]++;
+			reduceDown[1]--;
+			temp.insert(pair<int, int>(reduceDown[0], reduceDown[1]));
+		}
+
+	}
+
+	if (danger_zone.empty())
+		danger_zone = temp;
+	else
+		for (const auto& pair : temp) {
+			auto range = danger_zone.equal_range(pair.first);
+			bool found = false;
+			for (auto it = range.first; it != range.second; ++it) {
+				if (it->second == pair.second) {
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				danger_zone.insert(pair);
+			}
+		}
+	delete[] reduceUp;
+	delete[] reduceDown;
+
+}
 //precondition: none
 //postcondition: places something into the position designated
-void Board::setPosition(pos x, pos y)
+void Board::setPos(int x, int y)
 {
-	row[x] = true;
-	column[y] = true;
-	coord.insert(pair<int, int>(x, y));
+	coordinate.insert(pair<int, int>(x, y));
+	setDangerZone(x, y);
 }
 
 //precondition: must have something in that column or row
 //postcondition: removes the thing in that column or row
-void Board::popPosition(pos x, pos y)
+void Board::pop(int x, int y)
 {
-	column[y] = false;
-	row[x] = false;
-	
-	if (coord.size() == 1)
-		coord.clear();
-	else
-		coord.erase(x);
+	coordinate.erase(x);
+	danger_zone.clear();
+	for (const auto& pair : coordinate)
+	{
+		setDangerZone(pair.first, pair.second);
+	}
 }
 
-//precondition: needs to enter board size
-//postcondition: returns maximum size for both row and column
+bool Board::searchForCoordinate(const int& x, const int& y)
+{
+	for (const auto& pair : coordinate)
+	{
+		if (pair.first == x && pair.second == y)
+			return true;
+	}
+}
+bool Board::searchForDangerZone(const int& x, const int& y)
+{
+	for (const auto& pair : danger_zone)
+	{
+		if (pair.first == x && pair.second == y)
+			return true;
+	}
+}
 int Board::getCoordSize()
 {
-	return coord.size();
+	return coordinate.size();
 }
-
 //precondition: needs dimension
 //postcondition: prints board
-void Board::printBoard()
+void Board::printBoard(bool mode)
 {
 	for (int i = 0; i < size; ++i) {
 		if (i == 0)
@@ -135,9 +187,13 @@ void Board::printBoard()
 
 		cout << "\t" << char(186);
 		for (int j = 0; j < size; j++) {
-			if (row[j] && column[i] && coordinates(j, i))
+			if (searchForCoordinate(j, i))
 			{
 				cout << "Q";
+			}
+			else if (searchForDangerZone(j, i) && mode)
+			{
+				cout << "D";
 			}
 			else
 			{
