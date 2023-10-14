@@ -39,6 +39,7 @@ public:
 	void resetBoard(); //Resets board for new game
 
 	int checkVectSets();
+	void updateVectSets();
 
 	void getPlayerMove(); //Get player move and validates it
 	void setX(int r, int c); //Sets X on board (player move)
