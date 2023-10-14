@@ -10,14 +10,14 @@
 
 //Assignment: Chapter 3
 
-//Date: September 20, 2023
+//Date: 10/16/23
 
 //Description: This program will allow you to
 #include <vector>
 #include <iostream>
 #include <chrono>
 #include "input.h"
-#include "Option1.h"
+#include "TicTacToe.h"
 #include <ctime>
 #include <chrono>
 #include "Tower.h"
@@ -480,7 +480,7 @@ void option3() //n-Queens
 		{
 			int row = inputInteger("\n\t\tPosition a queen in the row", true);
 			int col = inputInteger("\n\t\tPosition a queen in the column: ", true);
-			option.setPos(col - 1, row - 1);
+			option.setPosition(col - 1, row - 1);
 			move++; //move +1 when A completes
 		}
 		break;
@@ -488,7 +488,7 @@ void option3() //n-Queens
 		{
 			int rowp = inputInteger("\n\t\tDelete a queen in position row: ", true);
 			int colp = inputInteger("\n\t\tDelete a queen in position column: ", true);
-			option.pop(colp - 1, rowp - 1);
+			option.popPosition(colp - 1, rowp - 1);
 			move++; //move +! when B completes
 		}
 		break;

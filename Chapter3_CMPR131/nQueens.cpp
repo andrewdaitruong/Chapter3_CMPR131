@@ -4,6 +4,21 @@
 
 using namespace std;
 
+//precondition: none
+//postcondition: size originally at 0
+nQueens::nQueens()
+{
+	board.setSize(0);
+}
+
+//precondition: none
+//postcondition: set size of board to initialize;
+nQueens::nQueens(int size)
+{
+	board.setSize(size);
+}
+
+
 //precondition: need dimension size
 //postcondition: prints the board and size
 void nQueens::printBoard() 
@@ -18,26 +33,6 @@ void nQueens::setDimension(int size)
 	board.setSize(size);
 }
 
-//precondition: none
-//postcondition: returns move count
-int nQueens::getCount()
-{
-	return count;
-}
-
-//precondition: none
-//postcondition: size originally at 0
-nQueens::nQueens()
-{
-	board.setSize(0);
-}
-
-//precondition: none
-//postcondition: size;
-nQueens::nQueens(int size)
-{
-	board.setSize(size);
-}
 
 //precondition: number must be above 0
 //postcondition: returns dimension to get a perfect square
@@ -49,45 +44,17 @@ string nQueens::getDimension()
 }
 
 //precondition: none
-//postcondition: checks the diagnol for obstruction
-bool nQueens::diagonalCheck(pos x, pos y)
+//postcondition: returns move count
+int nQueens::getMoveCount()
 {
-	for (int i = 1; i <= board.getSize(); i++)
-	{
-		if (board.checkMate(x - i, y - i) || board.checkMate(x + i, y - i) || board.checkMate(x - i, y + i) || board.checkMate(x + i, y + i))
-			return true;
-	}
-	return false;
-		
+	return count;
 }
 
-//precondition: none
-//postcondition: checks the column for obstruction
-bool nQueens::columnCheck(pos x)
-{
-	for (int i = 0; i < board.getSize(); i++)
-	{
-		if (board.checkMate(x, i))
-			return true;
-	}
-	return false;
-}
 
-//precondition: none
-//postcondition: checks the row for obstruction
-bool nQueens::rowCheck(pos y)
-{
-	for (int i = 0; i < board.getSize(); i++)
-	{
-		if (board.checkMate(i, y))
-			return true;
-	}
-	return false;
-}
 
 //precondition: board must be above 0
 //postcondition: puts a piece on the board
-void nQueens::setPos(pos x, pos y)
+void nQueens::setPosition(pos x, pos y)
 {
 	if (x >= board.getSize() || y >= board.getSize())
 	{
@@ -110,10 +77,60 @@ void nQueens::setPos(pos x, pos y)
 	{
 		x = x;
 		y = y;
-		board.setPos(x, y);
+		board.setPosition(x, y);
 		cout << "\n\t Queen placed at position (" << x + 1 << "," << y + 1 << ")" << endl;
 		count++;
 	}
+}
+
+//precondition: pieces should be on the board
+//postcondition: removes a piece of the board
+void nQueens::popPosition(pos x, pos y)
+{
+	if (board.checkBlock(x, y))
+	{
+		board.popPosition(x, y);
+		count++;
+	}
+	else
+		cout << "\n\t Queen does not exist at position (" << x + 1 << "," << y + 1 << ")" << endl;
+}
+
+//precondition: none
+//postcondition: checks the diagnol for obstruction
+bool nQueens::diagonalCheck(pos x, pos y)
+{
+	for (int i = 1; i <= board.getSize(); i++)
+	{
+		if (board.checkBlock(x - i, y - i) || board.checkBlock(x + i, y - i) || board.checkBlock(x - i, y + i) || board.checkBlock(x + i, y + i))
+			return true;
+	}
+	return false;
+
+}
+
+//precondition: none
+//postcondition: checks the column for obstruction
+bool nQueens::columnCheck(pos x)
+{
+	for (int i = 0; i < board.getSize(); i++)
+	{
+		if (board.checkBlock(x, i))
+			return true;
+	}
+	return false;
+}
+
+//precondition: none
+//postcondition: checks the row for obstruction
+bool nQueens::rowCheck(pos y)
+{
+	for (int i = 0; i < board.getSize(); i++)
+	{
+		if (board.checkBlock(i, y))
+			return true;
+	}
+	return false;
 }
 
 //precondition: none
@@ -122,18 +139,6 @@ bool nQueens::isWin()
 {
 	if (board.getCoordSize() == board.getSize())
 		return true;
-	else return false;
-}
-
-//precondition: pieces should be on the board
-//postcondition: removes a piece of the board
-void nQueens::pop(pos x, pos y)
-{
-	if (board.checkMate(x, y))
-	{
-		board.pop(x, y);
-		count++;
-	}
-	else
-		cout << "\n\t Queen does not exist at position (" << x + 1 << "," << y + 1 << ")" << endl;
+	else 
+		return false;
 }

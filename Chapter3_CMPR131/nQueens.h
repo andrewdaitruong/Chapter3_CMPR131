@@ -26,15 +26,15 @@ public:
 
 	//getters
 	string getDimension();
-	int getCount();
+	int getMoveCount();
 
 	//functions
 	bool diagonalCheck(pos, pos);
 	bool columnCheck(pos);
 	bool rowCheck(pos);
-	void setPos(pos, pos);
+	void setPosition(pos, pos);
 	void printBoard();
-	void pop(pos, pos);
+	void popPosition(pos, pos);
 	bool isWin();
 	friend ostream& operator<<(ostream& out, nQueens& option3);
 };

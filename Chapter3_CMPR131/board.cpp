@@ -23,7 +23,7 @@ Board::Board()
 
 //precondition: none
 //postcondition: returns the coordinates
-bool Board::cord(pos x, pos y)
+bool Board::coordinates(pos x, pos y)
 {
 	if (coord[x] != y)
 		return false;
@@ -60,8 +60,8 @@ void Board::setSize(int size)
 	init();
 }
 
-//precondition: 
-//postcondition: 
+//precondition: none
+//postcondition: returns size of Board
 int Board::getSize()
 {
 	return size;
@@ -80,11 +80,11 @@ Board::~Board()
 
 //precondition: pieces on the board
 //postcondition: checks the position of pieces to see if it is blocked by another piece
-bool Board::checkMate(pos x, pos y)
+bool Board::checkBlock(pos x, pos y)
 {
 	if (x < 0 || y < 0 || x >= size || y >= size)
 		return false;
-	if (row[x] && column[y] && cord(x, y))
+	if (row[x] && column[y] && coordinates(x, y))
 		return true;
 	else
 		return false;
@@ -92,7 +92,7 @@ bool Board::checkMate(pos x, pos y)
 
 //precondition: none
 //postcondition: places something into the position designated
-void Board::setPos(pos x, pos y)
+void Board::setPosition(pos x, pos y)
 {
 	row[x] = true;
 	column[y] = true;
@@ -101,7 +101,7 @@ void Board::setPos(pos x, pos y)
 
 //precondition: must have something in that column or row
 //postcondition: removes the thing in that column or row
-void Board::pop(pos x, pos y)
+void Board::popPosition(pos x, pos y)
 {
 	column[y] = false;
 	row[x] = false;
@@ -135,7 +135,7 @@ void Board::printBoard()
 
 		cout << "\t" << char(186);
 		for (int j = 0; j < size; j++) {
-			if (row[j] && column[i] && cord(j, i))
+			if (row[j] && column[i] && coordinates(j, i))
 			{
 				cout << "Q";
 			}

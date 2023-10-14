@@ -1,4 +1,4 @@
-#include "Option1.h"
+#include "TicTacToe.h"
 
 //precondition: user starts tictactoe game
 //postcondition: initializes TicTacToe object with containers (2d array, 2d vector, vector, map) with starting values 

@@ -26,7 +26,7 @@ public:
 	~Board();
 
 	//setters
-	void setPos(pos, pos);
+	void setPosition(pos, pos);
 	void setSize(const int);
 	
 	//getters
@@ -34,9 +34,9 @@ public:
 	int getSize();
 	
 	//functions
-	bool checkMate(pos, pos);
+	bool checkBlock(pos, pos);
 	void printBoard();	
-	void pop(pos, pos);
-	bool cord(pos, pos);
+	void popPosition(pos, pos);
+	bool coordinates(pos, pos);
 };
 #endif // !1
