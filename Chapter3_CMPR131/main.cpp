@@ -179,7 +179,8 @@ void option2() //Tower of Hanoi
 		int counter = 0;
 
 		//shows the special character for 1 to 9
-		if (userInput > 0 && validStart)
+		cout << "\n";
+		if (userInput > 0)
 		{
 			for (int i = (userInput - 1); i >= 0; i--)
 			{
@@ -189,7 +190,7 @@ void option2() //Tower of Hanoi
 			}
 		}
 
-		validStart = false;
+		
 		//shows NO special character for 1 to 9
 		/*else if (userInput >= 10)
 		{
@@ -202,11 +203,11 @@ void option2() //Tower of Hanoi
 		}*/
 
 		int previousResponse = 0;
-		
+		validStart = true;
 		choice = inputChar("\n\tSelect the top disk from the start peg (A, B, C, or Q-quit):", static_cast<string>("ABCQ"));
 		subchoice = inputChar("\n\tSelect the end peg (A, B, C or Q-quit) to move the selected disk:", static_cast<string>("ABCQ"));
 		bool madeMove = false;
-
+		
 		//
 		switch (toupper(choice))
 		{
@@ -215,12 +216,7 @@ void option2() //Tower of Hanoi
 			if (Tower1.checkEmpty())
 			{
 				validError = 'A';
-				cout << "\n\tERROR: Cannot make the move. There is no disk in the selected peg-" << validError << ".";
-				cout << "\n\t\tPlease choose again.";
-			}
-			else
-			{
-				validStart = true;
+				validStart = false;
 			}
 		}
 		break;
@@ -229,12 +225,7 @@ void option2() //Tower of Hanoi
 			if (Tower2.checkEmpty())
 			{
 				validError = 'B';
-				cout << "\n\tERROR: Cannot make the move. There is no disk in the selected peg-" << validError << ".";
-				cout << "\n\t\tPlease choose again.";
-			}
-			else
-			{
-				validStart = true;
+				validStart = false;
 			}
 		}
 		break;
@@ -243,46 +234,37 @@ void option2() //Tower of Hanoi
 			if (Tower3.checkEmpty())
 			{
 				validError = 'C';
-				cout << "\n\tERROR: Cannot make the move. There is no disk in the selected peg-" << validError << ".";
-				cout << "\n\t\tPlease choose again.";
-			}
-			else
-			{
-				validStart = true;
+				validStart = false;
 			}
 		}
 		break;
-		default: 
+		default:
 			//none, program can move on.
 			validStart = true;
 			break;
 		}
-		
-		if (validStart)
+
+		if (!validStart)
+		{
+			cout << "\n\tERROR: Cannot make the move. There is no disk in the selected peg-" << validError << ".";
+			cout << "\n\t\tPlease choose again.\n";
+		}
+		else //valid move
 		{
 			Rings ring;
 			switch (toupper(choice))
 			{
 			case 'A':
-				if (!Tower1.checkEmpty())
-				{
-					ring = Tower1.trythisRing();
-					previousResponse = 1;
-				}
+				ring = Tower1.trythisRing();
+				previousResponse = 1;
 				break;
 			case 'B':
-				if (!Tower2.checkEmpty())
-				{
-					ring = Tower2.trythisRing();
-					previousResponse = 2;
-				}
+				ring = Tower2.trythisRing();
+				previousResponse = 2;
 				break;
 			case 'C':
-				if (!Tower3.checkEmpty())
-				{
-					ring = Tower3.trythisRing();
-					previousResponse = 3;
-				}
+				ring = Tower3.trythisRing();
+				previousResponse = 3;
 				break;
 			case 'Q':
 				return;

@@ -227,3 +227,4 @@ Rings Tower::trythisRing()
 {
 	return ring[used - 1];
 }
+

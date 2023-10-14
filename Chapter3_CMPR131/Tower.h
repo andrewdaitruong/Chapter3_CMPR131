@@ -26,6 +26,8 @@ public:
     bool operator >(const Rings& right);
     Rings trythisRing();
     int returnTopDiameter();
+
+   
 };
        
 

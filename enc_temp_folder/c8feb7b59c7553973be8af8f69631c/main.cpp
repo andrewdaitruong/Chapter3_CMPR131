@@ -21,7 +21,7 @@
 #include <ctime>
 #include <chrono>
 #include "Tower.h"
-#include "Option3.h"
+#include "nQueens.h"
 
 int menuOption();
 void option1();
@@ -179,7 +179,8 @@ void option2() //Tower of Hanoi
 		int counter = 0;
 
 		//shows the special character for 1 to 9
-		if (userInput > 0 && validStart)
+		cout << "\n";
+		if (userInput > 0)
 		{
 			for (int i = (userInput - 1); i >= 0; i--)
 			{
@@ -189,7 +190,7 @@ void option2() //Tower of Hanoi
 			}
 		}
 
-		validStart = false;
+		
 		//shows NO special character for 1 to 9
 		/*else if (userInput >= 10)
 		{
@@ -202,11 +203,11 @@ void option2() //Tower of Hanoi
 		}*/
 
 		int previousResponse = 0;
-		
+		validStart = true;
 		choice = inputChar("\n\tSelect the top disk from the start peg (A, B, C, or Q-quit):", static_cast<string>("ABCQ"));
 		subchoice = inputChar("\n\tSelect the end peg (A, B, C or Q-quit) to move the selected disk:", static_cast<string>("ABCQ"));
 		bool madeMove = false;
-
+		
 		//
 		switch (toupper(choice))
 		{
@@ -215,12 +216,7 @@ void option2() //Tower of Hanoi
 			if (Tower1.checkEmpty())
 			{
 				validError = 'A';
-				cout << "\n\tERROR: Cannot make the move. There is no disk in the selected peg-" << validError << ".";
-				cout << "\n\t\tPlease choose again.";
-			}
-			else
-			{
-				validStart = true;
+				validStart = false;
 			}
 		}
 		break;
@@ -229,12 +225,7 @@ void option2() //Tower of Hanoi
 			if (Tower2.checkEmpty())
 			{
 				validError = 'B';
-				cout << "\n\tERROR: Cannot make the move. There is no disk in the selected peg-" << validError << ".";
-				cout << "\n\t\tPlease choose again.";
-			}
-			else
-			{
-				validStart = true;
+				validStart = false;
 			}
 		}
 		break;
@@ -243,25 +234,24 @@ void option2() //Tower of Hanoi
 			if (Tower3.checkEmpty())
 			{
 				validError = 'C';
-				cout << "\n\tERROR: Cannot make the move. There is no disk in the selected peg-" << validError << ".";
-				cout << "\n\t\tPlease choose again.";
-			}
-			else
-			{
-				validStart = true;
+				validStart = false;
 			}
 		}
 		break;
-		default: 
+		default:
 			//none, program can move on.
 			validStart = true;
 			break;
 		}
-		
-		if (validStart)
+
+		if (!validStart)
+		{
+			cout << "\n\tERROR: Cannot make the move. There is no disk in the selected peg-" << validError << ".";
+			cout << "\n\t\tPlease choose again.\n";
+		}
+		else //valid move
 		{
 			Rings ring;
-			cout << "this should not be printing.";
 			switch (toupper(choice))
 			{
 			case 'A':
@@ -399,21 +389,6 @@ void option2() //Tower of Hanoi
 				steps++;
 		}
 		
-		
-		
-		
-		/*else if (madeMove == false)
-		{
-			switch (toupper(choice))
-			{
-			case 'A':Tower1.takeInRing(something); break;
-			case 'B':Tower2.takeInRing(something); break;
-			case 'C':Tower3.takeInRing(something); break;
-			case 'Q': return;
-			default:
-				cout << "\n\tERRR:Invalid Option. Must be A, B. C. or Q-quit\n\n";
-			}
-		}*/
 		if (Tower3.checkIfDone(userInput))
 		{
 			bool doAgain1 = true;
@@ -504,7 +479,7 @@ int gameAmount = 0; //global variable to count numbers for option 3
 void option3() //n-Queens
 {
 	system("cls");
-	Option3 option;
+	nQueens queen;
 	Board board;
 	//Description
 	cout << "\n\tThe n-queens puzzle is the problem of placing n chess queens on a n" << char(215) << "n chessboard";
@@ -512,7 +487,7 @@ void option3() //n-Queens
 	cout << "\n\tqueens share the same row, column, or diagonal. Solutions exist for all natural";
 	cout << "\n\tnumbers n with the exception of n = 2 and n = 3.";
 
-	option.setDimension(inputInteger("\n\t\tEnter the board dimension nxn: ", true)); //validation for getting board size
+	queen.setDimension(inputInteger("\n\t\tEnter the board dimension nxn: ", true)); //validation for getting board size
 
 	auto start = steady_clock::now(); //initializing start time
 	auto stop = steady_clock::now(); //initializing stop time
@@ -523,9 +498,9 @@ void option3() //n-Queens
 
 	do
 	{
-		option.printBoard(); //initializing option
+		queen.printBoard(); //initializing option
 
-		if (option.isWin())
+		if (queen.isWin())
 		{
 			gameAmount++; //incrementing gameAmount after winning
 			cout << "\n\tCongratulation! You have solved N-Queens in " << move << " moves.\n";
@@ -563,9 +538,9 @@ void option3() //n-Queens
 		{
 		case 'A': //Adding a quene
 		{
-			int row = inputInteger("\n\t\tPosition a queen in the row", true);
+			int row = inputInteger("\n\t\tPosition a queen in the row: ", true);
 			int col = inputInteger("\n\t\tPosition a queen in the column: ", true);
-			option.setPos(col - 1, row - 1);
+			queen.setQueen(col - 1, row - 1);
 			move++; //move +1 when A completes
 		}
 		break;
@@ -573,18 +548,18 @@ void option3() //n-Queens
 		{
 			int rowp = inputInteger("\n\t\tDelete a queen in position row: ", true);
 			int colp = inputInteger("\n\t\tDelete a queen in position column: ", true);
-			option.pop(colp - 1, rowp - 1);
+			queen.popQueen(colp - 1, rowp - 1);
 			move++; //move +! when B completes
 		}
 		break;
 		case 'C':
 		{
-			bool mode = inputInteger("\n\t\tEnter 1 for eseay mode or 0 for hardmode: ", 0, 1);
-			option.setMode(mode);
+			bool mode = inputInteger("\n\t\tEnter '1' for easy mode or 0 for hardmode: ", 0, 1);
+			queen.setMode(mode);
 			if (mode)
-				cout << "\n\t\tEasy mode is on";
+				cout << "\n\t\tEasy mode is on.";
 			else
-				cout << "\n\t\tHard mode is on";
+				cout << "\n\t\tHard mode is on.";
 			cout << endl;
 		}
 		break;
