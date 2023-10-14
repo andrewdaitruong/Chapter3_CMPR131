@@ -50,7 +50,7 @@ bool Board::isInDangerZone(int x, int y)
 	}
 	return false;
 }
-int* Board::reduceUpWard(int x, int y)
+int* reduceUpWard(int x, int y,int size)
 {
 	int* temp = new int[2];
 	for (int i = 0; i < size; i++)
@@ -65,7 +65,7 @@ int* Board::reduceUpWard(int x, int y)
 	return temp;
 }
 
-int* Board::reduceDownWard(int x, int y)
+int* reduceDownWard(int x, int y,int size)
 {
 	int* temp = new int[2];
 
@@ -85,9 +85,9 @@ void Board::setDangerZone(int x, int y)
 	int tempX = x;
 	int tempY = y;
 	multimap<int, int> temp;
-	int* reduceUp = reduceUpWard(x, y);
+	int* reduceUp = reduceUpWard(x, y,size);
 	temp.insert(pair<int, int>(reduceUp[0], reduceUp[1]));
-	int* reduceDown = reduceDownWard(x, y);
+	int* reduceDown = reduceDownWard(x, y,size);
 	temp.insert(pair<int, int>(reduceDown[0], reduceDown[1]));
 	for (int i = 0; i < size; i++)
 	{

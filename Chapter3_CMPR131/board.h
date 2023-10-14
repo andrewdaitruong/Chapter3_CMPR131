@@ -33,8 +33,7 @@ public:
 	int getSize();
 
 	//functions
-	int* reduceUpWard(int, int);
-	int* reduceDownWard(int, int);
+	
 	void setDangerZone(int, int);
 	bool isInDangerZone(int, int);
 	bool searchForDangerZone(const int&, const int&);
