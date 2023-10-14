@@ -251,7 +251,7 @@ void option2() //Tower of Hanoi
 		}
 		else //valid move
 		{
-			Rings ring;
+			Ring ring;
 			switch (toupper(choice))
 			{
 			case 'A':

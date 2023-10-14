@@ -1,14 +1,14 @@
 #ifndef TOWER_H
 #define TOWER_H
-#include "Rings.h" // base class
+#include "Ring.h" // base class
 #include <iostream>
 using namespace std;
 
-class Tower : public Rings
+class Tower : public Ring
 {
 private:
     static const int MAX = 64;
-    Rings* ring; // max number of rings
+    Ring* rings; // max number of rings
     int used;
 public:
     Tower(); // defualt constructor
@@ -16,15 +16,15 @@ public:
 
    // int getSize() const;
     bool checkEmpty() const;
-    void takeInRing(Rings input);
+    void takeInRing(Ring input);
     void getTopofRing();
     bool compareItTo0();
     void deleteTower();
     void displayTowerPart(int i, bool end, int userInput) const;
     bool checkIfDone(int userInput) const;
     Tower& operator=(const Tower& right);
-    bool operator >(const Rings& right);
-    Rings trythisRing();
+    bool operator >(const Ring& right);
+    Ring trythisRing();
     int returnTopDiameter();
 
    
