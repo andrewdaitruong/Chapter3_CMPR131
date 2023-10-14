@@ -4,17 +4,16 @@
 #include <iostream>
 using namespace std;
 
-typedef int pos;
+
 
 class Board
 {
 private:
 
-	bool* row;
-	bool* column;
+
 	int size;
-	map< int, int> coord;
-	void init();
+	multimap<int, int> danger_zone;
+	multimap< int, int> coordinate;
 
 public:
 
@@ -26,17 +25,21 @@ public:
 	~Board();
 
 	//setters
-	void setPos(pos, pos);
+	void setPos(int, int);
 	void setSize(const int);
-	
+
 	//getters
 	int getCoordSize();
 	int getSize();
-	
+
 	//functions
-	bool checkMate(pos, pos);
-	void printBoard();	
-	void pop(pos, pos);
-	bool cord(pos, pos);
+	int* reduceUpWard(int, int);
+	int* reduceDownWard(int, int);
+	void setDangerZone(int, int);
+	bool isInDangerZone(int, int);
+	bool searchForDangerZone(const int&, const int&);
+	void printBoard(bool);
+	void pop(int, int);
+	bool searchForCoordinate(const int&, const int&);
 };
 #endif // !1

@@ -21,7 +21,7 @@
 #include <ctime>
 #include <chrono>
 #include "Tower.h"
-#include "nQueens.h"
+#include "Option3.h"
 
 int menuOption();
 void option1();
@@ -504,7 +504,7 @@ int gameAmount = 0; //global variable to count numbers for option 3
 void option3() //n-Queens
 {
 	system("cls");
-	nQueens option;
+	Option3 option;
 	Board board;
 	//Description
 	cout << "\n\tThe n-queens puzzle is the problem of placing n chess queens on a n" << char(215) << "n chessboard";
@@ -553,12 +553,13 @@ void option3() //n-Queens
 		cout << "\n\t" + string(100, char(205));
 		cout << "\n\t\tA> Place a queen";
 		cout << "\n\t\tB> Remove an existing queen";
+		cout << "\n\t\tC> Enable easy mode";
 		cout << "\n\t" + string(100, char(196));
 		cout << "\n\t\t0> Return";
 		cout << "\n\t" + string(100, char(205));
 		cout << "\n";
 
-		switch (toupper(inputChar("\n\t\tOption: ", static_cast<string>("AB0"))))
+		switch (toupper(inputChar("\n\t\tOption: ", static_cast<string>("ABC0"))))
 		{
 		case 'A': //Adding a quene
 		{
@@ -574,6 +575,17 @@ void option3() //n-Queens
 			int colp = inputInteger("\n\t\tDelete a queen in position column: ", true);
 			option.pop(colp - 1, rowp - 1);
 			move++; //move +! when B completes
+		}
+		break;
+		case 'C':
+		{
+			bool mode = inputInteger("\n\t\tEnter 1 for eseay mode or 0 for hardmode: ", 0, 1);
+			option.setMode(mode);
+			if (mode)
+				cout << "\n\t\tEasy mode is on";
+			else
+				cout << "\n\t\tHard mode is on";
+			cout << endl;
 		}
 		break;
 
