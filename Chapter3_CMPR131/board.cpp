@@ -193,7 +193,7 @@ void Board::printBoard(bool mode)
 			}
 			else if (searchForDangerZone(j, i) && mode)
 			{
-				cout << "D";
+				cout << "X";
 			}
 			else
 			{
