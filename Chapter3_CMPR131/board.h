@@ -25,7 +25,7 @@ public:
 	~Board();
 
 	//setters
-	void setPos(int, int);
+	void setQueen(int, int);
 	void setSize(const int);
 	
 	//getters
@@ -38,7 +38,7 @@ public:
 	bool isInDangerZone(int, int);
 	bool searchForDangerZone(const int&, const int&);
 	void printBoard(bool);	
-	void pop(int, int);
+	void popQueen(int, int);
 	bool searchForCoordinate(const int&, const int&);
 };
 #endif // !1

@@ -133,7 +133,7 @@ void Board::setDangerZone(int x,int y)
 }
 //precondition: none
 //postcondition: places something into the position designated
-void Board::setPos(int x, int y)
+void Board::setQueen(int x, int y)
 {
 	coordinate.insert(pair<int, int>(x, y));
 	setDangerZone(x, y);
@@ -141,7 +141,7 @@ void Board::setPos(int x, int y)
 
 //precondition: must have something in that column or row
 //postcondition: removes the thing in that column or row
-void Board::pop(int x, int y)
+void Board::popQueen(int x, int y)
 {
 	coordinate.erase(x);
 	danger_zone.clear();

@@ -27,13 +27,13 @@
     <ClCompile Include="TicTacToe.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="nQueens.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Rings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Tower.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="nQueens.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,13 +47,13 @@
     <ClInclude Include="TicTacToe.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="nQueens.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Rings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Tower.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="nQueens.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

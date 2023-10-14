@@ -131,7 +131,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TicTacToe.cpp" />
-    <ClCompile Include="Option3.cpp" />
+    <ClCompile Include="nQueens.cpp" />
     <ClCompile Include="Rings.cpp" />
     <ClCompile Include="Tower.cpp" />
   </ItemGroup>
@@ -139,7 +139,7 @@
     <ClInclude Include="board.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="TicTacToe.h" />
-    <ClInclude Include="Option3.h" />
+    <ClInclude Include="nQueens.h" />
     <ClInclude Include="Rings.h" />
     <ClInclude Include="Tower.h" />
   </ItemGroup>
