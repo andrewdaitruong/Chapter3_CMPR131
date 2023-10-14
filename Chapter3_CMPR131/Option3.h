@@ -14,6 +14,7 @@ private:
 	pos y = 0;
 	int count = 0;
 	int gameAmount = 0;
+	bool mode = false;
 
 public:
 
@@ -29,9 +30,8 @@ public:
 	int getCount();
 
 	//functions
-	bool diagonalCheck(pos, pos);
-	bool columnCheck(pos);
-	bool rowCheck(pos);
+	void setMode(bool);
+	bool isDanger(pos, pos);
 	void setPos(pos, pos);
 	void printBoard();
 	void pop(pos, pos);

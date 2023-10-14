@@ -8,7 +8,7 @@ using namespace std;
 //postcondition: prints the board and size
 void Option3::printBoard() 
 {
-	board.printBoard();
+	board.printBoard(mode);
 }
 
 //precondition: none
@@ -47,44 +47,18 @@ string Option3::getDimension()
 	dimension = board.getSize() + " x " + board.getSize();
 	return dimension;
 }
-
-//precondition: none
-//postcondition: checks the diagnol for obstruction
-bool Option3::diagonalCheck(pos x, pos y)
+void Option3::setMode(bool mode)
 {
-	for (int i = 1; i <= board.getSize(); i++)
-	{
-		if (board.checkMate(x - i, y - i) || board.checkMate(x + i, y - i) || board.checkMate(x - i, y + i) || board.checkMate(x + i, y + i))
-			return true;
-	}
-	return false;
-		
+	this->mode = mode;
 }
-
-//precondition: none
-//postcondition: checks the column for obstruction
-bool Option3::columnCheck(pos x)
+bool Option3::isDanger(pos x, pos y)
 {
-	for (int i = 0; i < board.getSize(); i++)
-	{
-		if (board.checkMate(x, i))
-			return true;
-	}
-	return false;
-}
+		if (board.isInDangerZone(x, y))
+		return true;
+		else 
+		return false;
 
-//precondition: none
-//postcondition: checks the row for obstruction
-bool Option3::rowCheck(pos y)
-{
-	for (int i = 0; i < board.getSize(); i++)
-	{
-		if (board.checkMate(i, y))
-			return true;
-	}
-	return false;
 }
-
 //precondition: board must be above 0
 //postcondition: puts a piece on the board
 void Option3::setPos(pos x, pos y)
@@ -94,17 +68,10 @@ void Option3::setPos(pos x, pos y)
 		cout << "Invalid position" << endl;
 		return;
 	}
-	else if (columnCheck(x))
+	else if (isDanger(x,y))
 	{
 		cout << "\n\t Couldnt place queen at position (" << x + 1 << "," << y + 1 << ")\n\t Queen is in danger" << endl;
-	}
-	else if (rowCheck(y))
-	{
-		cout << "\n\t Couldnt place queen at position (" << x + 1 << "," << y + 1 << ")\n\t Queen is in danger" << endl;
-	}
-	else if (diagonalCheck(x, y))
-	{
-		cout << "\n\t Couldnt place queen at position (" << x + 1 << "," << y + 1 << ")\n\t Queen is in danger" << endl;
+	
 	}
 	else
 	{
@@ -129,7 +96,7 @@ bool Option3::isWin()
 //postcondition: removes a piece of the board
 void Option3::pop(pos x, pos y)
 {
-	if (board.checkMate(x, y))
+	if (board.searchForCoordinate(x, y))
 	{
 		board.pop(x, y);
 		count++;
