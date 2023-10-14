@@ -1,8 +1,9 @@
 #include "Option1.h"
 
-//precondition: user starts the game
-//postcondition: sets up the board placement for row and columns, and status that player is now playing
-Option1::Option1()
+//precondition: user starts tictactoe game
+//postcondition: initializes TicTacToe object with containers (2d array, 2d vector, vector, map) with starting values 
+//               for tictactoe game. Sets initial winState, playerMoves, and number of games to 0 and ' '.
+TicTacToe::TicTacToe()
 {
     row = 3;
     col = 3;
@@ -60,9 +61,9 @@ Option1::Option1()
 }
 
 
-//precondition: player pressed option1 in main menu
+//precondition: none
 //postcondition: displays the board of tic tac toe
-void Option1::displayBoard()
+void TicTacToe::displayBoard()
 {
 
     cout << "\n\t\tTic-Tac-Toe";
@@ -111,9 +112,9 @@ void Option1::displayBoard()
 
 }
 
-//precondition: user is playing and chooses option1
-//postcondition: resets the board so player can play again.
-void Option1::resetBoard()
+//precondition: previous game has ended
+//postcondition: resets the class containers (including board) so player can play again.
+void TicTacToe::resetBoard()
 {
 
     playerMoves = 0;
@@ -168,9 +169,9 @@ void Option1::resetBoard()
 
 
 
-//precondition: user is playing option1 tic tac toe
+//precondition: boardCheck is not empty (there must be tictac moves left to play on the board)
 //postcondition: gets the players move of either 0, 1, 2, or 3
-void Option1::getPlayerMove()
+void TicTacToe::getPlayerMove()
 {
 
     bool valid = false;
@@ -212,7 +213,7 @@ void Option1::getPlayerMove()
 
 //precondition: user must be playing option1 and passes chooses 1, 2, or 3 for the column and row
 //postcondition: sets an X up on the board for the user's input
-void Option1::setX(int r, int c)
+void TicTacToe::setX(int r, int c)
 {
 
     boardPlacement[r - 1][c - 1] = 'X';
@@ -235,7 +236,7 @@ void Option1::setX(int r, int c)
 
 //precondition: user is playing Option1 and selects option 1, 2, or 3, function recieves both column and row
 //postcondition: checks if the option was valid or not
-bool Option1::checkBoard(int r, int c)
+bool TicTacToe::checkBoard(int r, int c)
 {
 
     string placeSearch = to_string(r - 1) + to_string(c - 1);
@@ -254,7 +255,7 @@ bool Option1::checkBoard(int r, int c)
 
 //precondition: user pressed a valid number for row and column and is playing option1
 //postcondition: call's setO function based on AI move priority based on winSet's map values for each possible winning set
-void Option1::getAIMove()
+void TicTacToe::getAIMove()
 {
     cout << "\n\tDumb AI moves...\n";
 
@@ -367,7 +368,7 @@ void Option1::getAIMove()
 
 //precondition: board is not empty & playingStatus of tictactoe game is still ongoing
 //postcondition: updates vectCheck vector & winSets map to current status of board. winSet saves map values that indicates status of next move for AI.
-void Option1::updateVectSets()
+void TicTacToe::updateVectSets()
 {
     int countX = 0;
     int countO = 0;
@@ -486,7 +487,7 @@ void Option1::updateVectSets()
 
 //precondition: recieves a row and column after the user input a valid row and column
 //postcondition: sets up an O on the board for the random AI
-void Option1::setO(int r, int c)
+void TicTacToe::setO(int r, int c)
 {
 
 
@@ -508,14 +509,14 @@ void Option1::setO(int r, int c)
 
 //precondition: user is playing option1
 //postcondition: returns the playing status of the user
-bool Option1::playingStatus()
+bool TicTacToe::playingStatus()
 {
     return playing;
 }
 
 //precondition: user pressed 0 on the row or column option
 //postconditon: sets playing boolean to false and displays that the user forfeited
-void Option1::playerForfeit()
+void TicTacToe::playerForfeit()
 {
     playing = false;
     cout << "\n\t You forfeited the game. Therefore, Dumb AI has won.";
@@ -525,7 +526,7 @@ void Option1::playerForfeit()
 
 //precondition: user finished a tic tac toe game
 //postcondition: returns if the user chooses to still play or not
-bool Option1::playAgain()
+bool TicTacToe::playAgain()
 {
     char answer = inputChar("\n\tPlay again? (Y-yes or N-no): ", "YN");
 
@@ -542,7 +543,7 @@ bool Option1::playAgain()
 
 //precondition: user input a valid choice for row and column
 //postcondition: displays the winner if there is a winner for tic tac toe
-void Option1::checkforWinner()
+void TicTacToe::checkforWinner()
 {
 
     displayBoard();
@@ -575,7 +576,7 @@ void Option1::checkforWinner()
 
 //precondition; user must finish at least one game of tic tac toe
 //postcondition: returns the number of times player won, and computer won
-void Option1::numberofWins()
+void TicTacToe::numberofWins()
 {
     cout << "\n\tNumber of times the Player has won " << Playerwins;
     cout << "\n\tNumber of times Dumb AI has won " << CPUwins;
@@ -585,7 +586,7 @@ void Option1::numberofWins()
 //Add each individual playtime.
 //precondition: recieves seconds and moves throughout playing
 //postcondition; increments the amount of games and inserts the time and number of moves
-void Option1::addTime(seconds time, int moves)
+void TicTacToe::addTime(seconds time, int moves)
 {
     playTimes.insert({ time, moves });
     numOfGames++;
@@ -594,14 +595,14 @@ void Option1::addTime(seconds time, int moves)
 
 //precondition: user finished a game of tic tac toe
 //postcondition: returns the number of moves played in tic tac toe by the user
-int Option1::getNumberOfMoves()
+int TicTacToe::getNumberOfMoves()
 {
     return playerMoves;
 }
 
 //precondition: user must have completed a game
 //postcondition: displays the stats of the game
-void Option1::gameStats()
+void TicTacToe::gameStats()
 {
     multimap<seconds, int>::const_iterator itr;
 

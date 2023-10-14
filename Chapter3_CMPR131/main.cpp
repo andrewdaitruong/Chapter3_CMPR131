@@ -21,7 +21,7 @@
 #include <ctime>
 #include <chrono>
 #include "Tower.h"
-#include "Option3.h"
+#include "nQueens.h"
 
 int menuOption();
 void option1();
@@ -92,7 +92,7 @@ void option1() //Tic-tac-toe
 	cout << "\n\tthen be calculated and displayed.";
 
 	auto start = high_resolution_clock::now();
-	Option1 tictac;
+	TicTacToe tictac;
 	tictac.displayBoard();
 
 	while (tictac.playingStatus())
@@ -420,7 +420,7 @@ int gameAmount = 0; //global variable to count numbers for option 3
 void option3() //n-Queens
 {
 	system("cls");
-	Option3 option;
+	nQueens option;
 	Board board;
 	//Description
 	cout << "\n\tThe n-queens puzzle is the problem of placing n chess queens on a n" << char(215) << "n chessboard";

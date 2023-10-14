@@ -27,7 +27,7 @@
     <ClCompile Include="Option1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Option3.cpp">
+    <ClCompile Include="nQueens.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Rings.cpp">
@@ -47,7 +47,7 @@
     <ClInclude Include="Option1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Option3.h">
+    <ClInclude Include="nQueens.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Rings.h">

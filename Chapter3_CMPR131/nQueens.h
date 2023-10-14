@@ -1,11 +1,11 @@
-#ifndef OPTION3_H
-#define OPTION3_H
+#ifndef NQUEENS
+#define NQUEENS_H
 #include "board.h"
 using namespace std;
 
 typedef int pos;
 
-class Option3
+class nQueens
 {
 private:
 
@@ -18,8 +18,8 @@ private:
 public:
 
 	//constructors
-	Option3();
-	Option3(int);
+	nQueens();
+	nQueens(int);
 
 	//setters
 	void setDimension(int);
@@ -36,7 +36,7 @@ public:
 	void printBoard();
 	void pop(pos, pos);
 	bool isWin();
-	friend ostream& operator<<(ostream& out, Option3& option3);
+	friend ostream& operator<<(ostream& out, nQueens& option3);
 };
 
 #endif
