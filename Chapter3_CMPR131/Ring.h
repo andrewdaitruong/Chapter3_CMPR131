@@ -10,7 +10,7 @@ public:
 	void setDiameter(int input);
 	// accessers
 	int getDiameter() const;
-
+	// overloader =
 	void operator=(const Ring& other)
 	{
 		diameter = other.diameter;

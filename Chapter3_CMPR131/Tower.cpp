@@ -1,7 +1,7 @@
 #include "Tower.h"
 
-//precondition: 
-//postcondition: 
+//precondition: Tower class object 
+//postcondition: assigns user Tower Obj to the othe tower obj on the left side of the = sin 
 Tower& Tower::operator=(const Tower& right) {
 	// Check for self-assignment
 	if (this == &right)
@@ -176,8 +176,8 @@ bool Tower::checkIfDone(int userInput) const
 		return false;
 }
 
-//Precondition:
-//postcondition:
+//Precondition: none
+//postcondition: returns true if ring = 0, else false
 bool Tower::compareItTo0()
 {
 	int realUsed = 0;
@@ -191,8 +191,8 @@ bool Tower::compareItTo0()
 		return false;
 }
 
-//precondition: 
-//postcondition: 
+//precondition: none
+//postcondition: top ring.diameter
 int Tower::returnTopDiameter()
 {
 	return rings[used - 1].getDiameter();
@@ -208,8 +208,8 @@ bool Tower::operator>(const Ring& right)
 		return false;
 }
 
-//precondition: 
-//postcondition: 
+//precondition: none
+//postcondition: returns a object ring
 Ring Tower::trythisRing()
 {
 	return rings[used - 1];
