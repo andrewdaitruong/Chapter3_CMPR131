@@ -164,7 +164,7 @@ static void timeStop(const T* start, int move,int disc,string game) {
 	static vector<double> timeStop;
 	static map<double,int> discs;
 	static map<double, int> moves;
-	if (gameCount == 0)
+	if (gameAmount == 0&&!(timeStop.empty()))
 	{
 		timeStop.clear();
 		discs.clear();
