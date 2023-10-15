@@ -205,8 +205,9 @@ void timeStop(const T* start, int move, int disc, string game,int gameCount,stri
 	{
 		if (temp_disc != i.second)
 		{
-			temp.push_back(i.second);
 			temp_disc = i.second;
+			temp.push_back(temp_disc);
+			
 		}
 	}
 	for (const auto& it : temp)
