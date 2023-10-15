@@ -167,7 +167,7 @@ int getSum(map<double, int> mymap)
 //precondition: needs to start the clock first
 //postcondition: displays all time from fastest, slowest, average and amount of moves
 template <typename T>
- void timeStop(const T* start, int move, int disc, string game,int gameCount,string filename) {
+void timeStop(const T* start, int move, int disc, string game,int gameCount,string filename) {
 	vector<double> timeStop;
 	map<double, int> discs;
 	map<double, int> moves;
@@ -262,18 +262,6 @@ void option2() //Tower of Hanoi
 			}
 		}
 
-
-		//shows NO special character for 1 to 9
-		/*else if (userInput >= 10)
-		{
-			for (int i = (userInput - 1); i >= 0; i--)
-			{
-				Tower1.TowerDisplayPart2(i, false, userInput);
-				Tower2.TowerDisplayPart2(i, false, userInput);
-				Tower3.TowerDisplayPart2(i, true, userInput);
-			}
-		}*/
-
 		int previousResponse = 0;
 		validStart = true;
 		choice = inputChar("\n\tSelect the top disk from the start peg (A, B, C, or Q-quit):", static_cast<string>("ABCQ"));
@@ -311,7 +299,6 @@ void option2() //Tower of Hanoi
 		}
 		break;
 		default:
-			//none, program can move on.
 			validStart = true;
 			break;
 		}
@@ -346,9 +333,6 @@ void option2() //Tower of Hanoi
 				break;
 			}
 
-
-			//////////THIS NEEDS TO BE DEBUGGED the while loop keeps looping still even after 
-			//is this suppose to be false or true?
 			switch (toupper(subchoice))
 			{
 			case 'A':
@@ -365,7 +349,7 @@ void option2() //Tower of Hanoi
 						cout << "\n\tThe move wasn't made.";
 					madeMove = true;
 				}
-				else if (Tower1 > ring) // need to check first if the 'top' is empty if so make a condition for that, Ill see if i can fix it-Lupe
+				else if (Tower1 > ring)
 				{
 					Tower1.takeInRing(ring);
 					if (previousResponse == 1)
@@ -442,8 +426,8 @@ void option2() //Tower of Hanoi
 					cout << "\n\tThis ring isn't the right size\n";
 				break;
 			case 'Q':
+				timeStop(&start, steps, userInput, "discs", gameTwoCount, "option2.dat");
 				return;
-				break;
 			default:
 				cout << "\n\tERRR:Invalid Option. Must be A, B. C. or Q-quit\n\n";
 				break;
@@ -469,7 +453,6 @@ void option2() //Tower of Hanoi
 			cout << "\n\t Good job you finished!\n";
 			cout << "\tYou completed this in " << steps << " steps";
 
-			//needs fixing
 			char again = (toupper(inputChar("\n\tDo you want to play again? (Y-yes or N-no)", 'YN')));
 			do
 			{
@@ -480,7 +463,6 @@ void option2() //Tower of Hanoi
 				case 'N':
 				{
 					timeStop(&start, steps, userInput, "discs", gameTwoCount,"option2.dat");
-					
 					return;
 				}
 				default: "\n\tYou have to put either Y or N";
