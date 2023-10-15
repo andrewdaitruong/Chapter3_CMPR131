@@ -39,7 +39,7 @@ int main()
 
 	do
 	{
-		int gameAmount = 0; //global variable to count numbers for option 3
+		 gameAmount = 0; //global variable to count numbers for option 3
 		switch (toupper(menuOption())) //switch case for main menu
 		{
 		case 0: exit(1); break;
@@ -160,7 +160,7 @@ double getAverage(vector<double> time)
 //precondition: needs to start the clock first
 //postcondition: displays all time from fastest, slowest, average and amount of moves
 template <typename T>
-static void timeStop(const T* start, int move,int disc,string game,int gameCount) {
+static void timeStop(const T* start, int move,int disc,string game) {
 	static vector<double> timeStop;
 	static map<double,int> discs;
 	static map<double, int> moves;
@@ -453,7 +453,7 @@ void option2() //Tower of Hanoi
 					return option2();
 				case 'N':
 				{
-					timeStop(&start, steps, userInput, "discs",gameAmount);
+					timeStop(&start, steps, userInput, "discs");
 					return;
 				}
 				default: "\n\tYou have to put either Y or N";
@@ -538,7 +538,7 @@ void option3() //n-Queens
 			else if (choice == 'N' || choice == 'n')
 			{
 				cout << "\n\t\tGames Played: " << gameAmount;
-				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameAmount);
+				timeStop(&start, move, queen.getAmmountOfQueens(), "queens");
 				return;
 			}
 			else
@@ -599,7 +599,7 @@ void option3() //n-Queens
 			}
 			else if (choice1 == 'N' || choice1 == 'n')
 			{
-				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameAmount);
+				timeStop(&start, move, queen.getAmmountOfQueens(), "queens");
 				return;
 			}
 			else
