@@ -178,7 +178,7 @@ static void timeStop(const T* start, int move, int disc, string game) {
 	discs.insert(pair<double, int>(second, disc));
 	timeStop.push_back(second);
 
-	cout << "\n\t" << gameAmount << " game using " << disc << " " << game << " was played."
+	cout << "\n\t" << gameAmount << " game using " << disc << " " << game << " was played.";
 	cout << "\n\t\tThis run's time: " << second << " seconds, " << moves.at(second) << " move(s) was used with was playing with " << disc << " " << game << endl;
 	sort(timeStop.begin(), timeStop.end());
 	cout << "\n\t\tFastest run's time: " << timeStop.at(0) << "s, " << moves.at(timeStop.at(0)) << " move(s) was used was playing with " << discs.at(timeStop.at(0)) << " " << game << endl;
