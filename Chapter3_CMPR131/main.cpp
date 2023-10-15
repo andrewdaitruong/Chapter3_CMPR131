@@ -160,10 +160,16 @@ double getAverage(vector<double> time)
 //precondition: needs to start the clock first
 //postcondition: displays all time from fastest, slowest, average and amount of moves
 template <typename T>
-static void timeStop(const T* start, int move,int disc,string game) {
+static void timeStop(const T* start, int move,int disc,string game,int gameCount) {
 	static vector<double> timeStop;
 	static map<double,int> discs;
 	static map<double, int> moves;
+	if (gameCount == 0)
+	{
+		timeStop.clear();
+		discs.clear();
+		moves.clear();
+	}
 	auto stop = steady_clock::now();
 
 	double second = chrono::duration<double>(stop - *start).count();
@@ -447,7 +453,7 @@ void option2() //Tower of Hanoi
 					return option2();
 				case 'N':
 				{
-					timeStop(&start, steps, userInput, "discs");
+					timeStop(&start, steps, userInput, "discs",gameAmount);
 					return;
 				}
 				default: "\n\tYou have to put either Y or N";
@@ -532,7 +538,7 @@ void option3() //n-Queens
 			else if (choice == 'N' || choice == 'n')
 			{
 				cout << "\n\t\tGames Played: " << gameAmount;
-				timeStop(&start, move, queen.getAmmountOfQueens(), "queens");
+				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameAmount);
 				return;
 			}
 			else
@@ -593,7 +599,7 @@ void option3() //n-Queens
 			}
 			else if (choice1 == 'N' || choice1 == 'n')
 			{
-				timeStop(&start, move, queen.getAmmountOfQueens(), "queens");
+				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameAmount);
 				return;
 			}
 			else
