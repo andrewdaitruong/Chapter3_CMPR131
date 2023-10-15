@@ -16,6 +16,7 @@
 #include <vector>
 #include <iostream>
 #include <chrono>
+#include <fstream>
 #include "input.h"
 #include "TicTacToe.h"
 #include <ctime>
@@ -160,33 +161,49 @@ double getAverage(vector<double> time)
 //precondition: needs to start the clock first
 //postcondition: displays all time from fastest, slowest, average and amount of moves
 template <typename T>
-static void timeStop(const T* start, int move, int disc, string game,int gameCount) {
-	static vector<double> timeStop;
-	static map<double, int> discs;
-	static map<double, int> moves;
-	if (gameCount == 0 )
-	{
-		timeStop.clear();
-		discs.clear();
-		moves.clear();
+ void timeStop(const T* start, int move, int disc, string game,int gameCount,string filename) {
+	vector<double> timeStop;
+	map<double, int> discs;
+	map<double, int> moves;
+
+	// Read existing data from file
+	if (gameCount != 1) {
+		ifstream inFile(filename);
+		double time;
+		int read_move;
+		int read_discs;
+		while (inFile >> time >> read_move >> read_discs) {
+			timeStop.push_back(time);
+			moves.insert(pair<double, int>(time, read_move));
+			discs.insert(pair<double, int>(time, read_discs));
+		}
+		inFile.close();
 	}
+	
+
 	auto stop = steady_clock::now();
+	double second = duration<double>(stop - *start).count();
 
-	double second = chrono::duration<double>(stop - *start).count();
-
-	moves.insert(pair<double, int>(second, move));
-	discs.insert(pair<double, int>(second, disc));
+	moves[second] = move;
+	discs[second] = disc;
 	timeStop.push_back(second);
-
+	sort(timeStop.begin(), timeStop.end());
 	cout << "\n\t" << gameCount << " game using " << disc << " " << game << " was played.";
 	cout << "\n\t\tThis run's time: " << second << " seconds, " << moves.at(second) << " move(s) was used with was playing with " << disc << " " << game << endl;
-	sort(timeStop.begin(), timeStop.end());
 	cout << "\n\t\tFastest run's time: " << timeStop.at(0) << "s, " << moves.at(timeStop.at(0)) << " move(s) was used was playing with " << discs.at(timeStop.at(0)) << " " << game << endl;
 	cout << "\n\t\tSlowest run's time: " << timeStop.at(timeStop.size() - 1) << "s, " << moves.at(timeStop.at(timeStop.size() - 1)) << " move(s) was used was playing with " << discs.at(timeStop.at(timeStop.size() - 1)) << " " << game << endl;
 
 	double average = getAverage(timeStop) / static_cast<double>(timeStop.size());
 	cout << "\n\tAverage run time: " << average << "s" << endl;
+	
+		ofstream outFile(filename);
+		for (const auto& i : timeStop) {
+			outFile << i << " " << moves[i] << " " << discs[i] << "\n";
+		}
+		outFile.close();
+	
 }
+ 
 int gameTwoCount = 0;
 void option2() //Tower of Hanoi
 {
@@ -430,6 +447,7 @@ void option2() //Tower of Hanoi
 
 		if (Tower3.checkIfDone(userInput))
 		{
+			gameTwoCount++;
 			bool doAgain1 = true;
 			//shows the special character for 1 to 9
 			if (userInput > 0)
@@ -454,7 +472,8 @@ void option2() //Tower of Hanoi
 					return option2();
 				case 'N':
 				{
-					timeStop(&start, steps, userInput, "discs", gameTwoCount);
+					timeStop(&start, steps, userInput, "discs", gameTwoCount,"option2.dat");
+					
 					return;
 				}
 				default: "\n\tYou have to put either Y or N";
@@ -465,11 +484,11 @@ void option2() //Tower of Hanoi
 	}
 
 	//stops time and gets average
-	stop = chrono::steady_clock::now(); // end clock
-	diff = stop - start; // displace timer
-	cout << " : " << chrono::duration<double, nano>(diff)
-		.count() << " ns" << endl;
-	system("pause");
+	//stop = chrono::steady_clock::now(); // end clock
+	//diff = stop - start; // displace timer
+	//cout << " : " << chrono::duration<double, nano>(diff)
+	//	.count() << " ns" << endl;
+	//system("pause");
 }
 
 
@@ -540,7 +559,7 @@ void option3() //n-Queens
 			else if (choice == 'N' || choice == 'n')
 			{
 				cout << "\n\t\tGames Played: " << gameThreeCount;
-				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameThreeCount);
+				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameThreeCount,"option3.dat");
 				return;
 			}
 			else
@@ -601,7 +620,7 @@ void option3() //n-Queens
 			}
 			else if (choice1 == 'N' || choice1 == 'n')
 			{
-				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameThreeCount);
+				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameThreeCount,"option3.dat");
 				return;
 			}
 			else
