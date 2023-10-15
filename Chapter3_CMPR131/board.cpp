@@ -9,8 +9,8 @@ Board::Board()
 }
 
 
-//precondition: 
-//postcondition: 
+//precondition: none
+//postcondition: initialize board size
 Board::Board(int size)
 {
 	this->size = size;
@@ -23,8 +23,8 @@ void Board::setSize(int size)
 	this->size = size;
 }
 
-//precondition: 
-//postcondition: 
+//precondition: none
+//postcondition: returns size
 int Board::getSize()
 {
 	return size;
@@ -50,8 +50,8 @@ bool Board::isInDangerZone(int x, int y)
 	return false;
 }
 
-//precondition: 
-//postcondition: 
+//precondition: none
+//postcondition: used to check the danger zone going up and left
 int* reduceUpWard(int x, int y,int size)
 {
 	int* temp = new int[2];
@@ -67,8 +67,8 @@ int* reduceUpWard(int x, int y,int size)
 	return temp;
 }
 
-//precondition: 
-//postcondition: 
+//precondition: none
+//postcondition: used to check the danger zone going left and down
 int* reduceDownWard(int x, int y,int size)
 {
 	int* temp = new int[2];
@@ -84,6 +84,9 @@ int* reduceDownWard(int x, int y,int size)
 	temp[1] = y;
 	return temp;
 }
+
+//precondition: none
+//postcondition: danger zone is set according to where the queen is placed
 void Board::setDangerZone(int x,int y)
 {
 	int tempX = x;
@@ -166,8 +169,8 @@ bool Board::searchForCoordinate(const int& x, const int& y)
 	}
 }
 
-//precondition: 
-//postcondition: 
+//precondition: none
+//postcondition: used to check if queen is in the danger zone when places
 bool Board::searchForDangerZone(const int& x, const int& y)
 {
 	for (const auto& pair : danger_zone)
@@ -177,8 +180,8 @@ bool Board::searchForDangerZone(const int& x, const int& y)
 	}
 }
 
-//precondition: 
-//postcondition: 
+//precondition: none
+//postcondition: returns coordinate size
 int Board::getCoordSize()
 {
 	return coordinate.size();
