@@ -22,7 +22,7 @@
 #include <chrono>
 #include "Tower.h"
 #include "nQueens.h"
-int gameAmount;
+
 
 int menuOption();
 void option1();
@@ -39,7 +39,7 @@ int main()
 
 	do
 	{
-		gameAmount = 0;
+	
 		switch (toupper(menuOption())) //switch case for main menu
 		{
 		case 0: exit(1); break;
@@ -160,11 +160,11 @@ double getAverage(vector<double> time)
 //precondition: needs to start the clock first
 //postcondition: displays all time from fastest, slowest, average and amount of moves
 template <typename T>
-static void timeStop(const T* start, int move, int disc, string game) {
+static void timeStop(const T* start, int move, int disc, string game,int gameCount) {
 	static vector<double> timeStop;
 	static map<double, int> discs;
 	static map<double, int> moves;
-	if (gameAmount == 0 && !(timeStop.empty()))
+	if (gameCount == 0 )
 	{
 		timeStop.clear();
 		discs.clear();
@@ -178,7 +178,7 @@ static void timeStop(const T* start, int move, int disc, string game) {
 	discs.insert(pair<double, int>(second, disc));
 	timeStop.push_back(second);
 
-	cout << "\n\t" << gameAmount << " game using " << disc << " " << game << " was played.";
+	cout << "\n\t" << gameCount << " game using " << disc << " " << game << " was played.";
 	cout << "\n\t\tThis run's time: " << second << " seconds, " << moves.at(second) << " move(s) was used with was playing with " << disc << " " << game << endl;
 	sort(timeStop.begin(), timeStop.end());
 	cout << "\n\t\tFastest run's time: " << timeStop.at(0) << "s, " << moves.at(timeStop.at(0)) << " move(s) was used was playing with " << discs.at(timeStop.at(0)) << " " << game << endl;
@@ -187,7 +187,7 @@ static void timeStop(const T* start, int move, int disc, string game) {
 	double average = getAverage(timeStop) / static_cast<double>(timeStop.size());
 	cout << "\n\tAverage run time: " << average << "s" << endl;
 }
-
+int gameTwoCount = 0;
 void option2() //Tower of Hanoi
 {
 	int steps = 0;
@@ -454,7 +454,7 @@ void option2() //Tower of Hanoi
 					return option2();
 				case 'N':
 				{
-					timeStop(&start, steps, userInput, "discs");
+					timeStop(&start, steps, userInput, "discs", gameTwoCount);
 					return;
 				}
 				default: "\n\tYou have to put either Y or N";
@@ -500,6 +500,7 @@ void option2() //Tower of Hanoi
 
 //precondition: n is greater than or equal to zero
 //postcondition: asides from (n=2||n=3) solveable N-Queens game correlates to dimension
+int gameThreeCount = 0;
 void option3() //n-Queens
 {
 	system("cls");
@@ -526,7 +527,7 @@ void option3() //n-Queens
 
 		if (queen.isWin())
 		{
-			gameAmount++; //incrementing gameAmount after winning
+			gameThreeCount++; //incrementing gameAmount after winning
 			cout << "\n\tCongratulation! You have solved N-Queens in " << move << " moves.\n";
 			stop = steady_clock::now(); //ends the timer
 			char choice = inputChar("\n\t\tPlay again? (Y = yes || N = no): ", true);
@@ -538,8 +539,8 @@ void option3() //n-Queens
 			}
 			else if (choice == 'N' || choice == 'n')
 			{
-				cout << "\n\t\tGames Played: " << gameAmount;
-				timeStop(&start, move, queen.getAmmountOfQueens(), "queens");
+				cout << "\n\t\tGames Played: " << gameThreeCount;
+				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameThreeCount);
 				return;
 			}
 			else
@@ -600,12 +601,12 @@ void option3() //n-Queens
 			}
 			else if (choice1 == 'N' || choice1 == 'n')
 			{
-				timeStop(&start, move, queen.getAmmountOfQueens(), "queens");
+				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameThreeCount);
 				return;
 			}
 			else
 			{
-				cout << "\n\t\tGames Played: " << gameAmount;
+				cout << "\n\t\tGames Played: " << gameThreeCount;
 				cout << "\n\tInvalid Choice. Please enter (Y = yes || N = no)";
 			}
 		}
