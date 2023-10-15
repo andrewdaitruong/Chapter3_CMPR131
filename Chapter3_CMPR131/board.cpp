@@ -6,6 +6,7 @@
 Board::Board()
 {
 	size = 0;
+
 }
 
 
@@ -18,29 +19,29 @@ Board::Board(int size)
 
 //precondition: none
 //postcondition: set the size of the board
-void Board::setSize(int size)
+void Board::setSize(const int& size)
 {
 	this->size = size;
 }
 
-//precondition: none
-//postcondition: returns size
-int Board::getSize()
+//precondition: 
+//postcondition: 
+int Board::getSize() const
 {
 	return size;
 }
 
-//precondition: none
-//postcondition: clears the board
-Board::~Board()
+multimap<int, int> Board::getDangerZone() const
 {
-	danger_zone.clear();
-	coordinate.clear();
+	return danger_zone;
 }
-
+multimap<int, int> Board::getCoordinate() const
+{
+	return coordinate;
+}
 //precondition: pieces on the board
 //postcondition: checks the position of pieces to see if it is blocked by another piece
-bool Board::isInDangerZone(int x, int y)
+bool Board::isInDangerZone(const int& x, const int& y)  const
 {
 	for (const auto& pair : danger_zone)
 	{
@@ -84,10 +85,7 @@ int* reduceDownWard(int x, int y,int size)
 	temp[1] = y;
 	return temp;
 }
-
-//precondition: none
-//postcondition: danger zone is set according to where the queen is placed
-void Board::setDangerZone(int x,int y)
+void Board::setDangerZone(const int& x, const int& y)
 {
 	int tempX = x;
 	int tempY = y;
@@ -140,7 +138,7 @@ void Board::setDangerZone(int x,int y)
 }
 //precondition: none
 //postcondition: places something into the position designated
-void Board::setQueen(int x, int y)
+void Board::setQueen(const int& x, const int& y)
 {
 	coordinate.insert(pair<int, int>(x, y));
 	setDangerZone(x, y);
@@ -148,7 +146,7 @@ void Board::setQueen(int x, int y)
 
 //precondition: must have something in that column or row
 //postcondition: removes the thing in that column or row
-void Board::popQueen(int x, int y)
+void Board::popQueen(const int& x, const int& y)
 {
 	coordinate.erase(x);
 	danger_zone.clear();
@@ -158,8 +156,6 @@ void Board::popQueen(int x, int y)
 	}
 }
 
-//precondition: 
-//postcondition: 
 bool Board::searchForCoordinate(const int& x, const int& y)
 {
 	for (const auto& pair : coordinate)
@@ -169,27 +165,16 @@ bool Board::searchForCoordinate(const int& x, const int& y)
 	}
 }
 
-//precondition: none
-//postcondition: used to check if queen is in the danger zone when places
-bool Board::searchForDangerZone(const int& x, const int& y)
-{
-	for (const auto& pair : danger_zone)
-	{
-		if (pair.first == x && pair.second == y)
-			return true;
-	}
-}
-
-//precondition: none
-//postcondition: returns coordinate size
-int Board::getCoordSize()
+//precondition: 
+//postcondition: 
+int Board::getAmmountOfQueen() const
 {
 	return coordinate.size();
 }
 
 //precondition: needs dimension
 //postcondition: prints board
-void Board::printBoard(bool mode)
+void Board::printBoard() 
 {
 	for (int i = 0; i < size; ++i) {
 		if (i == 0)
@@ -203,13 +188,9 @@ void Board::printBoard(bool mode)
 
 		cout << "\t" << char(186);
 		for (int j = 0; j < size; j++) {
-			if ( searchForCoordinate(j,i))
+			if (searchForCoordinate(j,i))
 			{
 				cout << "Q";
-			}
-			else if (searchForDangerZone(j, i)&&mode)
-			{
-				cout << "D";
 			}
 			else 
 			{

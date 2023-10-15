@@ -3,17 +3,13 @@
 #include "board.h"
 using namespace std;
 
-typedef int pos;
+
 
 class nQueens
 {
 private:
 
 	Board board;
-	pos x = 0;
-	pos y = 0;
-	int count = 0;
-	bool mode = false;
 
 public:
 
@@ -22,22 +18,23 @@ public:
 	nQueens(int);
 
 	//setters
-	void setDimension(int);
-
+	void setDimension(const int&);
+	string getDimension() const;
 	//getters
-	string getDimension();
-	int getCount();
-	int getQueenAmount();
-
+	
+	
+	int getAmmountOfQueens() const;
 	//functions
-	void setMode(bool);
+	
+	
+
 	void printBoard();
 
-	void setQueen(pos, pos);
-	void popQueen(pos, pos);
+	void setQueen(const int&, const int&);
+	void popQueen(const int&, const int&);
 
-	bool isDanger(pos, pos);
-	bool isWin();
+	bool isDanger(const int&, const int&);
+	bool isWinning() const;
 };
 
 #endif
