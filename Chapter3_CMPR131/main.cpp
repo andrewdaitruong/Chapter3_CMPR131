@@ -359,7 +359,7 @@ void option2() //Tower of Hanoi
 			switch (toupper(subchoice))
 			{
 			case 'A':
-				if (Tower1.compareItTo0())
+				if (Tower1.checkEmpty())
 				{
 					Tower1.takeInRing(ring);
 					if (previousResponse == 1)
@@ -389,7 +389,7 @@ void option2() //Tower of Hanoi
 					cout << "\n\tThis ring isn't the right size\n";
 				break;
 			case 'B':
-				if (Tower2.compareItTo0())
+				if (Tower2.checkEmpty())
 				{
 					Tower2.takeInRing(ring);
 					if (previousResponse == 1)
@@ -419,7 +419,7 @@ void option2() //Tower of Hanoi
 					cout << "\n\tThis ring isn't the right size\n";
 				break;
 			case 'C':
-				if (Tower3.compareItTo0())
+				if (Tower3.checkEmpty())
 				{
 					Tower3.takeInRing(ring);
 					if (previousResponse == 1)

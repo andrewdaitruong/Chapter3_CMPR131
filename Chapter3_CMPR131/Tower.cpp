@@ -148,21 +148,6 @@ bool Tower::checkIfDone(int userInput) const
 		return false;
 }
 
-//Precondition: none
-//postcondition: returns true if ring = 0, else false
-bool Tower::compareItTo0()
-{
-	int realUsed = 0;
-	if (used > 0)
-	{
-		realUsed = used - 1;
-	}
-	if (rings[realUsed].getDiameter() == 0)
-		return true;
-	else
-		return false;
-}
-
 Tower::~Tower()
 {
 	delete rings;
