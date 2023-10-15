@@ -157,19 +157,19 @@ double getAverage(vector<double> time)
 		sum += i;
 	return sum;
 }
-int getSum(map<double, int> mymap)
-{
-	int sum = 0;
-	for(const auto& i: mymap)
-		sum += i.second;
-	return sum;
+multimap<int, double> reverseMap(map<double, int> inputMap) {
+	multimap<int, double> reversedMultimap;
+	for (const auto& pair : inputMap) {
+		reversedMultimap.insert({ pair.second, pair.first });
+
+	}
+	return reversedMultimap;
 }
-//precondition: needs to start the clock first
-//postcondition: displays all time from fastest, slowest, average and amount of moves
+
 template <typename T>
 void timeStop(const T* start, int move, int disc, string game,int gameCount,string filename) {
 	vector<double> timeStop;
-	map<double, int> discs;
+	map<double,int > discs;
 	map<double, int> moves;
 
 	// Read existing data from file
@@ -194,15 +194,38 @@ void timeStop(const T* start, int move, int disc, string game,int gameCount,stri
 	discs.insert(pair<double, int>(second, disc));
 
 	timeStop.push_back(second);
-	sort(timeStop.begin(), timeStop.end());
-	cout << "\n\t" << gameCount << " game using " << getSum(discs) << " " << game << " was played.";
+	/*sort(timeStop.begin(), timeStop.end());*/
+	//cout << "\n\t" << gameCount << " game using " << getSum(discs) << " " << game << " was played.";
+	multimap<int, double> reversedDiscs = reverseMap(discs);
+	vector<int> temp;
+	int temp_disc = 0;
 	cout << "\n\t\tThis run's time: " << second << " seconds, " << moves.at(second) << " move(s) was used with was playing with " << disc << " " << game << endl;
-	cout << "\n\t\tFastest run's time: " << timeStop.at(0) << "s, " << moves.at(timeStop.at(0)) << " move(s) was used was playing with " << discs.at(timeStop.at(0)) << " " << game << endl;
-	cout << "\n\t\tSlowest run's time: " << timeStop.at(timeStop.size() - 1) << "s, " << moves.at(timeStop.at(timeStop.size() - 1)) << " move(s) was used was playing with " << discs.at(timeStop.at(timeStop.size() - 1)) << " " << game << endl;
-
-	double average = getAverage(timeStop) / static_cast<double>(timeStop.size());
-	cout << "\n\tAverage run time: " << average << "s" << endl;
-	
+	for (const auto& i : discs)
+	{
+		if (temp_disc != i.second)
+		{
+			temp.push_back(i.second);
+			temp_disc = i.second;
+		}
+	}
+	for ( auto it : temp)
+	{
+		auto range = reversedDiscs.equal_range(it);
+		double first_key = range.first->second;
+		
+		// Decrement the end iterator to get the last valid iterator in the range
+		double last_key = first_key;
+		int count = 0;
+		for (auto it = range.first; it != range.second; ++it ,++count) {
+			last_key = it->second;
+		}
+		cout << "\n\t\t" << count << " game using " << it << " " << game << " was played.";
+		cout << "\n\t\tFastest run's time: " << first_key << "s, " << moves.at(first_key) << " move(s) was used was playing with " << discs.at(first_key) << " " << game << endl;
+		cout << "\n\t\tSlowest run's time: " << last_key << "s, " << moves.at(last_key) << " move(s) was used was playing with " << discs.at(last_key) << " " << game << endl;
+		double average = getAverage(timeStop) / static_cast<double>(count);
+		cout << "\n\t\tAverage run time: " << average << "s" << endl;
+		
+	}
 		ofstream outFile(filename);
 		for (const auto& i : timeStop) {
 			outFile << i << " " << moves[i] << " " << discs[i] << "\n";
