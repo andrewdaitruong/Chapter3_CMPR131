@@ -8,17 +8,15 @@ using namespace std;
 //postcondition: prints the board and size
 void nQueens::printBoard() 
 {
-	board.printBoard(mode);
+	board.printBoard();
 }
 
 //precondition: none
 //postcondition: sets the dimension with only a single integer to make an even squared board
-void nQueens::setDimension(int size)
+void nQueens::setDimension(const int& size)
 {
 	board.setSize(size);
-	x = 0;
-	y = 0;
-	mode = false;
+
 }
 
 //precondition: none
@@ -26,9 +24,7 @@ void nQueens::setDimension(int size)
 nQueens::nQueens()
 {
 	board.setSize(0);
-	x = 0;
-	y = 0;
-	mode = false;
+
 }
 
 //precondition: none
@@ -40,7 +36,7 @@ nQueens::nQueens(int size)
 
 //precondition: number must be above 0
 //postcondition: returns dimension to get a perfect square
-string nQueens::getDimension()
+string nQueens::getDimension()const
 {
 	string dimension;
 	dimension = board.getSize() + " x " + board.getSize();
@@ -49,7 +45,7 @@ string nQueens::getDimension()
 
 //precondition: board must be above 0
 //postcondition: puts a piece on the board
-void nQueens::setQueen(int x, int y)
+void nQueens::setQueen(const int& x, const int& y)
 {
 	if (x >= board.getSize() || y >= board.getSize())
 	{
@@ -63,32 +59,15 @@ void nQueens::setQueen(int x, int y)
 	}
 	else
 	{
-		x = x;
-		y = y;
 		board.setQueen(x, y);
 		cout << "\n\t Queen placed at position (" << x + 1 << "," << y + 1 << ")" << endl;
 	
 	}
 }
-void nQueens::setX(const int& x)
-{
-	this->x = x;
-}
-void nQueens::setY(const int& y)
-{
-	this->y = y;
-}
-int nQueens::getX()
-{
-	return x;
-}
-int nQueens::getY()
-{
-	return y;
-}
+
 //precondition: pieces should be on the board
 //postcondition: removes a piece of the board
-void nQueens::popQueen(int x, int y)
+void nQueens::popQueen(const int& x, const int& y)
 {
 	if (board.searchForCoordinate(x, y))
 	{
@@ -101,15 +80,15 @@ void nQueens::popQueen(int x, int y)
 
 //precondition: none
 //postcondition: checks if the game has been won by matching the size with the amount of pieces
-bool nQueens::isWin()
+bool nQueens::isWinning() const
 {
-	if (board.getCoordSize() == board.getSize())
+	if (board.getAmmountOfQueen() == board.getSize())
 		return true;
 	else 
 		return false;
 }
 
-bool nQueens::isDanger(int x, int y)
+bool nQueens::isDanger(const int& x , const int& y )
 {
 	if (board.isInDangerZone(x, y))
 		return true;
@@ -117,8 +96,7 @@ bool nQueens::isDanger(int x, int y)
 		return false;
 }
 
-void nQueens::setMode(bool mode)
+int nQueens::getAmmountOfQueens() const
 {
-	this->mode = mode;
+	return board.getAmmountOfQueen();
 }
-
