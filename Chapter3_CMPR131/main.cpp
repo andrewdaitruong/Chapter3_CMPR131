@@ -1,7 +1,6 @@
 //Name:
 
 //Group:
-//
 //      Guadalupe Roman-Sanchez
 //      Jessica Nguyen
 //      Therese Pham
@@ -12,7 +11,7 @@
 
 //Date: 10/16/23
 
-//Description: This program will allow you to
+//Description: This program will allow you to understand how a class container works.
 #include <vector>
 #include <iostream>
 #include <chrono>
@@ -40,7 +39,6 @@ int main()
 
 	do
 	{
-	
 		switch (toupper(menuOption())) //switch case for main menu
 		{
 		case 0: exit(1); break;
@@ -67,7 +65,6 @@ int main()
 //postcondition: displays program's main menu
 int menuOption()
 {
-
 	system("cls");
 	cout << "\n\tCMPR131 Chapter 3 - Games Applications Using Containers";
 	cout << "\n\t" + string(100, char(205));
@@ -79,14 +76,13 @@ int menuOption()
 	cout << "\n\t" + string(100, char(205));
 	cout << "\n";
 
-
 	return inputInteger("\t\tOption: ", 0, 3); //input validation
-
 }
 
+//precondition: none
+//postcondition: none
 void option1() //Tic-tac-toe
 {
-
 	system("cls");
 
 	//Description
@@ -124,7 +120,6 @@ void option1() //Tic-tac-toe
 		}
 		else // player forfeits OR game has ended
 		{
-
 			auto stop = high_resolution_clock::now();
 			auto duration = duration_cast<seconds>(stop - start);
 			tictac.addTime(duration, tictac.getNumberOfMoves());
@@ -140,7 +135,6 @@ void option1() //Tic-tac-toe
 				break;
 			}
 		}
-
 	}
 	tictac.numberofWins();
 	tictac.gameStats();
@@ -158,6 +152,9 @@ double getAverage(multimap<int, double>::iterator begin, multimap<int, double>::
 	}
 	return sum;
 }
+
+//precondition: none
+//postcondition: 
 multimap<int, double> reverseMap(map<double, int> inputMap) {
 	multimap<int, double> reversedMultimap;
 	for (const auto& pair : inputMap) {
@@ -167,8 +164,10 @@ multimap<int, double> reverseMap(map<double, int> inputMap) {
 	return reversedMultimap;
 }
 
+//precondition: none
+//postcondition: calculates and records games played with n pieces, with time and moves made
 template <typename T>
-void timeStop(const T* start, int move, int disc, string game,int gameCount,string filename) {
+void timeStop(const T* start, int move, int disc, string game,int gameCount,string filename,bool display) {
 	vector<double> timeStop;
 	map<double,int > discs;
 	map<double, int> moves;
@@ -187,7 +186,6 @@ void timeStop(const T* start, int move, int disc, string game,int gameCount,stri
 		inFile.close();
 	}
 	
-
 	auto stop = steady_clock::now();
 	double second = duration<double>(stop - *start).count();
 
@@ -210,6 +208,7 @@ void timeStop(const T* start, int move, int disc, string game,int gameCount,stri
 			
 		}
 	}
+	if(display)
 	for (const auto& it : temp)
 	{
 		auto range = reversedDiscs.equal_range(it);
@@ -237,7 +236,9 @@ void timeStop(const T* start, int move, int disc, string game,int gameCount,stri
 	
 }
  
-int gameTwoCount = 0;
+int gameTwoCount = 0; //variable for option2()
+//precondition: none
+//postcondition: none
 void option2() //Tower of Hanoi
 {
 	int steps = 0;
@@ -259,8 +260,6 @@ void option2() //Tower of Hanoi
 	auto stop = steady_clock::now(); //initializing stop time
 	auto diff = stop - start; //difference
 	start = steady_clock::now(); //starts the timer
-
-
 
 	int userInput = inputInteger("\n\n\tEnter the number of rings (1..64) to begin:", 1, 64);
 	Tower Tower1(userInput, true);
@@ -452,7 +451,7 @@ void option2() //Tower of Hanoi
 					cout << "\n\tThis ring isn't the right size\n";
 				break;
 			case 'Q':
-				timeStop(&start, steps, userInput, "discs", gameTwoCount, "option2.dat");
+				timeStop(&start, steps, userInput, "discs", gameTwoCount, "option2.dat",1);
 				return;
 			default:
 				cout << "\n\tERRR:Invalid Option. Must be A, B. C. or Q-quit\n\n";
@@ -485,10 +484,13 @@ void option2() //Tower of Hanoi
 				switch (again)
 				{
 				case 'Y':
+				{
+					timeStop(&start, steps, userInput, "discs", gameTwoCount, "option2.dat", 0);
 					return option2();
+				}
 				case 'N':
 				{
-					timeStop(&start, steps, userInput, "discs", gameTwoCount,"option2.dat");
+					timeStop(&start, steps, userInput, "discs", gameTwoCount, "option2.dat", 1);
 					return;
 				}
 				default: "\n\tYou have to put either Y or N";
@@ -497,44 +499,13 @@ void option2() //Tower of Hanoi
 		}
 
 	}
-
-	//stops time and gets average
-	//stop = chrono::steady_clock::now(); // end clock
-	//diff = stop - start; // displace timer
-	//cout << " : " << chrono::duration<double, nano>(diff)
-	//	.count() << " ns" << endl;
-	//system("pause");
 }
 
 
-////precondition: needs to start the clock first
-////postcondition: displays all time from fastest, slowest, average and amount of moves
-//template <typename T>
-//static void timeStop(const T* start, int move) {
-//	static vector<double> timeStop;
-//	static map< double, int> moves;
-//	auto stop = steady_clock::now();
-//
-//	double second = chrono::duration<double>(stop - *start).count();
-//
-//	moves.insert(pair<double, int>(second, move));
-//
-//	timeStop.push_back(second);
-//	cout << "\n\tThis run's time: " << second << " seconds, " << moves.at(second) << " move(s) was used" << endl;
-//	sort(timeStop.begin(), timeStop.end());
-//	cout << "\n\tFastest run's time: " << timeStop.at(0) << "s, " << moves.at(timeStop.at(0)) << " move(s) was used" << endl;
-//	cout << "\n\tSlowest run's time: " << timeStop.at(timeStop.size() - 1) << "s, " << moves.at(timeStop.at(timeStop.size() - 1)) << " move(s) was used" << endl;
-//
-//	double average = getAverage(timeStop) / static_cast<double>(timeStop.size());
-//	cout << "\n\tAverage run time: " << average << "s" << endl;
-//
-//}
-
-//int gameAmount = 0; //global variable to count numbers for option 3
+int gameThreeCount = 0; //variable for option3()
 
 //precondition: n is greater than or equal to zero
 //postcondition: asides from (n=2||n=3) solveable N-Queens game correlates to dimension
-int gameThreeCount = 0;
 void option3() //n-Queens
 {
 	system("cls");
@@ -569,12 +540,13 @@ void option3() //n-Queens
 			//if function to try again after winning
 			if (choice == 'Y' || choice == 'y')
 			{
+				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameThreeCount, "option3.dat", 0);
 				return option3();
 			}
 			else if (choice == 'N' || choice == 'n')
 			{
 				cout << "\n\t\tGames Played: " << gameThreeCount;
-				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameThreeCount,"option3.dat");
+				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameThreeCount,"option3.dat", 1);
 				return;
 			}
 			else
@@ -631,11 +603,12 @@ void option3() //n-Queens
 			//if function to try again for losing
 			if (choice1 == 'Y' || choice1 == 'y')
 			{
+				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameThreeCount, "option3.dat", 0);
 				return option3();
 			}
 			else if (choice1 == 'N' || choice1 == 'n')
 			{
-				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameThreeCount,"option3.dat");
+				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameThreeCount, "option3.dat", 1);
 				return;
 			}
 			else

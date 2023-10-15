@@ -1,6 +1,7 @@
 #include "Tower.h"
 
-
+//precondition: 
+//postcondition: 
 Tower& Tower::operator=(const Tower& right) {
 	// Check for self-assignment
 	if (this == &right)
@@ -17,16 +18,6 @@ Tower& Tower::operator=(const Tower& right) {
 	// Return *this to allow for chained assignment
 	return *this;
 }
-
-////// pre condition: none
-////// post condition: intilize the data variables
-//Tower::Tower() : Ring()
-//{
-//	//NOT REALLY NEEDED. NOT CALLING DEFAULT CONSTRUCTOR EVER
-//	for (int i = 0; i < MAX; i++)
-//		rings[i].setDiameter(0);
-//	used = 0;
-//}
 
 // pre condition: user input for the number of rings
 // post condition: intilizes the data variables
@@ -139,14 +130,6 @@ void Tower::displayTowerPart(int i, bool end, int userInput) const
 	}
 }
 
-//NOT NEEDED. NOT USED
-////precondition: none
-////postcondition: return the number that's used
-//int Tower::getSize() const
-//{
-//	return used;
-//}
-
 //precondition: takes in a ring object
 //postcondition: return true or false
 void Tower::takeInRing(Ring input)
@@ -208,6 +191,8 @@ bool Tower::compareItTo0()
 		return false;
 }
 
+//precondition: 
+//postcondition: 
 int Tower::returnTopDiameter()
 {
 	return rings[used - 1].getDiameter();
@@ -223,6 +208,8 @@ bool Tower::operator>(const Ring& right)
 		return false;
 }
 
+//precondition: 
+//postcondition: 
 Ring Tower::trythisRing()
 {
 	return rings[used - 1];

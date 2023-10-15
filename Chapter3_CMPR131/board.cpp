@@ -14,7 +14,6 @@ Board::Board()
 Board::Board(int size)
 {
 	this->size = size;
-	
 }
 
 //precondition: none
@@ -50,6 +49,9 @@ bool Board::isInDangerZone(int x, int y)
 	}
 	return false;
 }
+
+//precondition: 
+//postcondition: 
 int* reduceUpWard(int x, int y,int size)
 {
 	int* temp = new int[2];
@@ -65,6 +67,8 @@ int* reduceUpWard(int x, int y,int size)
 	return temp;
 }
 
+//precondition: 
+//postcondition: 
 int* reduceDownWard(int x, int y,int size)
 {
 	int* temp = new int[2];
@@ -151,6 +155,8 @@ void Board::popQueen(int x, int y)
 	}
 }
 
+//precondition: 
+//postcondition: 
 bool Board::searchForCoordinate(const int& x, const int& y)
 {
 	for (const auto& pair : coordinate)
@@ -159,6 +165,9 @@ bool Board::searchForCoordinate(const int& x, const int& y)
 			return true;
 	}
 }
+
+//precondition: 
+//postcondition: 
 bool Board::searchForDangerZone(const int& x, const int& y)
 {
 	for (const auto& pair : danger_zone)
@@ -167,10 +176,14 @@ bool Board::searchForDangerZone(const int& x, const int& y)
 			return true;
 	}
 }
+
+//precondition: 
+//postcondition: 
 int Board::getCoordSize()
 {
 	return coordinate.size();
 }
+
 //precondition: needs dimension
 //postcondition: prints board
 void Board::printBoard(bool mode)

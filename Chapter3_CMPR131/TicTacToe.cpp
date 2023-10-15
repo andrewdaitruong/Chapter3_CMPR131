@@ -26,7 +26,6 @@ TicTacToe::TicTacToe()
                    "10", "11", "12",
                    "20", "21", "22" };
 
-
     //VECT CHECK (SETS)
     vectCheck.push_back({ "00", "01", "02" }); //0
     vectCheck.push_back({ "10", "11", "12" }); //1
@@ -46,14 +45,6 @@ TicTacToe::TicTacToe()
         winSets.insert({ i, ' ' });
     }
 
-    /*   for (int i = 0; i < 8; i++)
-       {
-           for (int j = 0; j < vectCheck[i].size(); j++)
-           {
-               cout << vectCheck[i][j] << " ";
-           }
-           cout << endl;
-       }*/
     playing = true;
 
     cout << "\n\tGame begins...";
@@ -138,8 +129,6 @@ void TicTacToe::resetBoard()
 
     playing = true;
 
-
-
     //VECT CHECK (SETS)
     vectCheck.clear();
     vectCheck.push_back({ "00", "01", "02" }); //0
@@ -173,7 +162,6 @@ void TicTacToe::resetBoard()
 //postcondition: gets the players move of either 0, 1, 2, or 3
 void TicTacToe::getPlayerMove()
 {
-
     bool valid = false;
     int rowSelect;
     int colSelect;
@@ -215,7 +203,6 @@ void TicTacToe::getPlayerMove()
 //postcondition: sets an X up on the board for the user's input
 void TicTacToe::setX(int r, int c)
 {
-
     boardPlacement[r - 1][c - 1] = 'X';
 
     string placeSearch = to_string(r - 1) + to_string(c - 1);
@@ -230,17 +217,13 @@ void TicTacToe::setX(int r, int c)
 
     updateVectSets();
     checkforWinner();
-
-
 }
 
 //precondition: user is playing Option1 and selects option 1, 2, or 3, function recieves both column and row
 //postcondition: checks if the option was valid or not
 bool TicTacToe::checkBoard(int r, int c)
 {
-
     string placeSearch = to_string(r - 1) + to_string(c - 1);
-
 
     if (find(boardCheck.begin(), boardCheck.end(), placeSearch) != boardCheck.end()) //means element was found and has NOT been used
     {
@@ -266,7 +249,6 @@ void TicTacToe::getAIMove()
     string middleSearch = to_string(1) + to_string(1);
     if (find(boardCheck.begin(), boardCheck.end(), middleSearch) != boardCheck.end())
     {
-
         setO(1, 1);
     }
     else
@@ -356,14 +338,9 @@ void TicTacToe::getAIMove()
             digit = temp[1];
             random2 = digit - '0'; // - '0' changes it from char to its integer value, since it retrieved digit as ascii
 
-
             setO(random1, random2);
         }
     }
-        
-
-    
-
 }
 
 //precondition: board is not empty & playingStatus of tictactoe game is still ongoing
@@ -373,21 +350,6 @@ void TicTacToe::updateVectSets()
     int countX = 0;
     int countO = 0;
     int rowLeft = 3;
-
-    ////DEBUG PRINT FOR VECTOR CHECKS
-    //auto testit = winSets.begin();
-    //cout << "\n";
-    //for (int i = 0; i < 8; i++, testit++)
-    //{
-    //    //cout << "[" << count << "]";
-    //    cout << "\t[" << testit->first << "] = '" << testit->second << "' -->";
-    //    for (int j = 0; j < vectCheck[i].size(); j++)
-    //    {
-    //        cout  << vectCheck[i][j] << " ";
-    //    }
-    //    cout << "\n";
-    //}
-
 
     for (int i = 0; i < 8; i++)
     {
@@ -412,9 +374,6 @@ void TicTacToe::updateVectSets()
                 }
             }
 
-            //DEBUG PRINT: 
-            // cout << "\n" << i << " --> X: " << countX << " O : " << countO << " rowLeft : " << rowLeft;
-            //----winSet UPDATES
             if (rowLeft == 0 && countX == 3)
             {
                 itr = winSets.find(i);
@@ -467,30 +426,15 @@ void TicTacToe::updateVectSets()
                 {
                     itr->second = 'P'; //possible play for O
                 }
-
             }
-            //if (countO == 1 && countX == 1 && rowLeft == 1)
-            //{
-            //    auto itr = winSets.find((i));
-            //    if (itr != winSets.end())
-            //    {
-            //        itr->second = 'F'; //worstplay
-            //    }
-            //}
         }
-
-
     }
 }
-
-
 
 //precondition: recieves a row and column after the user input a valid row and column
 //postcondition: sets up an O on the board for the random AI
 void TicTacToe::setO(int r, int c)
 {
-
-
     boardPlacement[r][c] = 'O';
 
     string placeSearch = to_string(r) + to_string(c);
@@ -504,7 +448,6 @@ void TicTacToe::setO(int r, int c)
     }
     updateVectSets();
     checkforWinner();
-
 }
 
 //precondition: user is playing option1
@@ -521,7 +464,6 @@ void TicTacToe::playerForfeit()
     playing = false;
     cout << "\n\t You forfeited the game. Therefore, Dumb AI has won.";
     CPUwins++;
-
 }
 
 //precondition: user finished a tic tac toe game
@@ -538,14 +480,12 @@ bool TicTacToe::playAgain()
     {
         return false;
     }
-
 }
 
 //precondition: user input a valid choice for row and column
 //postcondition: displays the winner if there is a winner for tic tac toe
 void TicTacToe::checkforWinner()
 {
-
     displayBoard();
     if (winState == 'O')
     {
@@ -568,11 +508,7 @@ void TicTacToe::checkforWinner()
         playing = false;
         return;
     }
-
-
-
 }
-
 
 //precondition; user must finish at least one game of tic tac toe
 //postcondition: returns the number of times player won, and computer won
@@ -582,7 +518,6 @@ void TicTacToe::numberofWins()
     cout << "\n\tNumber of times Dumb AI has won " << CPUwins;
 }
 
-
 //Add each individual playtime.
 //precondition: recieves seconds and moves throughout playing
 //postcondition; increments the amount of games and inserts the time and number of moves
@@ -590,7 +525,6 @@ void TicTacToe::addTime(seconds time, int moves)
 {
     playTimes.insert({ time, moves });
     numOfGames++;
-
 }
 
 //precondition: user finished a game of tic tac toe
@@ -638,11 +572,8 @@ void TicTacToe::gameStats()
                 durationTotal += itr->first.count();
                 count++;
             }
-
         }
     }
-
-
 
     auto avg = durationTotal / (playTimes.size() * 1.0);
 
@@ -650,7 +581,4 @@ void TicTacToe::gameStats()
     cout << "\n\t\tThe fastest time was " << fastestDuration << " seconds in " << fastestMoves << " moves.";
     cout << "\n\t\tThe slowest time was " << slowestDuration << " seconds in " << slowestMoves << " moves.";
     cout << "\n\t\tThe average time was " << avg << " second(s).";
-    //cout << "\n\t\tDebug Total: " << durationTotal << " second(s).";
-
-
 }
