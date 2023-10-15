@@ -1,24 +1,5 @@
 #include "Tower.h"
 
-//precondition: 
-//postcondition: 
-Tower& Tower::operator=(const Tower& right) {
-	// Check for self-assignment
-	if (this == &right)
-		return *this;
-
-	// Copy ring array
-	for (int i = 0; i < MAX; ++i) {
-		rings[i] = right.rings[i];
-	}
-
-	// Copy 'used' member variable
-	used = right.used;
-
-	// Return *this to allow for chained assignment
-	return *this;
-}
-
 // pre condition: user input for the number of rings
 // post condition: intilizes the data variables
 Tower::Tower(int size, bool firstTower) : Ring()
@@ -43,6 +24,13 @@ Tower::Tower(int size, bool firstTower) : Ring()
 		}
 		used = 0;
 	}
+}
+
+// pre condition: none
+// post condition: Destructor (deallocates used memory)
+Tower::~Tower()
+{
+	delete rings;
 }
 
 //precondition: none
@@ -132,7 +120,7 @@ void Tower::displayTowerPart(int i, bool end, int userInput) const
 
 //precondition: takes in a ring object
 //postcondition: return true or false
-void Tower::takeInRing(Ring input)
+void Tower::setTopRing(Ring input)
 {
 	if (used == 0)
 	{
@@ -150,20 +138,11 @@ void Tower::takeInRing(Ring input)
 
 //precondition: none
 //precondition: returns are ring
-void Tower::getTopofRing()
+void Tower::getTopRing()
 {
 	int newused = used - 1;
 	rings[used-1].setDiameter(0);
 	used = newused; // we are getting rid of a ring off one of the stacks so array decrements by 1
-}
-
-//precondition: none
-//postcondition: deletes our tower
-void Tower::deleteTower()
-{
-	for (int i = 0; i < MAX; i++)
-		rings[i].setDiameter(0);
-	used = 0;
 }
 
 //precondition: takes in an interger
@@ -176,40 +155,20 @@ bool Tower::checkIfDone(int userInput) const
 		return false;
 }
 
-//Precondition:
-//postcondition:
-bool Tower::compareItTo0()
-{
-	int realUsed = 0;
-	if (used > 0)
-	{
-		realUsed = used - 1;
-	}
-	if (rings[realUsed].getDiameter() == 0)
-		return true;
-	else
-		return false;
-}
-
-//precondition: 
-//postcondition: 
-int Tower::returnTopDiameter()
-{
-	return rings[used - 1].getDiameter();
-}
 
 // Pre  condition: Takes in a tower Object
 // Post condition: returns true if input object is less than the other tower object , else false 
 bool Tower::operator>(const Ring& right)
 {
-	if (this->returnTopDiameter() > right.getDiameter())
+	Ring newTry = this->trythisRing();
+	if (newTry.getDiameter() > right.getDiameter())
 		return true;
 	else
 		return false;
 }
 
-//precondition: 
-//postcondition: 
+//precondition: none
+//postcondition: returns a object ring
 Ring Tower::trythisRing()
 {
 	return rings[used - 1];

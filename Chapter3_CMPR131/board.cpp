@@ -10,8 +10,8 @@ Board::Board()
 }
 
 
-//precondition: 
-//postcondition: 
+//precondition: none
+//postcondition: initialize board size
 Board::Board(int size)
 {
 	this->size = size;
@@ -51,8 +51,8 @@ bool Board::isInDangerZone(const int& x, const int& y)  const
 	return false;
 }
 
-//precondition: 
-//postcondition: 
+//precondition: none
+//postcondition: used to check the danger zone going up and left
 int* reduceUpWard(int x, int y,int size)
 {
 	int* temp = new int[2];
@@ -68,8 +68,8 @@ int* reduceUpWard(int x, int y,int size)
 	return temp;
 }
 
-//precondition: 
-//postcondition: 
+//precondition: none
+//postcondition: used to check the danger zone going left and down
 int* reduceDownWard(int x, int y,int size)
 {
 	int* temp = new int[2];

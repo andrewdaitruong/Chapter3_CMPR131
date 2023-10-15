@@ -100,10 +100,10 @@ void option1() //Tic-tac-toe
 	while (tictac.playingStatus())
 	{
 		//Player
-		tictac.setPlayerMove();
+		tictac.getPlayerMove();
 		if (tictac.playingStatus())
 		{
-			tictac.setAIMove();
+			tictac.getAIMove();
 			if (!tictac.playingStatus()) // AI won
 			{
 				auto stop = high_resolution_clock::now();
@@ -507,7 +507,7 @@ void option3() //n-Queens
 {
 	system("cls");
 	nQueens queen;
-
+	Board board;
 	//Description
 	cout << "\n\tThe n-queens puzzle is the problem of placing n chess queens on a n" << char(215) << "n chessboard";
 	cout << "\n\tso that no two queens threaten each other; thus, a solution requires that no two";
@@ -527,7 +527,7 @@ void option3() //n-Queens
 	{
 		queen.printBoard(); //initializing option
 
-		if (queen.isWinning())
+		if (queen.isWin())
 		{
 			gameThreeCount++; //incrementing gameAmount after winning
 			cout << "\n\tCongratulation! You have solved N-Queens in " << move << " moves.\n";
@@ -556,12 +556,13 @@ void option3() //n-Queens
 		cout << "\n\t" + string(100, char(205));
 		cout << "\n\t\tA> Place a queen";
 		cout << "\n\t\tB> Remove an existing queen";
+		cout << "\n\t\tC> Enable easy mode";
 		cout << "\n\t" + string(100, char(196));
 		cout << "\n\t\t0> Return";
 		cout << "\n\t" + string(100, char(205));
 		cout << "\n";
 
-		switch (toupper(inputChar("\n\t\tOption: ", static_cast<string>("AB0"))))
+		switch (toupper(inputChar("\n\t\tOption: ", static_cast<string>("ABC0"))))
 		{
 		case 'A': //Adding a quene
 		{
@@ -579,7 +580,17 @@ void option3() //n-Queens
 			move++; //move +! when B completes
 		}
 		break;
-	
+		case 'C':
+		{
+			bool mode = inputInteger("\n\t\tEnter '1' for easy mode or 0 for hardmode: ", 0, 1);
+			queen.setMode(mode);
+			if (mode)
+				cout << "\n\t\tEasy mode is on.";
+			else
+				cout << "\n\t\tHard mode is on.";
+			cout << endl;
+		}
+		break;
 
 		case '0'://Returning
 		{
