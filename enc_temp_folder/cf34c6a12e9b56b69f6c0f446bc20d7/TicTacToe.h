@@ -43,10 +43,10 @@ public:
 
 	bool checkBoard(int r, int c); //checks selection of board placement (argument) to see if available
 
-	void setPlayerMove(); //Get player move and validates it
+	void getPlayerMove(); //Get player move and validates it
 	void setX(int r, int c); //Sets X on board (player move)
 
-	void setAIMove(); //Gets AI move from available spots
+	void getAIMove(); //Gets AI move from available spots
 	void setO(int r, int c); //Sets 0 move on board (AI move)
 
 	bool playingStatus(); //checks if user is playing or not still (true if playing)

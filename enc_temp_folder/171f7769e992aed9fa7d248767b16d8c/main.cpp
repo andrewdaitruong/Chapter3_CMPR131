@@ -100,10 +100,10 @@ void option1() //Tic-tac-toe
 	while (tictac.playingStatus())
 	{
 		//Player
-		tictac.setPlayerMove();
+		tictac.getPlayerMove();
 		if (tictac.playingStatus())
 		{
-			tictac.setAIMove();
+			tictac.getAIMove();
 			if (!tictac.playingStatus()) // AI won
 			{
 				auto stop = high_resolution_clock::now();

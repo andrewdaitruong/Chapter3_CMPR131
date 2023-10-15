@@ -160,7 +160,7 @@ void TicTacToe::resetBoard()
 
 //precondition: boardCheck is not empty (there must be tictac moves left to play on the board)
 //postcondition: gets the players move of either 0, 1, 2, or 3
-void TicTacToe::setPlayerMove()
+void TicTacToe::getPlayerMove()
 {
     bool valid = false;
     int rowSelect;
@@ -238,7 +238,7 @@ bool TicTacToe::checkBoard(int r, int c)
 
 //precondition: user pressed a valid number for row and column and is playing option1
 //postcondition: call's setO function based on AI move priority based on winSet's map values for each possible winning set
-void TicTacToe::setAIMove()
+void TicTacToe::getAIMove()
 {
     cout << "\n\tDumb AI moves...\n";
 
