@@ -177,7 +177,7 @@ static void timeStop(const T* start, int move,int disc,string game) {
 	cout << "\n\tFastest run's time: " << timeStop.at(0) << "s, " << moves.at(timeStop.at(0)) << " move(s) was used was playing with "<<discs.at(timeStop.at(0))<<" "<< game << endl;
 	cout << "\n\tSlowest run's time: " << timeStop.at(timeStop.size() - 1) << "s, " << moves.at(timeStop.at(timeStop.size() - 1)) << " move(s) was used was playing with " << discs.at(timeStop.at(timeStop.size() - 1)) << " "<< game << endl;
 
-	double average = getAverage(timeStop) / static_cast<double>(timeStop.size());dfd
+	double average = getAverage(timeStop) / static_cast<double>(timeStop.size());
 	cout << "\n\tAverage run time: " << average << "s" << endl;
 }
 
