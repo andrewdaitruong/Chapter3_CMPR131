@@ -510,7 +510,7 @@ void option3() //n-Queens
 {
 	system("cls");
 	nQueens queen;
-	Board board;
+
 	//Description
 	cout << "\n\tThe n-queens puzzle is the problem of placing n chess queens on a n" << char(215) << "n chessboard";
 	cout << "\n\tso that no two queens threaten each other; thus, a solution requires that no two";

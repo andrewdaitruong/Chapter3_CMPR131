@@ -16,13 +16,9 @@ void nQueens::printBoard()
 void nQueens::setDimension(int size)
 {
 	board.setSize(size);
-}
-
-//precondition: none
-//postcondition: returns move count
-int nQueens::getCount()
-{
-	return count;
+	x = 0;
+	y = 0;
+	mode = false;
 }
 
 //precondition: none
@@ -30,6 +26,9 @@ int nQueens::getCount()
 nQueens::nQueens()
 {
 	board.setSize(0);
+	x = 0;
+	y = 0;
+	mode = false;
 }
 
 //precondition: none
@@ -50,7 +49,7 @@ string nQueens::getDimension()
 
 //precondition: board must be above 0
 //postcondition: puts a piece on the board
-void nQueens::setQueen(pos x, pos y)
+void nQueens::setQueen(int x, int y)
 {
 	if (x >= board.getSize() || y >= board.getSize())
 	{
@@ -68,18 +67,33 @@ void nQueens::setQueen(pos x, pos y)
 		y = y;
 		board.setQueen(x, y);
 		cout << "\n\t Queen placed at position (" << x + 1 << "," << y + 1 << ")" << endl;
-		count++;
+	
 	}
 }
-
+void nQueens::setX(const int& x)
+{
+	this->x = x;
+}
+void nQueens::setY(const int& y)
+{
+	this->y = y;
+}
+int nQueens::getX()
+{
+	return x;
+}
+int nQueens::getY()
+{
+	return y;
+}
 //precondition: pieces should be on the board
 //postcondition: removes a piece of the board
-void nQueens::popQueen(pos x, pos y)
+void nQueens::popQueen(int x, int y)
 {
 	if (board.searchForCoordinate(x, y))
 	{
 		board.popQueen(x, y);
-		count++;
+	
 	}
 	else
 		cout << "\n\t Queen does not exist at position (" << x + 1 << "," << y + 1 << ")" << endl;
@@ -95,7 +109,7 @@ bool nQueens::isWin()
 		return false;
 }
 
-bool nQueens::isDanger(pos x, pos y)
+bool nQueens::isDanger(int x, int y)
 {
 	if (board.isInDangerZone(x, y))
 		return true;

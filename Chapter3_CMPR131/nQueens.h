@@ -31,6 +31,8 @@ public:
 
 	//functions
 	void setMode(bool);
+	bool isDanger(pos, pos);
+	void setPos(pos, pos);
 	void printBoard();
 
 	void setQueen(pos, pos);

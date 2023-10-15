@@ -21,8 +21,6 @@ public:
 	Board();
 	Board(int);
 
-	//destructor
-	~Board();
 
 	//setters
 	void setQueen(int, int);
@@ -31,14 +29,18 @@ public:
 	//getters
 	int getCoordSize();
 	int getSize();
+	multimap<int,int> getDangerZone();
+	multimap<int, int> getCoordinate();
 	
 	//functions
 	
 	void setDangerZone(int, int);
 	bool isInDangerZone(int, int);
-	bool searchForDangerZone(const int&, const int&);
+	bool searchForCoordinate(const int&, const int&, multimap<int, int>);
 	void printBoard(bool);	
 	void popQueen(int, int);
-	bool searchForCoordinate(const int&, const int&);
+	
 };
+
 #endif // !1
+//bool searchForDangerZone(const int&, const int&);

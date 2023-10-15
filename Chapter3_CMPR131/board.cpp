@@ -6,6 +6,7 @@
 Board::Board()
 {
 	size = 0;
+
 }
 
 
@@ -30,14 +31,14 @@ int Board::getSize()
 	return size;
 }
 
-//precondition: none
-//postcondition: clears the board
-Board::~Board()
+multimap<int, int> Board::getDangerZone()
 {
-	danger_zone.clear();
-	coordinate.clear();
+	return danger_zone;
 }
-
+multimap<int, int> Board::getCoordinate()
+{
+	return coordinate;
+}
 //precondition: pieces on the board
 //postcondition: checks the position of pieces to see if it is blocked by another piece
 bool Board::isInDangerZone(int x, int y)
@@ -155,22 +156,9 @@ void Board::popQueen(int x, int y)
 	}
 }
 
-//precondition: 
-//postcondition: 
-bool Board::searchForCoordinate(const int& x, const int& y)
+bool Board::searchForCoordinate(const int& x, const int& y, multimap<int,int> map)
 {
-	for (const auto& pair : coordinate)
-	{
-		if (pair.first == x && pair.second == y)
-			return true;
-	}
-}
-
-//precondition: 
-//postcondition: 
-bool Board::searchForDangerZone(const int& x, const int& y)
-{
-	for (const auto& pair : danger_zone)
+	for (const auto& pair : map)
 	{
 		if (pair.first == x && pair.second == y)
 			return true;
@@ -200,13 +188,13 @@ void Board::printBoard(bool mode)
 
 		cout << "\t" << char(186);
 		for (int j = 0; j < size; j++) {
-			if ( searchForCoordinate(j,i))
+			if ( searchForCoordinate(j,i,coordinate))
 			{
 				cout << "Q";
 			}
-			else if (searchForDangerZone(j, i)&&mode)
+			else if (searchForCoordinate(j, i,danger_zone)&&mode)
 			{
-				cout << "D";
+				cout << "X";
 			}
 			else 
 			{
