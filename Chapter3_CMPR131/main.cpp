@@ -154,7 +154,7 @@ double getAverage(vector<double> time)
 //precondition: needs to start the clock first
 //postcondition: displays all time from fastest, slowest, average and amount of moves
 template <typename T>
-static void timeStop(const T* start, int move,int disc) {
+static void timeStop(const T* start, int move,int disc,string game) {
 	static vector<double> timeStop;
 	static map<double,int> discs;
 	static map< double, int> moves;
@@ -166,10 +166,10 @@ static void timeStop(const T* start, int move,int disc) {
 	discs.insert(pair<double, int>(second, disc));
 	timeStop.push_back(second);
 	
-	cout << "\n\tThis run's time: " << second << " seconds, " << moves.at(second) << " move(s) was used with was playing with "<<disc <<" disc" << endl;
+	cout << "\n\tThis run's time: " << second << " seconds, " << moves.at(second) << " move(s) was used with was playing with "<<disc <<" "<< game << endl;
 	sort(timeStop.begin(), timeStop.end());
-	cout << "\n\tFastest run's time: " << timeStop.at(0) << "s, " << moves.at(timeStop.at(0)) << " move(s) was used was playing with "<<discs.at(timeStop.at(0))<<" disc" << endl;
-	cout << "\n\tSlowest run's time: " << timeStop.at(timeStop.size() - 1) << "s, " << moves.at(timeStop.at(timeStop.size() - 1)) << " move(s) was used was playing with " << discs.at(timeStop.at(timeStop.size() - 1)) << " disc" << endl;
+	cout << "\n\tFastest run's time: " << timeStop.at(0) << "s, " << moves.at(timeStop.at(0)) << " move(s) was used was playing with "<<discs.at(timeStop.at(0))<<" "<< game << endl;
+	cout << "\n\tSlowest run's time: " << timeStop.at(timeStop.size() - 1) << "s, " << moves.at(timeStop.at(timeStop.size() - 1)) << " move(s) was used was playing with " << discs.at(timeStop.at(timeStop.size() - 1)) << " "<< game << endl;
 
 	double average = getAverage(timeStop) / static_cast<double>(timeStop.size());
 	cout << "\n\tAverage run time: " << average << "s" << endl;
@@ -465,7 +465,7 @@ void option2() //Tower of Hanoi
 				else if (choice == 'N' || choice == 'n')
 				{
 					cout << "\n\t\tGames Played: " << gameAmount;
-					timeStop(&start, steps, userInput);
+					timeStop(&start, steps, userInput,"discs");
 					return;
 				}
 				else
@@ -490,28 +490,28 @@ void option2() //Tower of Hanoi
 }
 
 
-//precondition: needs to start the clock first
-//postcondition: displays all time from fastest, slowest, average and amount of moves
-template <typename T>
-static void timeStop(const T* start, int move) {
-	static vector<double> timeStop;
-	static map< double, int> moves;
-	auto stop = steady_clock::now();
-
-	double second = chrono::duration<double>(stop - *start).count();
-
-	moves.insert(pair<double, int>(second, move));
-
-	timeStop.push_back(second);
-	cout << "\n\tThis run's time: " << second << " seconds, " << moves.at(second) << " move(s) was used" << endl;
-	sort(timeStop.begin(), timeStop.end());
-	cout << "\n\tFastest run's time: " << timeStop.at(0) << "s, " << moves.at(timeStop.at(0)) << " move(s) was used" << endl;
-	cout << "\n\tSlowest run's time: " << timeStop.at(timeStop.size() - 1) << "s, " << moves.at(timeStop.at(timeStop.size() - 1)) << " move(s) was used" << endl;
-
-	double average = getAverage(timeStop) / static_cast<double>(timeStop.size());
-	cout << "\n\tAverage run time: " << average << "s" << endl;
-
-}
+////precondition: needs to start the clock first
+////postcondition: displays all time from fastest, slowest, average and amount of moves
+//template <typename T>
+//static void timeStop(const T* start, int move) {
+//	static vector<double> timeStop;
+//	static map< double, int> moves;
+//	auto stop = steady_clock::now();
+//
+//	double second = chrono::duration<double>(stop - *start).count();
+//
+//	moves.insert(pair<double, int>(second, move));
+//
+//	timeStop.push_back(second);
+//	cout << "\n\tThis run's time: " << second << " seconds, " << moves.at(second) << " move(s) was used" << endl;
+//	sort(timeStop.begin(), timeStop.end());
+//	cout << "\n\tFastest run's time: " << timeStop.at(0) << "s, " << moves.at(timeStop.at(0)) << " move(s) was used" << endl;
+//	cout << "\n\tSlowest run's time: " << timeStop.at(timeStop.size() - 1) << "s, " << moves.at(timeStop.at(timeStop.size() - 1)) << " move(s) was used" << endl;
+//
+//	double average = getAverage(timeStop) / static_cast<double>(timeStop.size());
+//	cout << "\n\tAverage run time: " << average << "s" << endl;
+//
+//}
 
 //int gameAmount = 0; //global variable to count numbers for option 3
 
@@ -556,7 +556,7 @@ void option3() //n-Queens
 			else if (choice == 'N' || choice == 'n')
 			{
 				cout << "\n\t\tGames Played: " << gameAmount;
-				timeStop(&start, move);
+				timeStop(&start, move, queen.getAmmountOfQueens(), "queens");
 				return;
 			}
 			else
@@ -617,7 +617,7 @@ void option3() //n-Queens
 			}
 			else if (choice1 == 'N' || choice1 == 'n')
 			{
-				timeStop(&start, move);
+				timeStop(&start, move, queen.getAmmountOfQueens(), "queens");
 				return;
 			}
 			else

@@ -27,7 +27,7 @@ public:
 	//getters
 	string getDimension();
 	int getCount();
-
+	int getAmmountOfQueens() { return board.getCoordSize(); };
 	//functions
 	void setMode(bool);
 	void printBoard();
