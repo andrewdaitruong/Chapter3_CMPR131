@@ -39,7 +39,7 @@ int main()
 
 	do
 	{
-		 gameAmount = 0; //global variable to count numbers for option 3
+		gameAmount = 0;
 		switch (toupper(menuOption())) //switch case for main menu
 		{
 		case 0: exit(1); break;
@@ -160,11 +160,11 @@ double getAverage(vector<double> time)
 //precondition: needs to start the clock first
 //postcondition: displays all time from fastest, slowest, average and amount of moves
 template <typename T>
-static void timeStop(const T* start, int move,int disc,string game) {
+static void timeStop(const T* start, int move, int disc, string game) {
 	static vector<double> timeStop;
-	static map<double,int> discs;
+	static map<double, int> discs;
 	static map<double, int> moves;
-	if (gameCount == 0)
+	if (gameAmount == 0 && !(timeStop.empty()))
 	{
 		timeStop.clear();
 		discs.clear();
@@ -177,11 +177,12 @@ static void timeStop(const T* start, int move,int disc,string game) {
 	moves.insert(pair<double, int>(second, move));
 	discs.insert(pair<double, int>(second, disc));
 	timeStop.push_back(second);
-	
-	cout << "\n\tThis run's time: " << second << " seconds, " << moves.at(second) << " move(s) was used with was playing with "<<disc <<" "<< game << endl;
+
+	cout << "\n\t" << gameAmount << " game using " << disc << " " << game << " was played."
+	cout << "\n\t\tThis run's time: " << second << " seconds, " << moves.at(second) << " move(s) was used with was playing with " << disc << " " << game << endl;
 	sort(timeStop.begin(), timeStop.end());
-	cout << "\n\tFastest run's time: " << timeStop.at(0) << "s, " << moves.at(timeStop.at(0)) << " move(s) was used was playing with "<<discs.at(timeStop.at(0))<<" "<< game << endl;
-	cout << "\n\tSlowest run's time: " << timeStop.at(timeStop.size() - 1) << "s, " << moves.at(timeStop.at(timeStop.size() - 1)) << " move(s) was used was playing with " << discs.at(timeStop.at(timeStop.size() - 1)) << " "<< game << endl;
+	cout << "\n\t\tFastest run's time: " << timeStop.at(0) << "s, " << moves.at(timeStop.at(0)) << " move(s) was used was playing with " << discs.at(timeStop.at(0)) << " " << game << endl;
+	cout << "\n\t\tSlowest run's time: " << timeStop.at(timeStop.size() - 1) << "s, " << moves.at(timeStop.at(timeStop.size() - 1)) << " move(s) was used was playing with " << discs.at(timeStop.at(timeStop.size() - 1)) << " " << game << endl;
 
 	double average = getAverage(timeStop) / static_cast<double>(timeStop.size());
 	cout << "\n\tAverage run time: " << average << "s" << endl;
@@ -209,7 +210,7 @@ void option2() //Tower of Hanoi
 	auto diff = stop - start; //difference
 	start = steady_clock::now(); //starts the timer
 
-	
+
 
 	int userInput = inputInteger("\n\n\tEnter the number of rings (1..64) to begin:", 1, 64);
 	Tower Tower1(userInput, true);
@@ -237,7 +238,7 @@ void option2() //Tower of Hanoi
 			}
 		}
 
-		
+
 		//shows NO special character for 1 to 9
 		/*else if (userInput >= 10)
 		{
@@ -254,7 +255,7 @@ void option2() //Tower of Hanoi
 		choice = inputChar("\n\tSelect the top disk from the start peg (A, B, C, or Q-quit):", static_cast<string>("ABCQ"));
 		subchoice = inputChar("\n\tSelect the end peg (A, B, C or Q-quit) to move the selected disk:", static_cast<string>("ABCQ"));
 		bool madeMove = false;
-		
+
 		//
 		switch (toupper(choice))
 		{
@@ -426,7 +427,7 @@ void option2() //Tower of Hanoi
 			if (madeMove == true)
 				steps++;
 		}
-		
+
 		if (Tower3.checkIfDone(userInput))
 		{
 			bool doAgain1 = true;
@@ -460,7 +461,7 @@ void option2() //Tower of Hanoi
 				}
 			} while (doAgain == false);
 		}
-		
+
 	}
 
 	//stops time and gets average
