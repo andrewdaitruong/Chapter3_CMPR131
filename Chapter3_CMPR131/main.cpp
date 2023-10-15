@@ -141,7 +141,44 @@ void option1() //Tic-tac-toe
 	return;
 
 }
+//precondition: none
+//postcondition: calculates average time
+double getAverage(vector<double> time)
+{
+	double sum = 0.0;
+	for (auto i : time)
+		sum += i;
+	return sum;
+}
 
+//precondition: needs to start the clock first
+//postcondition: displays all time from fastest, slowest, average and amount of moves
+template <typename T>
+static void timeStop(const T* start, int move,int disc) {
+	static vector<double> timeStop;
+	static map<double,int> discs;
+	static map< double, int> moves;
+	auto stop = steady_clock::now();
+
+	double second = chrono::duration<double>(stop - *start).count();
+
+	moves.insert(pair<double, int>(second, move));
+	discs.insert(pair<double, int>(second, disc));
+	timeStop.push_back(second);
+	
+	cout << "\n\tThis run's time: " << second << " seconds, " << moves.at(second) << " move(s) was used with was playing with "<<disc <<" disc" << endl;
+	sort(timeStop.begin(), timeStop.end());
+	cout << "\n\tFastest run's time: " << timeStop.at(0) << "s, " << moves.at(timeStop.at(0)) << " move(s) was used was playing with "<<discs.at(timeStop.at(0))<<" disc" << endl;
+	cout << "\n\tSlowest run's time: " << timeStop.at(timeStop.size() - 1) << "s, " << moves.at(timeStop.at(timeStop.size() - 1)) << " move(s) was used was playing with " << discs.at(timeStop.at(timeStop.size() - 1)) << " disc" << endl;
+
+	double average = getAverage(timeStop) / static_cast<double>(timeStop.size());
+	cout << "\n\tAverage run time: " << average << "s" << endl;
+	
+
+}
+
+
+int gameAmount = 0; //global variable to count numbers for option 3
 void option2() //Tower of Hanoi
 {
 	int steps = 0;
@@ -159,10 +196,12 @@ void option2() //Tower of Hanoi
 	cout << "\n\t\t3. No larger disk may be placed on top of a smaller disk.";
 
 	//Time stuff
-	auto start = chrono::steady_clock::now();
-	auto stop = chrono::steady_clock::now();
-	auto diff = stop - start;
-	start = chrono::steady_clock::now(); // start clock 
+	auto start = steady_clock::now(); //initializing start time
+	auto stop = steady_clock::now(); //initializing stop time
+	auto diff = stop - start; //difference
+	start = steady_clock::now(); //starts the timer
+
+	
 
 	int userInput = inputInteger("\n\n\tEnter the number of rings (1..64) to begin:", 1, 64);
 	Tower Tower1(userInput, true);
@@ -409,10 +448,31 @@ void option2() //Tower of Hanoi
 					Tower2.deleteTower();
 					Tower3.deleteTower();
 					userInput = inputInteger("\n\n\tEnter the number of rings (1..64) to begin:", 1, 64);
+
 					break;
 				case 'N':
-					doAgain = false;
-					doAgain1 = false;
+				{	doAgain = false;
+				doAgain1 = false;
+				stop = steady_clock::now(); //ends the timer
+				char choice = inputChar("\n\t\tPlay again? (Y = yes || N = no): ", true);
+				gameAmount++;
+
+				//if function to try again after winning
+				if (choice == 'Y' || choice == 'y')
+				{
+					return option3();
+				}
+				else if (choice == 'N' || choice == 'n')
+				{
+					cout << "\n\t\tGames Played: " << gameAmount;
+					timeStop(&start, steps, userInput);
+					return;
+				}
+				else
+				{
+					cout << "\n\tInvalid Choice. Please enter (Y = yes || N = no)";
+				}
+				}
 					break;
 				default: "\n\tYou have to put either Y or N";
 				}
@@ -429,15 +489,6 @@ void option2() //Tower of Hanoi
 	system("pause");
 }
 
-//precondition: none
-//postcondition: calculates average time
-double getAverage(vector<double> time)
-{
-	double sum = 0.0;
-	for (auto i : time)
-		sum += i;
-	return sum;
-}
 
 //precondition: needs to start the clock first
 //postcondition: displays all time from fastest, slowest, average and amount of moves
@@ -462,8 +513,7 @@ static void timeStop(const T* start, int move) {
 
 }
 
-
-int gameAmount = 0; //global variable to count numbers for option 3
+//int gameAmount = 0; //global variable to count numbers for option 3
 
 //precondition: n is greater than or equal to zero
 //postcondition: asides from (n=2||n=3) solveable N-Queens game correlates to dimension
