@@ -157,7 +157,13 @@ double getAverage(vector<double> time)
 		sum += i;
 	return sum;
 }
-
+int getSum(map<double, int> mymap)
+{
+	int sum = 0;
+	for(const auto& i: mymap)
+		sum += i.second;
+	return sum;
+}
 //precondition: needs to start the clock first
 //postcondition: displays all time from fastest, slowest, average and amount of moves
 template <typename T>
@@ -184,11 +190,12 @@ template <typename T>
 	auto stop = steady_clock::now();
 	double second = duration<double>(stop - *start).count();
 
-	moves[second] = move;
-	discs[second] = disc;
+	moves.insert(pair<double, int>(second, move));
+	discs.insert(pair<double, int>(second, disc));
+
 	timeStop.push_back(second);
 	sort(timeStop.begin(), timeStop.end());
-	cout << "\n\t" << gameCount << " game using " << disc << " " << game << " was played.";
+	cout << "\n\t" << gameCount << " game using " << getSum(discs) << " " << game << " was played.";
 	cout << "\n\t\tThis run's time: " << second << " seconds, " << moves.at(second) << " move(s) was used with was playing with " << disc << " " << game << endl;
 	cout << "\n\t\tFastest run's time: " << timeStop.at(0) << "s, " << moves.at(timeStop.at(0)) << " move(s) was used was playing with " << discs.at(timeStop.at(0)) << " " << game << endl;
 	cout << "\n\t\tSlowest run's time: " << timeStop.at(timeStop.size() - 1) << "s, " << moves.at(timeStop.at(timeStop.size() - 1)) << " move(s) was used was playing with " << discs.at(timeStop.at(timeStop.size() - 1)) << " " << game << endl;
