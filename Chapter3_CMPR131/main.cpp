@@ -168,7 +168,7 @@ multimap<int, double> reverseMap(map<double, int> inputMap) {
 }
 
 template <typename T>
-void timeStop(const T* start, int move, int disc, string game,int gameCount,string filename) {
+void timeStop(const T* start, int move, int disc, string game,int gameCount,string filename,bool display) {
 	vector<double> timeStop;
 	map<double,int > discs;
 	map<double, int> moves;
@@ -210,6 +210,7 @@ void timeStop(const T* start, int move, int disc, string game,int gameCount,stri
 			
 		}
 	}
+	if(display)
 	for (const auto& it : temp)
 	{
 		auto range = reversedDiscs.equal_range(it);
@@ -452,7 +453,7 @@ void option2() //Tower of Hanoi
 					cout << "\n\tThis ring isn't the right size\n";
 				break;
 			case 'Q':
-				timeStop(&start, steps, userInput, "discs", gameTwoCount, "option2.dat");
+				timeStop(&start, steps, userInput, "discs", gameTwoCount, "option2.dat",1);
 				return;
 			default:
 				cout << "\n\tERRR:Invalid Option. Must be A, B. C. or Q-quit\n\n";
@@ -485,10 +486,13 @@ void option2() //Tower of Hanoi
 				switch (again)
 				{
 				case 'Y':
+				{
+					timeStop(&start, steps, userInput, "discs", gameTwoCount, "option2.dat", 0);
 					return option2();
+				}
 				case 'N':
 				{
-					timeStop(&start, steps, userInput, "discs", gameTwoCount,"option2.dat");
+					timeStop(&start, steps, userInput, "discs", gameTwoCount, "option2.dat", 1);
 					return;
 				}
 				default: "\n\tYou have to put either Y or N";
@@ -569,12 +573,13 @@ void option3() //n-Queens
 			//if function to try again after winning
 			if (choice == 'Y' || choice == 'y')
 			{
+				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameThreeCount, "option3.dat", 0);
 				return option3();
 			}
 			else if (choice == 'N' || choice == 'n')
 			{
 				cout << "\n\t\tGames Played: " << gameThreeCount;
-				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameThreeCount,"option3.dat");
+				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameThreeCount,"option3.dat",1);
 				return;
 			}
 			else
@@ -631,11 +636,12 @@ void option3() //n-Queens
 			//if function to try again for losing
 			if (choice1 == 'Y' || choice1 == 'y')
 			{
+				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameThreeCount, "option3.dat", 0);
 				return option3();
 			}
 			else if (choice1 == 'N' || choice1 == 'n')
 			{
-				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameThreeCount,"option3.dat");
+				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameThreeCount, "option3.dat", 1);
 				return;
 			}
 			else
