@@ -26,6 +26,13 @@ Tower::Tower(int size, bool firstTower) : Ring()
 	}
 }
 
+// pre condition: none
+// post condition: Destructor (deallocates used memory)
+Tower::~Tower()
+{
+	delete rings;
+}
+
 //precondition: none
 //postcondition:return true if it's empty, false if it's empty
 bool Tower::checkEmpty() const
@@ -113,7 +120,7 @@ void Tower::displayTowerPart(int i, bool end, int userInput) const
 
 //precondition: takes in a ring object
 //postcondition: return true or false
-void Tower::takeInRing(Ring input)
+void Tower::setTopRing(Ring input)
 {
 	if (used == 0)
 	{
@@ -131,7 +138,7 @@ void Tower::takeInRing(Ring input)
 
 //precondition: none
 //precondition: returns are ring
-void Tower::getTopofRing()
+void Tower::getTopRing()
 {
 	int newused = used - 1;
 	rings[used-1].setDiameter(0);
@@ -148,10 +155,6 @@ bool Tower::checkIfDone(int userInput) const
 		return false;
 }
 
-Tower::~Tower()
-{
-	delete rings;
-}
 
 // Pre  condition: Takes in a tower Object
 // Post condition: returns true if input object is less than the other tower object , else false 

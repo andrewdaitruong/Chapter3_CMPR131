@@ -361,26 +361,26 @@ void option2() //Tower of Hanoi
 			case 'A':
 				if (Tower1.checkEmpty())
 				{
-					Tower1.takeInRing(ring);
+					Tower1.setTopRing(ring);
 					if (previousResponse == 1)
-						Tower1.getTopofRing();
+						Tower1.getTopRing();
 					else if (previousResponse == 2)
-						Tower2.getTopofRing();
+						Tower2.getTopRing();
 					else if (previousResponse == 3)
-						Tower3.getTopofRing();
+						Tower3.getTopRing();
 					else
 						cout << "\n\tThe move wasn't made.";
 					madeMove = true;
 				}
 				else if (Tower1 > ring)
 				{
-					Tower1.takeInRing(ring);
+					Tower1.setTopRing(ring);
 					if (previousResponse == 1)
-						Tower1.getTopofRing();
+						Tower1.getTopRing();
 					else if (previousResponse == 2)
-						Tower2.getTopofRing();
+						Tower2.getTopRing();
 					else if (previousResponse == 3)
-						Tower3.getTopofRing();
+						Tower3.getTopRing();
 					else
 						cout << "\n\tThe move wasn't made.";
 					madeMove = true;
@@ -391,26 +391,26 @@ void option2() //Tower of Hanoi
 			case 'B':
 				if (Tower2.checkEmpty())
 				{
-					Tower2.takeInRing(ring);
+					Tower2.setTopRing(ring);
 					if (previousResponse == 1)
-						Tower1.getTopofRing();
+						Tower1.getTopRing();
 					else if (previousResponse == 2)
-						Tower2.getTopofRing();
+						Tower2.getTopRing();
 					else if (previousResponse == 3)
-						Tower3.getTopofRing();
+						Tower3.getTopRing();
 					else
 						cout << "\n\tThe move wasn't made.";
 					madeMove = true;
 				}
 				else if (Tower2 > ring)
 				{
-					Tower2.takeInRing(ring);
+					Tower2.setTopRing(ring);
 					if (previousResponse == 1)
-						Tower1.getTopofRing();
+						Tower1.getTopRing();
 					else if (previousResponse == 2)
-						Tower2.getTopofRing();
+						Tower2.getTopRing();
 					else if (previousResponse == 3)
-						Tower3.getTopofRing();
+						Tower3.getTopRing();
 					else
 						cout << "\n\tThe move wasn't made.";
 					madeMove = true;
@@ -421,26 +421,26 @@ void option2() //Tower of Hanoi
 			case 'C':
 				if (Tower3.checkEmpty())
 				{
-					Tower3.takeInRing(ring);
+					Tower3.setTopRing(ring);
 					if (previousResponse == 1)
-						Tower1.getTopofRing();
+						Tower1.getTopRing();
 					else if (previousResponse == 2)
-						Tower2.getTopofRing();
+						Tower2.getTopRing();
 					else if (previousResponse == 3)
-						Tower3.getTopofRing();
+						Tower3.getTopRing();
 					else
 						cout << "\n\tThe move wasn't made.";
 					madeMove = true;
 				}
 				else if (Tower3 > ring)
 				{
-					Tower3.takeInRing(ring);
+					Tower3.setTopRing(ring);
 					if (previousResponse == 1)
-						Tower1.getTopofRing();
+						Tower1.getTopRing();
 					else if (previousResponse == 2)
-						Tower2.getTopofRing();
+						Tower2.getTopRing();
 					else if (previousResponse == 3)
-						Tower3.getTopofRing();
+						Tower3.getTopRing();
 					else
 						cout << "\n\tThe move wasn't made.";
 					madeMove = true;

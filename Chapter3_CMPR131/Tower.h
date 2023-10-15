@@ -13,15 +13,14 @@ public:
     Tower(); // defualt constructor
     Tower(int size, bool firstTower);  // constructor
     ~Tower();
-
-   // int getSize() const;
+    // functions 
     bool checkEmpty() const;
-    void takeInRing(Ring input);
-    void getTopofRing();
+    void setTopRing(Ring input);
+    void getTopRing();
     void displayTowerPart(int i, bool end, int userInput) const;
     bool checkIfDone(int userInput) const;
-    bool operator >(const Ring& right);
     Ring trythisRing();
+    bool operator >(const Ring& right);
 
 
    
