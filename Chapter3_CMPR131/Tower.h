@@ -18,7 +18,6 @@ public:
     bool checkEmpty() const;
     void takeInRing(Ring input);
     void getTopofRing();
-    bool compareItTo0();
     void displayTowerPart(int i, bool end, int userInput) const;
     bool checkIfDone(int userInput) const;
     bool operator >(const Ring& right);

@@ -36,7 +36,6 @@ using namespace std::chrono;
 //postcondition: none
 int main()
 {
-
 	do
 	{
 		switch (toupper(menuOption())) //switch case for main menu
@@ -193,8 +192,7 @@ void timeStop(const T* start, int move, int disc, string game,int gameCount,stri
 	discs.insert(pair<double, int>(second, disc));
 
 	timeStop.push_back(second);
-	/*sort(timeStop.begin(), timeStop.end());*/
-	//cout << "\n\t" << gameCount << " game using " << getSum(discs) << " " << game << " was played.";
+
 	multimap<int, double> reversedDiscs = reverseMap(discs);
 	vector<int> temp;
 	int temp_disc = 0;
@@ -238,7 +236,7 @@ void timeStop(const T* start, int move, int disc, string game,int gameCount,stri
  
 int gameTwoCount = 0; //variable for option2()
 //precondition: none
-//postcondition: none
+//postcondition: starts game and records the data for each ring played with moves made and time
 void option2() //Tower of Hanoi
 {
 	int steps = 0;
@@ -361,7 +359,7 @@ void option2() //Tower of Hanoi
 			switch (toupper(subchoice))
 			{
 			case 'A':
-				if (Tower1.compareItTo0())
+				if (Tower1.checkEmpty())
 				{
 					Tower1.takeInRing(ring);
 					if (previousResponse == 1)
@@ -391,7 +389,7 @@ void option2() //Tower of Hanoi
 					cout << "\n\tThis ring isn't the right size\n";
 				break;
 			case 'B':
-				if (Tower2.compareItTo0())
+				if (Tower2.checkEmpty())
 				{
 					Tower2.takeInRing(ring);
 					if (previousResponse == 1)
@@ -421,7 +419,7 @@ void option2() //Tower of Hanoi
 					cout << "\n\tThis ring isn't the right size\n";
 				break;
 			case 'C':
-				if (Tower3.compareItTo0())
+				if (Tower3.checkEmpty())
 				{
 					Tower3.takeInRing(ring);
 					if (previousResponse == 1)
@@ -501,11 +499,10 @@ void option2() //Tower of Hanoi
 	}
 }
 
-
 int gameThreeCount = 0; //variable for option3()
 
-//precondition: n is greater than or equal to zero
-//postcondition: asides from (n=2||n=3) solveable N-Queens game correlates to dimension
+//precondition: n is greater than or equal to one... (n = 2 | n = 3) is not solvable 
+//postcondition: Solvable N-Queens game correlates to dimension
 void option3() //n-Queens
 {
 	system("cls");
@@ -540,13 +537,13 @@ void option3() //n-Queens
 			//if function to try again after winning
 			if (choice == 'Y' || choice == 'y')
 			{
-				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameThreeCount, "option3.dat", 0);
+				timeStop(&start, move, queen.getQueenAmount(), "queens", gameThreeCount, "option3.dat", 0);
 				return option3();
 			}
 			else if (choice == 'N' || choice == 'n')
 			{
 				cout << "\n\t\tGames Played: " << gameThreeCount;
-				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameThreeCount,"option3.dat", 1);
+				timeStop(&start, move, queen.getQueenAmount(), "queens", gameThreeCount,"option3.dat", 1);
 				return;
 			}
 			else
@@ -603,12 +600,12 @@ void option3() //n-Queens
 			//if function to try again for losing
 			if (choice1 == 'Y' || choice1 == 'y')
 			{
-				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameThreeCount, "option3.dat", 0);
+				timeStop(&start, move, queen.getQueenAmount(), "queens", gameThreeCount, "option3.dat", 0);
 				return option3();
 			}
 			else if (choice1 == 'N' || choice1 == 'n')
 			{
-				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameThreeCount, "option3.dat", 1);
+				timeStop(&start, move, queen.getQueenAmount(), "queens", gameThreeCount, "option3.dat", 1);
 				return;
 			}
 			else
