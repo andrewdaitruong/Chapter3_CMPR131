@@ -209,7 +209,7 @@ void timeStop(const T* start, int move, int disc, string game,int gameCount,stri
 			temp_disc = i.second;
 		}
 	}
-	for ( auto it : temp)
+	for (const auto& it : temp)
 	{
 		auto range = reversedDiscs.equal_range(it);
 		double first_key = range.first->second;
@@ -217,8 +217,9 @@ void timeStop(const T* start, int move, int disc, string game,int gameCount,stri
 		// Decrement the end iterator to get the last valid iterator in the range
 		double last_key = first_key;
 		int count = 0;
-		for (auto it = range.first; it != range.second; ++it ,++count) {
-			last_key = it->second;
+		for (auto itr = range.first; itr != range.second; ++itr ) {
+			last_key = itr->second;
+			count++;
 		}
 		cout << "\n\t\t" << count << " game using " << it << " " << game << " was played.";
 		cout << "\n\t\tFastest run's time: " << first_key << "s, " << moves.at(first_key) << " move(s) was used was playing with " << discs.at(first_key) << " " << game << endl;
@@ -228,8 +229,8 @@ void timeStop(const T* start, int move, int disc, string game,int gameCount,stri
 		
 	}
 		ofstream outFile(filename);
-		for (const auto& i : timeStop) {
-			outFile << i << " " << moves[i] << " " << discs[i] << "\n";
+		for (const auto& i : reversedDiscs) {
+			outFile << i.second << " " << moves[i.second] << " " << discs[i.second] << "\n";
 		}
 		outFile.close();
 	
