@@ -1,6 +1,6 @@
 #include "TicTacToe.h"
 
-//precondition: user starts tictactoe game
+//precondition: user starts Tic-Tac-Toe game
 //postcondition: initializes TicTacToe object with containers (2d array, 2d vector, vector, map) with starting values 
 //               for tictactoe game. Sets initial winState, playerMoves, and number of games to 0 and ' '.
 TicTacToe::TicTacToe()
@@ -45,121 +45,28 @@ TicTacToe::TicTacToe()
         winSets.insert({ i, ' ' });
     }
 
-    playing = true;
+    playingStatus = true;
 
     cout << "\n\tGame begins...";
 
 }
-
 
 //precondition: none
-//postcondition: displays the board of tic tac toe
-void TicTacToe::displayBoard()
+//postcondition: returns the playing status of the user
+bool TicTacToe::getPlayingStatus()
 {
-
-    cout << "\n\t\tTic-Tac-Toe";
-    //top row
-    cout << "\n\t\t" << char(201) << string(3, char(205)) << char(203)
-        << string(3, char(205)) << char(203) << string(3, char(205)) << char(187);
-    //middle of row 1
-    cout << "\n\t\t";
-    for (int i = 0; i < 1; i++) {
-        for (int j = 0; j < col; j++) {
-            cout << char(186) << " " << boardPlacement[i][j] << " ";
-        }
-    }
-    cout << char(186);
-
-    //bottom of row
-    cout << "\n\t\t" << char(204) << string(3, char(205)) << char(206) << string(3, char(205))
-        << char(206) << string(3, char(205)) << char(185);
-
-    //middle of row 2
-    cout << "\n\t\t";
-    for (int i = 1; i < 2; i++) {
-        for (int j = 0; j < col; j++) {
-            cout << char(186) << " " << boardPlacement[i][j] << " ";
-        }
-    }
-    cout << char(186);
-
-    //bottom of row
-    cout << "\n\t\t" << char(204) << string(3, char(205)) << char(206) << string(3, char(205))
-        << char(206) << string(3, char(205)) << char(185);
-
-    //middle of row 3
-    cout << "\n\t\t";
-    for (int i = 2; i < 3; i++) {
-        for (int j = 0; j < col; j++) {
-            cout << char(186) << " " << boardPlacement[i][j] << " ";
-        }
-    }
-    cout << char(186);
-
-    //bottom final row
-    cout << "\n\t\t" << char(200) << string(3, char(205)) << char(202)
-        << string(3, char(205)) << char(202) << string(3, char(205)) << char(188);
-
-
+    return playingStatus;
 }
 
-//precondition: previous game has ended
-//postcondition: resets the class containers (including board) so player can play again.
-void TicTacToe::resetBoard()
+//precondition: user finished a game of tic-tac-toe
+//postcondition: returns the number of moves played in one game of tictactoe by the user
+int TicTacToe::getNumberOfMoves()
 {
-
-    playerMoves = 0;
-
-    for (int i = 0; i < row; i++) {
-        for (int j = 0; j < col; j++) {
-            boardPlacement[i][j] = ' ';
-        }
-    }
-
-    //00 | 01 | 02
-    //10 | 11 | 12
-    //20 | 21 | 22
-
-    boardCheck.clear();
-
-    boardCheck = { "00", "01", "02",
-                   "10", "11", "12",
-                   "20", "21", "22" };
-
-
-    playing = true;
-
-    //VECT CHECK (SETS)
-    vectCheck.clear();
-    vectCheck.push_back({ "00", "01", "02" }); //0
-    vectCheck.push_back({ "10", "11", "12" }); //1
-    vectCheck.push_back({ "20", "21", "22" }); //2
-
-    vectCheck.push_back({ "00", "10", "20" }); //3
-    vectCheck.push_back({ "01", "11", "21" }); //4
-    vectCheck.push_back({ "02", "12", "22" }); //5
-
-    vectCheck.push_back({ "00", "11", "22" });//6
-    vectCheck.push_back({ "20", "11", "02" }); //7   
-
-
-
-    //SetCheck
-    winSets.clear();
-    for (int i = 0; i < 8; i++)
-    {
-        winSets.insert({ i, ' ' });
-    }
-
-    cout << "\n\tGame begins...";
-    winState = ' ';
-    displayBoard();
+    return playerMoves;
 }
 
-
-
-//precondition: boardCheck is not empty (there must be tictac moves left to play on the board)
-//postcondition: gets the players move of either 0, 1, 2, or 3
+//precondition: boardCheck is not empty (there must be moves left to play on the board)
+//postcondition: sets valid input from user for row & column to setX function for player move.
 void TicTacToe::setPlayerMove()
 {
     bool valid = false;
@@ -194,18 +101,15 @@ void TicTacToe::setPlayerMove()
 
     playerMoves++;
     setX(rowSelect, colSelect);
-    //checkVectSets();
 }
 
-
-
-//precondition: user must be playing option1 and passes chooses 1, 2, or 3 for the column and row
+//precondition: rowVal(int), colVal(int) are valid integer inputs for row & col placement that are empty
 //postcondition: sets an X up on the board for the user's input
-void TicTacToe::setX(int r, int c)
+void TicTacToe::setX(int rowVal, int colVal)
 {
-    boardPlacement[r - 1][c - 1] = 'X';
+    boardPlacement[rowVal - 1][colVal - 1] = 'X';
 
-    string placeSearch = to_string(r - 1) + to_string(c - 1);
+    string placeSearch = to_string(rowVal - 1) + to_string(colVal - 1);
 
     boardCheck.erase(remove(boardCheck.begin(), boardCheck.end(), placeSearch), boardCheck.end());
 
@@ -216,27 +120,10 @@ void TicTacToe::setX(int r, int c)
     }
 
     updateVectSets();
-    checkforWinner();
+    checkForWinner();
 }
 
-//precondition: user is playing Option1 and selects option 1, 2, or 3, function recieves both column and row
-//postcondition: checks if the option was valid or not
-bool TicTacToe::checkBoard(int r, int c)
-{
-    string placeSearch = to_string(r - 1) + to_string(c - 1);
-
-    if (find(boardCheck.begin(), boardCheck.end(), placeSearch) != boardCheck.end()) //means element was found and has NOT been used
-    {
-        return true; //means that NO ELEMENT IS PLACED THERE
-    }
-    else
-    {
-        return false; //means THAT ELEMENT IS PLACED THERE. NO MOVE CAN BE MADE THERE
-    }
-
-}
-
-//precondition: user pressed a valid number for row and column and is playing option1
+//precondition: boardCheck is not empty (there must be moves left to play on the board)
 //postcondition: call's setO function based on AI move priority based on winSet's map values for each possible winning set
 void TicTacToe::setAIMove()
 {
@@ -262,7 +149,7 @@ void TicTacToe::setAIMove()
                 {
                     priorityMoveSet = i;
                     priorityMoveValue = 3;
-                    
+
                 }
                 else if (itr->second == 'X') //Second priority, prevent x win
                 {
@@ -279,7 +166,7 @@ void TicTacToe::setAIMove()
                         priorityMoveSet = i;
                         priorityMoveValue = 1;
                     }
-                   
+
                 }
             }
         }
@@ -343,19 +230,97 @@ void TicTacToe::setAIMove()
     }
 }
 
-//precondition: board is not empty & playingStatus of tictactoe game is still ongoing
-//postcondition: updates vectCheck vector & winSets map to current status of board. winSet saves map values that indicates status of next move for AI.
+//precondition: recieves a row and column after the user input a valid row and column
+//postcondition: sets up an O on the board for the random AI
+void TicTacToe::setO(int rowVal, int colVal)
+{
+    boardPlacement[rowVal][colVal] = 'O';
+
+    string placeSearch = to_string(rowVal) + to_string(colVal);
+
+    boardCheck.erase(remove(boardCheck.begin(), boardCheck.end(), placeSearch), boardCheck.end());
+
+    string tempO = "O";
+    for (vector<string>& vInner : vectCheck) //ref to inner vector
+    {
+        replace(vInner.begin(), vInner.end(), placeSearch, tempO);
+    }
+    updateVectSets();
+    checkForWinner();
+}
+
+//precondition: previous game has ended
+//postcondition: resets the class containers (including board) so player can play again.
+void TicTacToe::resetBoard()
+{
+
+    playerMoves = 0;
+
+    for (int i = 0; i < row; i++) {
+        for (int j = 0; j < col; j++) {
+            boardPlacement[i][j] = ' ';
+        }
+    }
+
+    //00 | 01 | 02
+    //10 | 11 | 12
+    //20 | 21 | 22
+
+    boardCheck.clear();
+
+    boardCheck = { "00", "01", "02",
+                   "10", "11", "12",
+                   "20", "21", "22" };
+
+
+    playingStatus = true;
+
+    //VECT CHECK (SETS)
+    vectCheck.clear();
+    vectCheck.push_back({ "00", "01", "02" }); //0
+    vectCheck.push_back({ "10", "11", "12" }); //1
+    vectCheck.push_back({ "20", "21", "22" }); //2
+
+    vectCheck.push_back({ "00", "10", "20" }); //3
+    vectCheck.push_back({ "01", "11", "21" }); //4
+    vectCheck.push_back({ "02", "12", "22" }); //5
+
+    vectCheck.push_back({ "00", "11", "22" });//6
+    vectCheck.push_back({ "20", "11", "02" }); //7   
+
+
+
+    //SetCheck
+    winSets.clear();
+    for (int i = 0; i < 8; i++)
+    {
+        winSets.insert({ i, ' ' });
+    }
+
+    cout << "\n\tGame begins...";
+    winState = ' ';
+    displayBoard();
+}
+
+//precondition: game must of tictactoe must have ended (playingStatus = false)
+//postcondition; increments the amount of games and inserts the time and number of moves into multimap
+void TicTacToe::addTime(seconds time, int moves)
+{
+    playTimes.insert({ time, moves });
+    numOfGames++;
+}
+
+//precondition: board is not empty & playingStatus of game is still true (ongoing game)
+//postcondition: updates vectCheck vector & winSets map to current status of board. 
+//               winSet saves map values that indicates flag values for potential AI move.
 void TicTacToe::updateVectSets()
 {
-    int countX = 0;
-    int countO = 0;
-    int rowLeft = 3;
 
     for (int i = 0; i < 8; i++)
     {
-        countX = 0;
-        countO = 0;
-        rowLeft = 3;
+        int countX = 0;
+        int countO = 0;
+        int rowLeft = 3;
         auto itr = winSets.find((i));
         if (itr->second != 'F') //skip F sets (those are already marked as unwinnable)
         {
@@ -431,43 +396,116 @@ void TicTacToe::updateVectSets()
     }
 }
 
-//precondition: recieves a row and column after the user input a valid row and column
-//postcondition: sets up an O on the board for the random AI
-void TicTacToe::setO(int r, int c)
-{
-    boardPlacement[r][c] = 'O';
-
-    string placeSearch = to_string(r) + to_string(c);
-
-    boardCheck.erase(remove(boardCheck.begin(), boardCheck.end(), placeSearch), boardCheck.end());
-
-    string tempO = "O";
-    for (vector<string>& vInner : vectCheck) //ref to inner vector
-    {
-        replace(vInner.begin(), vInner.end(), placeSearch, tempO);
-    }
-    updateVectSets();
-    checkforWinner();
-}
-
-//precondition: user is playing option1
-//postcondition: returns the playing status of the user
-bool TicTacToe::playingStatus()
-{
-    return playing;
-}
-
-//precondition: user pressed 0 on the row or column option
-//postconditon: sets playing boolean to false and displays that the user forfeited
+//precondition: user pressed 0 on the row or column option for setPlayerMove
+//postconditon: sets playing boolean to false and displays that the user forfeited. CPU gets a win.
 void TicTacToe::playerForfeit()
 {
-    playing = false;
+    playingStatus = false;
     cout << "\n\t You forfeited the game. Therefore, Dumb AI has won.";
     CPUwins++;
 }
 
+//precondition: none
+//postcondition: displays board and checks for winner or a possible draw for game. setsPlayingStatus to false if game has ended.
+void TicTacToe::checkForWinner()
+{
+    displayBoard();
+    if (winState == 'O')
+    {
+        cout << "\n\tDumb AI has actually won.";
+        CPUwins++;
+        playingStatus = false;
+        return;
+    }
+    if (winState == 'X')
+    {
+        cout << "\n\tHuman player wins.";
+        Playerwins++;
+        playingStatus = false;
+        return;
+    }
+
+    if (boardCheck.empty())
+    {
+        cout << "\n\tIt's a draw.";
+        playingStatus = false;
+        return;
+    }
+}
+
+
+//precondition: none
+//postcondition: displays the board of tic tac toe
+void TicTacToe::displayBoard()
+{
+
+    cout << "\n\t\tTic-Tac-Toe";
+    //top row
+    cout << "\n\t\t" << char(201) << string(3, char(205)) << char(203)
+        << string(3, char(205)) << char(203) << string(3, char(205)) << char(187);
+    //middle of row 1
+    cout << "\n\t\t";
+    for (int i = 0; i < 1; i++) {
+        for (int j = 0; j < col; j++) {
+            cout << char(186) << " " << boardPlacement[i][j] << " ";
+        }
+    }
+    cout << char(186);
+
+    //bottom of row
+    cout << "\n\t\t" << char(204) << string(3, char(205)) << char(206) << string(3, char(205))
+        << char(206) << string(3, char(205)) << char(185);
+
+    //middle of row 2
+    cout << "\n\t\t";
+    for (int i = 1; i < 2; i++) {
+        for (int j = 0; j < col; j++) {
+            cout << char(186) << " " << boardPlacement[i][j] << " ";
+        }
+    }
+    cout << char(186);
+
+    //bottom of row
+    cout << "\n\t\t" << char(204) << string(3, char(205)) << char(206) << string(3, char(205))
+        << char(206) << string(3, char(205)) << char(185);
+
+    //middle of row 3
+    cout << "\n\t\t";
+    for (int i = 2; i < 3; i++) {
+        for (int j = 0; j < col; j++) {
+            cout << char(186) << " " << boardPlacement[i][j] << " ";
+        }
+    }
+    cout << char(186);
+
+    //bottom final row
+    cout << "\n\t\t" << char(200) << string(3, char(205)) << char(202)
+        << string(3, char(205)) << char(202) << string(3, char(205)) << char(188);
+}
+
+
+
+
+//precondition: rowVal (int), colVal(int) are valid row & col options for boardCheck (1-3)
+//postcondition: checks if the option was valid or not
+bool TicTacToe::checkBoard(int rowVal, int colVal)
+{
+    string placeSearch = to_string(rowVal - 1) + to_string(colVal - 1);
+
+    if (find(boardCheck.begin(), boardCheck.end(), placeSearch) != boardCheck.end()) //means element was found and has NOT been used
+    {
+        return true; //means that NO ELEMENT IS PLACED THERE
+    }
+    else
+    {
+        return false; //means THAT ELEMENT IS PLACED THERE. NO MOVE CAN BE MADE THERE
+    }
+}
+
+
+
 //precondition: user finished a tic tac toe game
-//postcondition: returns if the user chooses to still play or not
+//postcondition: returns true if player chooses to play again, false if player decides no
 bool TicTacToe::playAgain()
 {
     char answer = inputChar("\n\tPlay again? (Y-yes or N-no): ", "YN");
@@ -482,62 +520,13 @@ bool TicTacToe::playAgain()
     }
 }
 
-//precondition: user input a valid choice for row and column
-//postcondition: displays the winner if there is a winner for tic tac toe
-void TicTacToe::checkforWinner()
-{
-    displayBoard();
-    if (winState == 'O')
-    {
-        cout << "\n\tDumb AI has actually won.";
-        CPUwins++;
-        playing = false;
-        return;
-    }
-    if (winState == 'X')
-    {
-        cout << "\n\tHuman player wins.";
-        Playerwins++;
-        playing = false;
-        return;
-    }
-
-    if (boardCheck.empty())
-    {
-        cout << "\n\tIt's a draw.";
-        playing = false;
-        return;
-    }
-}
-
-//precondition; user must finish at least one game of tic tac toe
-//postcondition: returns the number of times player won, and computer won
-void TicTacToe::numberofWins()
+//precondition: user must have completed a game
+//postcondition: displays the stats of the game, including player & cpu wins, as well as fastest, slowest, and avg gameplay times
+//               w/ their corresponding times.
+void TicTacToe::displayGameStats()
 {
     cout << "\n\tNumber of times the Player has won " << Playerwins;
     cout << "\n\tNumber of times Dumb AI has won " << CPUwins;
-}
-
-//Add each individual playtime.
-//precondition: recieves seconds and moves throughout playing
-//postcondition; increments the amount of games and inserts the time and number of moves
-void TicTacToe::addTime(seconds time, int moves)
-{
-    playTimes.insert({ time, moves });
-    numOfGames++;
-}
-
-//precondition: user finished a game of tic tac toe
-//postcondition: returns the number of moves played in tic tac toe by the user
-int TicTacToe::getNumberOfMoves()
-{
-    return playerMoves;
-}
-
-//precondition: user must have completed a game
-//postcondition: displays the stats of the game
-void TicTacToe::gameStats()
-{
     multimap<seconds, int>::const_iterator itr;
 
     cout << "\n\tGame Statistics: \n";

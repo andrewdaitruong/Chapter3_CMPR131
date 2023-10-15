@@ -97,14 +97,14 @@ void option1() //Tic-tac-toe
 	TicTacToe tictac;
 	tictac.displayBoard();
 
-	while (tictac.playingStatus())
+	while (tictac.getPlayingStatus())
 	{
 		//Player
 		tictac.setPlayerMove();
-		if (tictac.playingStatus())
+		if (tictac.getPlayingStatus())
 		{
 			tictac.setAIMove();
-			if (!tictac.playingStatus()) // AI won
+			if (!tictac.getPlayingStatus()) // AI won
 			{
 				auto stop = high_resolution_clock::now();
 				auto duration = duration_cast<seconds>(stop - start);
@@ -135,8 +135,7 @@ void option1() //Tic-tac-toe
 			}
 		}
 	}
-	tictac.numberofWins();
-	tictac.gameStats();
+	tictac.displayGameStats();
 	system("pause");
 	return;
 

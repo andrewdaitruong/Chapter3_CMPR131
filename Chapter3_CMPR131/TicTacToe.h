@@ -24,7 +24,7 @@ private:
 
 	int playerMoves; //number of moves a player has made in a single game
 	int numOfGames; //number of games a player has played
-	bool playing; //bool value indicating whether player is still playing game or not
+	bool playingStatus; //bool value indicating whether player is still playing game or not
 	char winState; //flag value to check if game has been won by AI or player or neither
 
 	int row; //number of rows on board
@@ -33,32 +33,30 @@ private:
 	int Playerwins; //the amount of timess the player wins
 
 public:
-	TicTacToe(); // Constructor
+	// Constructor
+	TicTacToe(); 
+
+	//Accessors
+	bool getPlayingStatus(); //returns playingStatus (true if player is still playing game)
+	int getNumberOfMoves(); //returns number of moves in one game
+	
+
+	//Mutators
+	void setPlayerMove(); //Get player move and validates it
+	void setX(int rowVal, int colVal); //Sets X on board (player move)
+	void setAIMove(); //Gets AI move from available spots
+	void setO(int rowVal, int colVal); //Sets 0 move on board (AI move)
+	void resetBoard(); //Resets board for new game
+	void addTime(seconds time, int moves); // adds duration of a game with how many moves it took from player to multimap
+	void updateVectSets(); //Updates possible winning sets (vectSets) with current status of moves made so far. 
+						 //Updates map of possible winning sets (winSets) with char-based flags to help decide next best move for AI.
+	void playerForfeit(); //ends current game, gives win to AI
+	void checkForWinner();//checks board placements for possible win/draw/loss. Sets playingStatus to false if game has ended.
 
 	void displayBoard(); //Display current tic-tac-toe board
-	void resetBoard(); //Resets board for new game
-
-	void updateVectSets(); //Updates possible winning sets (vectSets) with current status of moves made so far. 
-						   //Updates map of possible winning sets (winSets) with char-based flags to help decide next best move for AI.
-
-	bool checkBoard(int r, int c); //checks selection of board placement (argument) to see if available
-
-	void setPlayerMove(); //Get player move and validates it
-	void setX(int r, int c); //Sets X on board (player move)
-
-	void setAIMove(); //Gets AI move from available spots
-	void setO(int r, int c); //Sets 0 move on board (AI move)
-
-	bool playingStatus(); //checks if user is playing or not still (true if playing)
-	void playerForfeit(); //ends current game, gives win to AI
+	bool checkBoard(int rowVal, int colVal); //checks selection of board placement (argument) to see if available
 	bool playAgain(); //verify if user wishes to play again or not
-
-	void checkforWinner();//checks board placements to see if there is a win or a draw at current state of game
-	void numberofWins(); //show number of times the player and AI have won
-
-	void addTime(seconds time, int moves); // adds duration of a game with how many moves it took from player to multimap
-	int getNumberOfMoves(); //returns number of moves in one game
-	void gameStats(); //displays number of games played. Displays fastest, slowest, & average game times w/ their corresponding player moves.
+	void displayGameStats(); //displays number of games played. Displays fastest, slowest, & average game times w/ their corresponding player moves.
 };
 
 
