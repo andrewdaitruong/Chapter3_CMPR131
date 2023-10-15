@@ -1,24 +1,5 @@
 #include "Tower.h"
 
-//precondition: 
-//postcondition: 
-Tower& Tower::operator=(const Tower& right) {
-	// Check for self-assignment
-	if (this == &right)
-		return *this;
-
-	// Copy ring array
-	for (int i = 0; i < MAX; ++i) {
-		rings[i] = right.rings[i];
-	}
-
-	// Copy 'used' member variable
-	used = right.used;
-
-	// Return *this to allow for chained assignment
-	return *this;
-}
-
 // pre condition: user input for the number of rings
 // post condition: intilizes the data variables
 Tower::Tower(int size, bool firstTower) : Ring()
@@ -157,15 +138,6 @@ void Tower::getTopofRing()
 	used = newused; // we are getting rid of a ring off one of the stacks so array decrements by 1
 }
 
-//precondition: none
-//postcondition: deletes our tower
-void Tower::deleteTower()
-{
-	for (int i = 0; i < MAX; i++)
-		rings[i].setDiameter(0);
-	used = 0;
-}
-
 //precondition: takes in an interger
 //postcondition: returns true or false depending on whether the user is done
 bool Tower::checkIfDone(int userInput) const
@@ -191,18 +163,17 @@ bool Tower::compareItTo0()
 		return false;
 }
 
-//precondition: 
-//postcondition: 
-int Tower::returnTopDiameter()
+Tower::~Tower()
 {
-	return rings[used - 1].getDiameter();
+	delete rings;
 }
 
 // Pre  condition: Takes in a tower Object
 // Post condition: returns true if input object is less than the other tower object , else false 
 bool Tower::operator>(const Ring& right)
 {
-	if (this->returnTopDiameter() > right.getDiameter())
+	Ring newTry = this->trythisRing();
+	if (newTry.getDiameter() > right.getDiameter())
 		return true;
 	else
 		return false;
