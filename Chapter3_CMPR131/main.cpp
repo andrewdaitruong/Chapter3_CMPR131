@@ -150,11 +150,12 @@ void option1() //Tic-tac-toe
 }
 //precondition: none
 //postcondition: calculates average time
-double getAverage(vector<double> time)
+double getAverage(multimap<int, double>::iterator begin, multimap<int, double>::iterator end)
 {
 	double sum = 0.0;
-	for (auto i : time)
-		sum += i;
+	for (auto it = begin; it != end; ++it) {
+		sum += it->second; 
+	}
 	return sum;
 }
 multimap<int, double> reverseMap(map<double, int> inputMap) {
@@ -222,7 +223,7 @@ void timeStop(const T* start, int move, int disc, string game,int gameCount,stri
 		cout << "\n\t\t" << count << " game using " << it << " " << game << " was played.";
 		cout << "\n\t\tFastest run's time: " << first_key << "s, " << moves.at(first_key) << " move(s) was used was playing with " << discs.at(first_key) << " " << game << endl;
 		cout << "\n\t\tSlowest run's time: " << last_key << "s, " << moves.at(last_key) << " move(s) was used was playing with " << discs.at(last_key) << " " << game << endl;
-		double average = getAverage(timeStop) / static_cast<double>(count);
+		double average = getAverage(range.first,range.second) / static_cast<double>(count);
 		cout << "\n\t\tAverage run time: " << average << "s" << endl;
 		
 	}
