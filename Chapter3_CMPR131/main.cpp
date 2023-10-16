@@ -152,8 +152,8 @@ double getAverage(multimap<int, double>::iterator begin, multimap<int, double>::
 	return sum;
 }
 
-//precondition: none
-//postcondition: 
+//precondition: valid double input map
+//postcondition: reverse multimap of int and doubles.
 multimap<int, double> reverseMap(map<double, int> inputMap) {
 	multimap<int, double> reversedMultimap;
 	for (const auto& pair : inputMap) {
@@ -269,19 +269,46 @@ void option2() //Tower of Hanoi
 	bool validStart = true;
 	char validError = ' ';
 
-	while (toupper(choice) != 'Q' || toupper(subchoice) != 'Q' || doAgain == false)
+	while (toupper(choice) != 'Q' || toupper(subchoice) != 'Q' || doAgain == false) // While user doesn't quit
 	{
 		int counter = 0;
 		cout << "\n\tTower of Hanoi\n";
 		//shows the special character for 1 to 9
 		cout << "\n";
-		if (userInput > 0)
+		if (userInput > 0)// display the towers
 		{
 			for (int i = (userInput - 1); i >= 0; i--)
 			{
 				Tower1.displayPartOfTower(i, false, userInput);
 				Tower2.displayPartOfTower(i, false, userInput);
 				Tower3.displayPartOfTower(i, true, userInput);
+			}
+			if (userInput <= 9)
+			{
+				cout << "\t\t";
+				for (int i = 0; i < userInput; i++)
+					cout << " ";
+				cout << "A";
+				for (int i = 0; i < userInput; i++)
+					cout << " ";
+				cout << "\t\t";
+				for (int i = 0; i < userInput; i++)
+					cout << " ";
+				cout << "B";
+				for (int i = 0; i < userInput; i++)
+					cout << " ";
+				cout << "\t\t";
+				for (int i = 0; i < userInput; i++)
+					cout << " ";
+				cout << "C";
+				for (int i = 0; i < userInput; i++)
+					cout << " ";
+				cout << "\n";
+			}
+			else
+			{
+				cout << "\t";
+				cout << "A \tB \tC \n";
 			}
 		}
 
@@ -291,7 +318,7 @@ void option2() //Tower of Hanoi
 		subchoice = inputChar("\n\tSelect the end peg (A, B, C or Q-quit) to move the selected disk:", static_cast<string>("ABCQ"));
 		bool madeMove = false;
 
-		//
+		//check if the towers are empty 
 		switch (toupper(choice))
 		{
 		case 'A':
@@ -326,7 +353,7 @@ void option2() //Tower of Hanoi
 			break;
 		}
 
-		if (!validStart)
+		if (!validStart) // display why they can not make that move 
 		{
 			cout << "\n\tERROR: Cannot make the move. There is no disk in the selected peg-" << validError << ".";
 			cout << "\n\t\tPlease choose again.\n";
@@ -334,18 +361,18 @@ void option2() //Tower of Hanoi
 		else //valid move
 		{
 			Ring ring;
-			switch (toupper(choice))
+			switch (toupper(choice)) // 
 			{
 			case 'A':
-				ring = Tower1.trythisRing();
+				ring = Tower1.tryNewRing();
 				previousResponse = 1;
 				break;
 			case 'B':
-				ring = Tower2.trythisRing();
+				ring = Tower2.tryNewRing();
 				previousResponse = 2;
 				break;
 			case 'C':
-				ring = Tower3.trythisRing();
+				ring = Tower3.tryNewRing();
 				previousResponse = 3;
 				break;
 			case 'Q':

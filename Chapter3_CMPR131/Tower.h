@@ -19,7 +19,7 @@ public:
     void getTopRing();
     void displayPartOfTower(int i, bool end, int userInput) const;
     bool checkIfDone(int userInput) const;
-    Ring trythisRing();
+    Ring tryNewRing();
     bool operator >(const Ring& right);
 
 

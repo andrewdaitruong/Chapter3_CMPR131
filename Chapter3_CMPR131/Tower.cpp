@@ -160,7 +160,7 @@ bool Tower::checkIfDone(int userInput) const
 // Post condition: returns true if input object is less than the other tower object , else false 
 bool Tower::operator>(const Ring& right)
 {
-	Ring newTry = this->trythisRing();
+	Ring newTry = this->tryNewRing();
 	if (newTry.getDiameter() > right.getDiameter())
 		return true;
 	else
@@ -169,7 +169,7 @@ bool Tower::operator>(const Ring& right)
 
 //precondition: none
 //postcondition: returns a object ring
-Ring Tower::trythisRing()
+Ring Tower::tryNewRing()
 {
 	return rings[used - 1];
 }
