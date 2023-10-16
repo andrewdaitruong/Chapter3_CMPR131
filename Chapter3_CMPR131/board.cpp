@@ -6,9 +6,7 @@
 Board::Board()
 {
 	size = 0;
-
 }
-
 
 //precondition: none
 //postcondition: initialize board size
@@ -31,10 +29,15 @@ int Board::getSize() const
 	return size;
 }
 
+//precondition: none
+//postcondition: returns the danger zone
 multimap<int, int> Board::getDangerZone() const
 {
 	return danger_zone;
 }
+
+//precondition: none
+//postcondition: returns the coordinates in the multimap
 multimap<int, int> Board::getCoordinate() const
 {
 	return coordinate;
@@ -85,6 +88,9 @@ int* reduceDownWard(int x, int y,int size)
 	temp[1] = y;
 	return temp;
 }
+
+//precondition: none
+//postcondition: sets the dangerZone for when a queen is placed
 void Board::setDangerZone(const int& x, const int& y)
 {
 	int tempX = x;
@@ -156,6 +162,8 @@ void Board::popQueen(const int& x, const int& y)
 	}
 }
 
+//precondition: none
+//postcondition: searches for the coordinates
 bool Board::searchForCoordinate(const int& x, const int& y)
 {
 	for (const auto& pair : coordinate)
@@ -165,9 +173,9 @@ bool Board::searchForCoordinate(const int& x, const int& y)
 	}
 }
 
-//precondition: 
-//postcondition: 
-int Board::getAmmountOfQueen() const
+//precondition: none
+//postcondition: returns the amount of queens used
+int Board::getAmountOfQueen() const
 {
 	return coordinate.size();
 }

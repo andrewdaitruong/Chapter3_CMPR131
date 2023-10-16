@@ -79,7 +79,7 @@ int menuOption()
 }
 
 //precondition: none
-//postcondition: none
+//postcondition: starts game of tic-tac-toe with an AI opponent
 void option1() //Tic-tac-toe
 {
 	system("cls");
@@ -564,13 +564,13 @@ void option3() //n-Queens
 			//if function to try again after winning
 			if (choice == 'Y' || choice == 'y')
 			{
-				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameThreeCount, "option3.dat", 0);
+				timeStop(&start, move, queen.getAmountOfQueens(), "queens", gameThreeCount, "option3.dat", 0);
 				return option3();
 			}
 			else if (choice == 'N' || choice == 'n')
 			{
 				cout << "\n\t\tGames Played: " << gameThreeCount;
-				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameThreeCount,"option3.dat", 1);
+				timeStop(&start, move, queen.getAmountOfQueens(), "queens", gameThreeCount,"option3.dat", 1);
 				return;
 			}
 			else
@@ -616,12 +616,12 @@ void option3() //n-Queens
 			//if function to try again for losing
 			if (choice1 == 'Y' || choice1 == 'y')
 			{
-				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameThreeCount, "option3.dat", 0);
+				timeStop(&start, move, queen.getAmountOfQueens(), "queens", gameThreeCount, "option3.dat", 0);
 				return option3();
 			}
 			else if (choice1 == 'N' || choice1 == 'n')
 			{
-				timeStop(&start, move, queen.getAmmountOfQueens(), "queens", gameThreeCount, "option3.dat", 1);
+				timeStop(&start, move, queen.getAmountOfQueens(), "queens", gameThreeCount, "option3.dat", 1);
 				return;
 			}
 			else

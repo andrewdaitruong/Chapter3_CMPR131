@@ -8,11 +8,9 @@ using namespace std;
 class nQueens
 {
 private:
-
 	Board board;
 
 public:
-
 	//constructors
 	nQueens();
 	nQueens(int);
@@ -23,10 +21,9 @@ public:
 	//getters
 	
 	string getDimension() const;
-	int getAmmountOfQueens() const;
-	//functions
+	int getAmountOfQueens() const;
 
-	
+	//function
 	bool isDanger(const int&, const int&);
 	void popQueen(const int&, const int&);
 	bool isWinning() const;
