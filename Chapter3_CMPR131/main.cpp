@@ -140,6 +140,7 @@ void option1() //Tic-tac-toe
 	return;
 
 }
+
 //precondition: none
 //postcondition: calculates average time
 double getAverage(multimap<int, double>::iterator begin, multimap<int, double>::iterator end)
@@ -271,7 +272,7 @@ void option2() //Tower of Hanoi
 	while (toupper(choice) != 'Q' || toupper(subchoice) != 'Q' || doAgain == false)
 	{
 		int counter = 0;
-
+		cout << "\n\tTower of Hanoi\n";
 		//shows the special character for 1 to 9
 		cout << "\n";
 		if (userInput > 0)
