@@ -18,23 +18,19 @@ public:
 	nQueens(int);
 
 	//setters
+	void setQueen(const int&, const int&);
 	void setDimension(const int&);
-	string getDimension() const;
 	//getters
 	
-	
+	string getDimension() const;
 	int getAmmountOfQueens() const;
 	//functions
+
 	
-	
-
-	void printBoard();
-
-	void setQueen(const int&, const int&);
-	void popQueen(const int&, const int&);
-
 	bool isDanger(const int&, const int&);
+	void popQueen(const int&, const int&);
 	bool isWinning() const;
+	void printBoard();
 };
 
 #endif

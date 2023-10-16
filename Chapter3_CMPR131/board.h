@@ -25,7 +25,7 @@ public:
 	//setters
 	void setQueen(const int&, const int&);
 	void setSize(const int& );
-	
+	void setDangerZone(const int&, const int&);
 	//getters
 	int getAmmountOfQueen() const;
 	int getSize() const;
@@ -34,11 +34,11 @@ public:
 	
 	//functions
 	
-	void setDangerZone(const int&, const int&);
+	
 	bool isInDangerZone(const int&, const int&) const;
 	bool searchForCoordinate(const int&, const int&);
-	void printBoard() ;	
 	void popQueen(const int&, const int&);
+	void printBoard();
 	
 };
 
