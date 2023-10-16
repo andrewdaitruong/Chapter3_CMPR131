@@ -45,7 +45,7 @@ bool Tower::checkEmpty() const
 
 //precondition: two integers, and a bool
 //postcondition: display parts of our tower for <= 9
-void Tower::displayTowerPart(int i, bool end, int userInput) const
+void Tower::displayPartOfTower(int i, bool end, int userInput) const
 {
 	if(userInput < 10)
 	{

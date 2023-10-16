@@ -140,6 +140,7 @@ void option1() //Tic-tac-toe
 	return;
 
 }
+
 //precondition: none
 //postcondition: calculates average time
 double getAverage(multimap<int, double>::iterator begin, multimap<int, double>::iterator end)
@@ -271,16 +272,16 @@ void option2() //Tower of Hanoi
 	while (toupper(choice) != 'Q' || toupper(subchoice) != 'Q' || doAgain == false)
 	{
 		int counter = 0;
-
+		cout << "\n\tTower of Hanoi\n";
 		//shows the special character for 1 to 9
 		cout << "\n";
 		if (userInput > 0)
 		{
 			for (int i = (userInput - 1); i >= 0; i--)
 			{
-				Tower1.displayTowerPart(i, false, userInput);
-				Tower2.displayTowerPart(i, false, userInput);
-				Tower3.displayTowerPart(i, true, userInput);
+				Tower1.displayPartOfTower(i, false, userInput);
+				Tower2.displayPartOfTower(i, false, userInput);
+				Tower3.displayPartOfTower(i, true, userInput);
 			}
 		}
 
@@ -467,9 +468,9 @@ void option2() //Tower of Hanoi
 			{
 				for (int i = (userInput - 1); i >= 0; i--)
 				{
-					Tower1.displayTowerPart(i, false, userInput);
-					Tower2.displayTowerPart(i, false, userInput);
-					Tower3.displayTowerPart(i, true, userInput);
+					Tower1.displayPartOfTower(i, false, userInput);
+					Tower2.displayPartOfTower(i, false, userInput);
+					Tower3.displayPartOfTower(i, true, userInput);
 				}
 			}
 			cout << "\n\t Good job you finished!\n";
