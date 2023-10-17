@@ -34,7 +34,8 @@ public:
 	
 	//functions
 	
-	
+	int* reduceUpWard(int, int);
+	int* reduceDownWard(int, int);
 	bool isInDangerZone(const int&, const int&) const;
 	bool searchForCoordinate(const int&, const int&);
 	void popQueen(const int&, const int&);

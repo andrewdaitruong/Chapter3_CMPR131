@@ -43,7 +43,7 @@ string nQueens::getDimension()const
 	return dimension;
 }
 
-//precondition: board must be above 0
+//precondition: A valid column X and a valid row Y
 //postcondition: puts a piece on the board
 void nQueens::setQueen(const int& x, const int& y)
 {
@@ -65,8 +65,8 @@ void nQueens::setQueen(const int& x, const int& y)
 	}
 }
 
-//precondition: pieces should be on the board
-//postcondition: removes a piece of the board
+//precondition: A valid column X and a valid row Y
+//postcondition: removes a piece of the board if detected
 void nQueens::popQueen(const int& x, const int& y)
 {
 	if (board.searchForCoordinate(x, y))
@@ -87,7 +87,8 @@ bool nQueens::isWinning() const
 	else
 		return false;
 }
-
+//precondition: A valid column X and a valid row Y
+//postcondition: return true if the piece is in danger
 bool nQueens::isDanger(const int& x, const int& y)
 {
 	if (board.isInDangerZone(x, y))
@@ -96,7 +97,7 @@ bool nQueens::isDanger(const int& x, const int& y)
 		return false;
 }
 
-int nQueens::getAmmountOfQueens() const
+int nQueens::getAmmountOfQueen() const
 {
 	return board.getAmmountOfQueen();
 }

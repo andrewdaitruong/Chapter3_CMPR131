@@ -53,7 +53,7 @@ bool Board::isInDangerZone(const int& x, const int& y)  const
 
 //precondition: none
 //postcondition: used to check the danger zone going up and left
-int* reduceUpWard(int x, int y,int size)
+int* Board::reduceUpWard(int x, int y)
 {
 	int* temp = new int[2];
 	for (int i = 0; i < size; i++)
@@ -70,8 +70,9 @@ int* reduceUpWard(int x, int y,int size)
 
 //precondition: none
 //postcondition: used to check the danger zone going left and down
-int* reduceDownWard(int x, int y,int size)
+int* Board::reduceDownWard(int x, int y)
 {
+	
 	int* temp = new int[2];
 
 	while (true)
@@ -85,14 +86,16 @@ int* reduceDownWard(int x, int y,int size)
 	temp[1] = y;
 	return temp;
 }
+//precondition : A valid column X and a valid row Y
+//postcondition: insert the danger zone to danger zone multimap
 void Board::setDangerZone(const int& x, const int& y)
 {
 	int tempX = x;
 	int tempY = y;
 	multimap<int, int> temp;
-	int* reduceUp = reduceUpWard(x, y,size);
+	int* reduceUp = reduceUpWard(x, y);
 	temp.insert(pair<int, int>(reduceUp[0], reduceUp[1]));
-	int* reduceDown = reduceDownWard(x, y,size);
+	int* reduceDown = reduceDownWard(x, y);
 	temp.insert(pair<int, int>(reduceDown[0], reduceDown[1]));
 	for (int i = 0; i < size; i++)
 	{
@@ -136,16 +139,16 @@ void Board::setDangerZone(const int& x, const int& y)
 	delete [] reduceDown;
 
 }
-//precondition: none
-//postcondition: places something into the position designated
+//precondition: A valid column X and a valid row Y
+//postcondition: set the queen into the multimap coordinate and set the danger zone for the queen
 void Board::setQueen(const int& x, const int& y)
 {
 	coordinate.insert(pair<int, int>(x, y));
 	setDangerZone(x, y);
 }
 
-//precondition: must have something in that column or row
-//postcondition: removes the thing in that column or row
+//precondition: A valid column X and a valid row Y
+//postcondition: removes the posistion of the queen from the mulmap coordinate
 void Board::popQueen(const int& x, const int& y)
 {
 	coordinate.erase(x);
@@ -155,7 +158,8 @@ void Board::popQueen(const int& x, const int& y)
 		setDangerZone(pair.first, pair.second);
 	}
 }
-
+//precondition: A valid column X and a valid row Y
+//postcondition: checks if the coordinate is in the multimap coordinate
 bool Board::searchForCoordinate(const int& x, const int& y)
 {
 	for (const auto& pair : coordinate)
@@ -163,6 +167,7 @@ bool Board::searchForCoordinate(const int& x, const int& y)
 		if (pair.first == x && pair.second == y)
 			return true;
 	}
+	return false;
 }
 
 //precondition: 
