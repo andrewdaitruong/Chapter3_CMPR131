@@ -273,7 +273,7 @@ void option2() //Tower of Hanoi
 		else //valid move
 		{
 			Ring ring;
-			switch (toupper(choice)) // 
+			switch (toupper(choice)) // get the top ring 
 			{
 			case 'A':
 				ring = Tower1.getTopRing();
@@ -295,7 +295,7 @@ void option2() //Tower of Hanoi
 				break;
 			}
 
-			switch (toupper(subchoice))
+			switch (toupper(subchoice))//remove the top ring
 			{
 			case 'A':
 				if (Tower1.checkEmpty())
