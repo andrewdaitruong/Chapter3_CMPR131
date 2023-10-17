@@ -230,8 +230,8 @@ void TicTacToe::setAIMove()
     }
 }
 
-//precondition: recieves a row and column after the user input a valid row and column
-//postcondition: sets up an O on the board for the random AI
+//precondition: rowVal(int), colVal(int)
+//postcondition: sets an O up on the board for the AI move
 void TicTacToe::setO(int rowVal, int colVal)
 {
     boardPlacement[rowVal][colVal] = 'O';

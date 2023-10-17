@@ -138,7 +138,7 @@ void Tower::setTopRing(Ring input)
 
 //precondition: none
 //precondition: returns are ring
-void Tower::getTopRing()
+void Tower::removeTopRing()
 {
 	int newused = used - 1;
 	rings[used-1].setDiameter(0);
@@ -159,7 +159,7 @@ bool Tower::checkIfDone(int userInput) const
 // postcondition: returns true if input object is less than the other tower object , else false 
 bool Tower::operator>(const Ring& right)
 {
-	Ring newTry = this->tryNewRing();
+	Ring newTry = this->getTopRing();
 	if (newTry.getDiameter() > right.getDiameter())
 		return true;
 	else
@@ -168,7 +168,7 @@ bool Tower::operator>(const Ring& right)
 
 //precondition: none
 //postcondition: returns a object ring
-Ring Tower::tryNewRing()
+Ring Tower::getTopRing()
 {
 	return rings[used - 1];
 }

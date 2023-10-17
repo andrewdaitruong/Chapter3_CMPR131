@@ -16,10 +16,10 @@ public:
     // functions 
     bool checkEmpty() const;
     void setTopRing(Ring input);
-    void getTopRing();
+    Ring getTopRing();
     void displayPartOfTower(int i, bool end, int userInput) const;
     bool checkIfDone(int userInput) const;
-    Ring tryNewRing();
+    void removeTopRing();
     bool operator >(const Ring& right);
 
 
