@@ -137,12 +137,11 @@ void Tower::setTopRing(Ring input)
 }
 
 //precondition: none
-//precondition: returns are ring
+//precondition: decreases the number of rinds are in use
 void Tower::removeTopRing()
 {
-	int newused = used - 1;
 	rings[used-1].setDiameter(0);
-	used = newused; // we are getting rid of a ring off one of the stacks so array decrements by 1
+	used -= 1; // we are getting rid of a ring off one of the stacks so array decrements by 1
 }
 
 //precondition: takes in an interger
