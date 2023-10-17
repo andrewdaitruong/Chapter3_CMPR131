@@ -273,7 +273,7 @@ void option2() //Tower of Hanoi
 		else //valid move
 		{
 			Ring ring;
-			switch (toupper(choice)) // 
+			switch (toupper(choice)) // get the top ring 
 			{
 			case 'A':
 				ring = Tower1.getTopRing();
@@ -295,7 +295,7 @@ void option2() //Tower of Hanoi
 				break;
 			}
 
-			switch (toupper(subchoice))
+			switch (toupper(subchoice))//remove the top ring
 			{
 			case 'A':
 				if (Tower1.checkEmpty())
@@ -410,6 +410,33 @@ void option2() //Tower of Hanoi
 					Tower1.displayPartOfTower(i, false, userInput);
 					Tower2.displayPartOfTower(i, false, userInput);
 					Tower3.displayPartOfTower(i, true, userInput);
+				}
+				if (userInput <= 9)
+				{
+					cout << "\t\t";
+					for (int i = 0; i < userInput; i++)
+						cout << " ";
+					cout << "A";
+					for (int i = 0; i < userInput; i++)
+						cout << " ";
+					cout << "\t\t";
+					for (int i = 0; i < userInput; i++)
+						cout << " ";
+					cout << "B";
+					for (int i = 0; i < userInput; i++)
+						cout << " ";
+					cout << "\t\t";
+					for (int i = 0; i < userInput; i++)
+						cout << " ";
+					cout << "C";
+					for (int i = 0; i < userInput; i++)
+						cout << " ";
+					cout << "\n";
+				}
+				else
+				{
+					cout << "\t";
+					cout << "A \tB \tC \n";
 				}
 			}
 			cout << "\n\t Good job you finished!\n";
