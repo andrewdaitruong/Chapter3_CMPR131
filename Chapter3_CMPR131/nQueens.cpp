@@ -90,7 +90,7 @@ bool nQueens::isWinning() const
 		return false;
 }
 //precondition: A valid column X and a valid row Y
-//postcondition: perform checking by calling the function isInDangerZone from board class return true if it is in danger else return false
+//postcondition: perform checking by calling the function isInDangerZone() from board class return true if it is in danger else return false
 bool nQueens::isDanger(const int& x, const int& y)
 {
 	if (board.isInDangerZone(x, y))
