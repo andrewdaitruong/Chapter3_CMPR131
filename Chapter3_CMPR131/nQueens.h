@@ -8,11 +8,9 @@ using namespace std;
 class nQueens
 {
 private:
-
 	Board board;
 
 public:
-
 	//constructors
 	nQueens();
 	nQueens(int);

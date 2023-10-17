@@ -55,13 +55,11 @@ void nQueens::setQueen(const int& x, const int& y)
 	else if (isDanger(x, y))
 	{
 		cout << "\n\t Couldnt place queen at position (" << x + 1 << "," << y + 1 << ").\n\t Queen is in danger!" << endl;
-
 	}
 	else
 	{
 		board.setQueen(x, y);
 		cout << "\n\t Queen placed at position (" << x + 1 << "," << y + 1 << ")" << endl;
-
 	}
 }
 
@@ -72,7 +70,6 @@ void nQueens::popQueen(const int& x, const int& y)
 	if (board.searchForCoordinate(x, y))
 	{
 		board.popQueen(x, y);
-
 	}
 	else
 		cout << "\n\t Queen does not exist at position (" << x + 1 << "," << y + 1 << ")" << endl;
@@ -82,7 +79,7 @@ void nQueens::popQueen(const int& x, const int& y)
 //postcondition: checks if the game has been won by matching the size with the amount of pieces
 bool nQueens::isWinning() const
 {
-	if (board.getAmmountOfQueen() == board.getSize())
+	if (board.getAmountOfQueen() == board.getSize())
 		return true;
 	else
 		return false;
@@ -97,7 +94,9 @@ bool nQueens::isDanger(const int& x, const int& y)
 		return false;
 }
 
-int nQueens::getAmmountOfQueen() const
+//precondition: none
+//postcondition: get the amount of queens used
+int nQueens::getAmountOfQueens() const
 {
-	return board.getAmmountOfQueen();
+	return board.getAmountOfQueen();
 }

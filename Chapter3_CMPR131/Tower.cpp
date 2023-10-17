@@ -1,7 +1,7 @@
 #include "Tower.h"
 
-// pre condition: user input for the number of rings
-// post condition: intilizes the data variables
+// precondition: user input for the number of rings
+// postcondition: intilizes the data variables
 Tower::Tower(int size, bool firstTower) : Ring()
 {
 	if (firstTower == true)
@@ -26,8 +26,8 @@ Tower::Tower(int size, bool firstTower) : Ring()
 	}
 }
 
-// pre condition: none
-// post condition: Destructor (deallocates used memory)
+// precondition: none
+// postcondition: Destructor (deallocates used memory)
 Tower::~Tower()
 {
 	delete rings;
@@ -45,7 +45,7 @@ bool Tower::checkEmpty() const
 
 //precondition: two integers, and a bool
 //postcondition: display parts of our tower for <= 9
-void Tower::displayTowerPart(int i, bool end, int userInput) const
+void Tower::displayPartOfTower(int i, bool end, int userInput) const
 {
 	if(userInput < 10)
 	{
@@ -155,12 +155,11 @@ bool Tower::checkIfDone(int userInput) const
 		return false;
 }
 
-
-// Pre  condition: Takes in a tower Object
-// Post condition: returns true if input object is less than the other tower object , else false 
+// precondition: Takes in a tower Object
+// postcondition: returns true if input object is less than the other tower object , else false 
 bool Tower::operator>(const Ring& right)
 {
-	Ring newTry = this->trythisRing();
+	Ring newTry = this->tryNewRing();
 	if (newTry.getDiameter() > right.getDiameter())
 		return true;
 	else
@@ -169,7 +168,7 @@ bool Tower::operator>(const Ring& right)
 
 //precondition: none
 //postcondition: returns a object ring
-Ring Tower::trythisRing()
+Ring Tower::tryNewRing()
 {
 	return rings[used - 1];
 }

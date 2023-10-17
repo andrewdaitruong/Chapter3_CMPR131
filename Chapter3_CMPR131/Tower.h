@@ -17,9 +17,9 @@ public:
     bool checkEmpty() const;
     void setTopRing(Ring input);
     void getTopRing();
-    void displayTowerPart(int i, bool end, int userInput) const;
+    void displayPartOfTower(int i, bool end, int userInput) const;
     bool checkIfDone(int userInput) const;
-    Ring trythisRing();
+    Ring tryNewRing();
     bool operator >(const Ring& right);
 
 
