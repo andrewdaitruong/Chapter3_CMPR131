@@ -21,7 +21,7 @@ public:
 	//getters
 	
 	string getDimension() const;
-	int getAmmountOfQueen() const;
+	int getAmountOfQueen() const;
 	//functions
 
 	

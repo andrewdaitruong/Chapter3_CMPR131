@@ -11,7 +11,7 @@ void nQueens::printBoard()
 	board.printBoard();
 }
 
-//precondition: none
+//precondition: valid integer size
 //postcondition: sets the dimension with only a single integer to make an even squared board
 void nQueens::setDimension(const int& size)
 {
@@ -27,15 +27,15 @@ nQueens::nQueens()
 
 }
 
-//precondition: none
-//postcondition: size;
+//precondition: valid integer size
+//postcondition: set the size of the board to the integer size
 nQueens::nQueens(int size)
 {
 	board.setSize(size);
 }
 
-//precondition: number must be above 0
-//postcondition: returns dimension to get a perfect square
+//precondition: none
+//postcondition: returns the dimension size x size in a string
 string nQueens::getDimension()const
 {
 	string dimension;
@@ -44,10 +44,15 @@ string nQueens::getDimension()const
 }
 
 //precondition: A valid column X and a valid row Y
-//postcondition: puts a piece on the board
+//postcondition: it perform condition check to see if the queen is in danger, X and Y out side of the board. If not, it will place the queen
 void nQueens::setQueen(const int& x, const int& y)
 {
 	if (x >= board.getSize() || y >= board.getSize())
+	{
+		cout << "Invalid position" << endl;
+		return;
+	}
+	else if (x < 0 || y < 0)
 	{
 		cout << "Invalid position" << endl;
 		return;
@@ -64,7 +69,7 @@ void nQueens::setQueen(const int& x, const int& y)
 }
 
 //precondition: A valid column X and a valid row Y
-//postcondition: removes a piece of the board if detected
+//postcondition: removes the position of the queen from the board if detected
 void nQueens::popQueen(const int& x, const int& y)
 {
 	if (board.searchForCoordinate(x, y))
@@ -76,7 +81,7 @@ void nQueens::popQueen(const int& x, const int& y)
 }
 
 //precondition: none
-//postcondition: checks if the game has been won by matching the size with the amount of pieces
+//postcondition: checks if the game has been won by matching the size with the amount of queens
 bool nQueens::isWinning() const
 {
 	if (board.getAmountOfQueen() == board.getSize())
@@ -85,7 +90,7 @@ bool nQueens::isWinning() const
 		return false;
 }
 //precondition: A valid column X and a valid row Y
-//postcondition: return true if the piece is in danger
+//postcondition: perform checking by calling the function isInDangerZone from board class return true if it is in danger else return false
 bool nQueens::isDanger(const int& x, const int& y)
 {
 	if (board.isInDangerZone(x, y))
@@ -95,8 +100,8 @@ bool nQueens::isDanger(const int& x, const int& y)
 }
 
 //precondition: none
-//postcondition: get the amount of queens used
-int nQueens::getAmountOfQueens() const
+//postcondition: calling the function getAmountOfQueen from board class and return integer of the ammount of queen
+int nQueens::getAmountOfQueen() const
 {
 	return board.getAmountOfQueen();
 }

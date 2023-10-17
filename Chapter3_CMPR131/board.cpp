@@ -8,42 +8,42 @@ Board::Board()
 	size = 0;
 }
 
-//precondition: none
-//postcondition: initialize board size
+//precondition: vallid integer size
+//postcondition: initialize board size to the integer size
 Board::Board(int size)
 {
 	this->size = size;
 }
 
-//precondition: none
-//postcondition: set the size of the board
+//precondition: valid integer size
+//postcondition: set the size of the board to the integer size
 void Board::setSize(const int& size)
 {
 	this->size = size;
 }
 
-//precondition: 
-//postcondition: 
+//precondition: none
+//postcondition: return the integer size of the board
 int Board::getSize() const
 {
 	return size;
 }
 
 //precondition: none
-//postcondition: returns the danger zone
+//postcondition: returns the  multimap danger zone
 multimap<int, int> Board::getDangerZone() const
 {
 	return danger_zone;
 }
 
 //precondition: none
-//postcondition: returns the coordinates in the multimap
+//postcondition: returns the multimap coordinate
 multimap<int, int> Board::getCoordinate() const
 {
 	return coordinate;
 }
-//precondition: pieces on the board
-//postcondition: checks the position of pieces to see if it is blocked by another piece
+//precondition: A valid column X and a valid row Y
+//postcondition: loop through danger_zone multimap array. If it detect the same coordinate. Return false
 bool Board::isInDangerZone(const int& x, const int& y)  const
 {
 	for (const auto& pair : danger_zone)
@@ -54,8 +54,8 @@ bool Board::isInDangerZone(const int& x, const int& y)  const
 	return false;
 }
 
-//precondition: none
-//postcondition: used to check the danger zone going up and left
+//precondition: A valid column X and a valid row Y
+//postcondition: reduce the position to the top left corner
 int* Board::reduceUpWard(int x, int y)
 {
 	int* temp = new int[2];
@@ -71,8 +71,8 @@ int* Board::reduceUpWard(int x, int y)
 	return temp;
 }
 
-//precondition: none
-//postcondition: used to check the danger zone going left and down
+//precondition: A valid column X and a valid row Y
+//postcondition: reduce the position to the bottom left corner
 int* Board::reduceDownWard(int x, int y)
 {
 	
@@ -90,7 +90,7 @@ int* Board::reduceDownWard(int x, int y)
 	return temp;
 }
 //precondition : A valid column X and a valid row Y
-//postcondition: insert the danger zone to danger zone multimap
+//postcondition: generate and insert the danger position to danger_zone multimap
 void Board::setDangerZone(const int& x, const int& y)
 {
 	int tempX = x;
@@ -143,7 +143,7 @@ void Board::setDangerZone(const int& x, const int& y)
 
 }
 //precondition: A valid column X and a valid row Y
-//postcondition: set the queen into the multimap coordinate and set the danger zone for the queen
+//postcondition: insert the queen into the multimap coordinate and generate  danger zones for the queen
 void Board::setQueen(const int& x, const int& y)
 {
 	coordinate.insert(pair<int, int>(x, y));
@@ -151,7 +151,7 @@ void Board::setQueen(const int& x, const int& y)
 }
 
 //precondition: A valid column X and a valid row Y
-//postcondition: removes the posistion of the queen from the mulmap coordinate
+//postcondition: removes the position of the queen from the multimap coordinate and reinitialize danger_zone
 void Board::popQueen(const int& x, const int& y)
 {
 	coordinate.erase(x);
@@ -174,14 +174,14 @@ bool Board::searchForCoordinate(const int& x, const int& y)
 }
 
 //precondition: none
-//postcondition: returns the amount of queens used
+//postcondition: returns an integer the amount of position pair in multimap coordinate
 int Board::getAmountOfQueen() const
 {
 	return coordinate.size();
 }
 
-//precondition: needs dimension
-//postcondition: prints board
+//precondition: none
+//postcondition: prints board in size x size and print the queen if it exist in the coordinate
 void Board::printBoard() 
 {
 	for (int i = 0; i < size; ++i) {

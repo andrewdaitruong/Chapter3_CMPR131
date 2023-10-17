@@ -28,7 +28,10 @@ int menuOption();
 void option1();
 void option2();
 void option3();
-
+double getAverage(multimap<int, double>::iterator begin, multimap<int, double>::iterator end);
+multimap<int, double> reverseMap(map<double, int> inputMap);
+template<typename T>
+void timeStop(const T* time, int move, int ammount_of_object, string game, int gameCount, string filename, bool display);
 using namespace std;
 using namespace std::chrono;
 
@@ -141,98 +144,7 @@ void option1() //Tic-tac-toe
 
 }
 
-//precondition: none
-//postcondition: calculates average time
-double getAverage(multimap<int, double>::iterator begin, multimap<int, double>::iterator end)
-{
-	double sum = 0.0;
-	for (auto it = begin; it != end; ++it) {
-		sum += it->second; 
-	}
-	return sum;
-}
 
-//precondition: valid double input map
-//postcondition: reverse multimap of int and doubles.
-multimap<int, double> reverseMap(map<double, int> inputMap) {
-	multimap<int, double> reversedMultimap;
-	for (const auto& pair : inputMap) {
-		reversedMultimap.insert({ pair.second, pair.first });
-
-	}
-	return reversedMultimap;
-}
-
-//precondition: none
-//postcondition: calculates and records games played with n pieces, with time and moves made
-template <typename T>
-void timeStop(const T* start, int move, int disc, string game,int gameCount,string filename,bool display) {
-	vector<double> timeStop;
-	map<double,int > discs;
-	map<double, int> moves;
-
-	// Read existing data from file
-	if (gameCount != 1) {
-		ifstream inFile(filename);
-		double time;
-		int read_move;
-		int read_discs;
-		while (inFile >> time >> read_move >> read_discs) {
-			timeStop.push_back(time);
-			moves.insert(pair<double, int>(time, read_move));
-			discs.insert(pair<double, int>(time, read_discs));
-		}
-		inFile.close();
-	}
-	
-	auto stop = steady_clock::now();
-	double second = duration<double>(stop - *start).count();
-
-	moves.insert(pair<double, int>(second, move));
-	discs.insert(pair<double, int>(second, disc));
-
-	timeStop.push_back(second);
-
-	multimap<int, double> reversedDiscs = reverseMap(discs);
-	vector<int> temp;
-	int temp_disc = 0;
-	cout << "\n\t\tThis run's time: " << second << " seconds, " << moves.at(second) << " move(s) was used with was playing with " << disc << " " << game << endl;
-	for (const auto& i : discs)
-	{
-		if (temp_disc != i.second)
-		{
-			temp_disc = i.second;
-			temp.push_back(temp_disc);
-			
-		}
-	}
-	if(display)
-	for (const auto& it : temp)
-	{
-		auto range = reversedDiscs.equal_range(it);
-		double first_key = range.first->second;
-		
-		// Decrement the end iterator to get the last valid iterator in the range
-		double last_key = first_key;
-		int count = 0;
-		for (auto itr = range.first; itr != range.second; ++itr ) {
-			last_key = itr->second;
-			count++;
-		}
-		cout << "\n\t\t" << count << " game using " << it << " " << game << " was played.";
-		cout << "\n\t\tFastest run's time: " << first_key << "s, " << moves.at(first_key) << " move(s) was used was playing with " << discs.at(first_key) << " " << game << endl;
-		cout << "\n\t\tSlowest run's time: " << last_key << "s, " << moves.at(last_key) << " move(s) was used was playing with " << discs.at(last_key) << " " << game << endl;
-		double average = getAverage(range.first,range.second) / static_cast<double>(count);
-		cout << "\n\t\tAverage run time: " << average << "s" << endl;
-		
-	}
-		ofstream outFile(filename);
-		for (const auto& i : reversedDiscs) {
-			outFile << i.second << " " << moves[i.second] << " " << discs[i.second] << "\n";
-		}
-		outFile.close();
-	
-}
  
 int gameTwoCount = 0; //variable for option2()
 //precondition: none
@@ -564,13 +476,13 @@ void option3() //n-Queens
 			//if function to try again after winning
 			if (choice == 'Y' || choice == 'y')
 			{
-				timeStop(&start, move, queen.getAmmountOfQueen(), "queens", gameThreeCount, "option3.dat", 0);
+				timeStop(&start, move, queen.getAmountOfQueen(), "queens", gameThreeCount, "option3.dat", 0);
 				return option3();
 			}
 			else if (choice == 'N' || choice == 'n')
 			{
 				cout << "\n\t\tGames Played: " << gameThreeCount;
-				timeStop(&start, move, queen.getAmmountOfQueen(), "queens", gameThreeCount,"option3.dat", 1);
+				timeStop(&start, move, queen.getAmountOfQueen(), "queens", gameThreeCount,"option3.dat", 1);
 				return;
 			}
 			else
@@ -616,12 +528,12 @@ void option3() //n-Queens
 			//if function to try again for losing
 			if (choice1 == 'Y' || choice1 == 'y')
 			{
-				timeStop(&start, move, queen.getAmmountOfQueen(), "queens", gameThreeCount, "option3.dat", 0);
+				timeStop(&start, move, queen.getAmountOfQueen(), "queens", gameThreeCount, "option3.dat", 0);
 				return option3();
 			}
 			else if (choice1 == 'N' || choice1 == 'n')
 			{
-				timeStop(&start, move, queen.getAmmountOfQueen(), "queens", gameThreeCount, "option3.dat", 1);
+				timeStop(&start, move, queen.getAmountOfQueen(), "queens", gameThreeCount, "option3.dat", 1);
 				return;
 			}
 			else
@@ -633,4 +545,98 @@ void option3() //n-Queens
 
 		}
 	} while (true);
+}
+
+//precondition: a valid multimap<int,double>::iterator begin and a valid multimap<int,double>::iterator end
+//postcondition: it will return a double value of the average of the multimap
+double getAverage(multimap<int, double>::iterator begin, multimap<int, double>::iterator end)
+{
+	double sum = 0.0;
+	for (auto it = begin; it != end; ++it) {
+		sum += it->second;
+	}
+	return sum;
+}
+
+//precondition: valid <double, mint> map
+//postcondition: it will return a reversed multimap<double,int>
+multimap<int, double> reverseMap(map<double, int> inputMap) {
+	multimap<int, double> reversedMultimap;
+	for (const auto& pair : inputMap) {
+		reversedMultimap.insert({ pair.second, pair.first });
+
+	}
+	return reversedMultimap;
+}
+
+//precondition: a valid chrono::steady_clock::time_point time that contain the time value of the start of the game and end of the game, an valid move integer,
+//a valid ammount_of_object integer that is either discs or queens, a valid string game, a valid gameCount integer, a valid string filename(to store  and load game data), a valid boolean display(1- display, 0- dont display)
+//postcondition: this function will store/load the data time, moves and ammount_of_object in the "filename".dat file and using that data to display and calculate the average time of the game for each ammount_of_object category
+template <typename T>
+void timeStop(const T* time, int move, int ammount_of_object, string game, int gameCount, string filename, bool display) {
+	vector<double> timeStop;
+	map<double, int > ammount_of_object_map;
+	map<double, int> moves;
+
+	// Read existing data from file
+	if (gameCount != 1) {
+		ifstream inFile(filename);
+		double time;
+		int read_move;
+		int read_ammount_of_object;
+		while (inFile >> time >> read_move >> read_ammount_of_object) {
+			timeStop.push_back(time);
+			moves.insert(pair<double, int>(time, read_move));
+			ammount_of_object_map.insert(pair<double, int>(time, read_ammount_of_object));
+		}
+		inFile.close();
+	}
+
+	auto stop = steady_clock::now();
+	double second = duration<double>(stop - *time).count();
+
+	moves.insert(pair<double, int>(second, move));
+	ammount_of_object_map.insert(pair<double, int>(second, ammount_of_object));
+
+	timeStop.push_back(second);
+
+	multimap<int, double> reversed_ammount_of_object_map = reverseMap(ammount_of_object_map);
+	vector<int> temp;
+	int temp_ammount_of_object = 0;
+	cout << "\n\t\tThis run's time: " << second << " seconds, " << moves.at(second) << " move(s) was used with was playing with " << ammount_of_object << " " << game << endl;
+	for (const auto& i : ammount_of_object_map)
+	{
+		if (temp_ammount_of_object != i.second)
+		{
+			temp_ammount_of_object = i.second;
+			temp.push_back(temp_ammount_of_object);
+
+		}
+	}
+	if (display)
+		for (const auto& it : temp)
+		{
+			auto range = reversed_ammount_of_object_map.equal_range(it);
+			double first_key = range.first->second;
+
+			// Decrement the end iterator to get the last valid iterator in the range
+			double last_key = first_key;
+			int count = 0;
+			for (auto itr = range.first; itr != range.second; ++itr) {
+				last_key = itr->second;
+				count++;
+			}
+			cout << "\n\t\t" << count << " game using " << it << " " << game << " was played.";
+			cout << "\n\t\tFastest run's time: " << first_key << "s, " << moves.at(first_key) << " move(s) was used was playing with " << ammount_of_object_map.at(first_key) << " " << game << endl;
+			cout << "\n\t\tSlowest run's time: " << last_key << "s, " << moves.at(last_key) << " move(s) was used was playing with " << ammount_of_object_map.at(last_key) << " " << game << endl;
+			double average = getAverage(range.first, range.second) / static_cast<double>(count);
+			cout << "\n\t\tAverage run time: " << average << "s" << endl;
+
+		}
+	ofstream outFile(filename);
+	for (const auto& i : reversed_ammount_of_object_map) {
+		outFile << i.second << " " << moves[i.second] << " " << ammount_of_object_map[i.second] << "\n";
+	}
+	outFile.close();
+
 }
